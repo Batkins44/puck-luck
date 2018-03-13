@@ -1,6 +1,6 @@
+"use strict";
 
-
-var url = 'http://statsapi.web.nhl.com/api/v1/game/2017021057/feed/live'
+var gameUrl = 'http://statsapi.web.nhl.com/api/v1/game/2017021057/feed/live';
 
 let game;
 let nhlData;
@@ -9,21 +9,21 @@ function useGame(callBackFunction){
 
 
     $.ajax({
-        url: url
+        url: gameUrl
     }).done(function(data) {
         // When you tell jQuery to read a file via the ajax method
         // it reads the contents, and then executes whatever function
         // that you specify here in the done() method, and passes in
         // the contents of the file as the first argument.
         console.log("fulldata",data);
-        let nhlData = data
-        callBackFunction(nhlData);
+        let gameData = data;
+        callBackFunction(gameData);
 });
 }
 
-function listGame(nhlData){
+function listGame(gameData){
     //console.log(articles);
-    let game = nhlData.liveData.boxscore.teams.home.players;
+    let game = gameData.liveData.boxscore.teams.home.players;
     console.log(game);
     let playersId = Object.keys(game);
     console.log("playersId",playersId);
@@ -32,7 +32,7 @@ function listGame(nhlData){
         let id = playersId[i];
 
         var name = game[id].person.fullName;
-        $("#print").append(`<h2>${name}</h2>`)
+        $("#print").append(`<h2>${name}</h2>`);
         if('skaterStats' in game[id].stats){
         var time = game[id].stats.skaterStats.timeOnIce;
         var assists = game[id].stats.skaterStats.assists;
@@ -48,20 +48,23 @@ function listGame(nhlData){
         $("#print").append(`Blocks: ${blocks}<br>`);
         $("#print").append(`Hits: ${hits}<br>`);
         $("#print").append(`+/-: ${plusMinus}<br>`);
+        }else if('goalieStats' in game[id].stats) {
+            var saves = game[id].stats.goalieStats.saves;
+            var savePer = game[id].stats.goalieStats.savePercentage;
+            savePer = Math.round(savePer * 100) / 100;
+            $("#print").append(`Saves: ${saves}<br>`);
+            $("#print").append(`Save Percentage: ${savePer} %<br>`);
         }else{
-            $("#print").append(`Did not Play`)
+            $("#print").append(`Did not Play`);
         }
-        // console.log("assists, ",nhlData.liveData.boxscore.teams.home.players[id].skaterStats.assists);
+
 
     }
 
 }
 
-// function listGame(nhlData){
-// let game = nhlData.liveData.boxscore.teams.home.players;
-// Object.keys(game).forEach(function (key) {
-//     console.log(Object.getOwnPropertyNames(key));
-//  });
-// }
 
-useGame(listGame)
+
+useGame(listGame);
+
+module.exports = {useGame,listGame};
