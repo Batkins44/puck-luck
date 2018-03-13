@@ -5,7 +5,8 @@
     "@firebase/app": "^0.1.9",
     "@firebase/database": "^0.1.10",
     "bootstrap": "^4.0.0",
-    "firebase": "^3.6.9"
+    "firebase": "^3.6.9",
+    "moment": "^2.21.0"
   },
   "devDependencies": {
     "browserify": "^15.2.0",
