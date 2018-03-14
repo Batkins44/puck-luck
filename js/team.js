@@ -29,19 +29,19 @@ let password = "puck-luck";
 
 function listTeam(teamData){
     let player = teamData.cumulativeplayerstats.playerstatsentry;
-    $("#left").html("<h5>Skaters</h5>");
-    $("#middle").html("<h5>Stats</h5>");
-    $("#right").html("<h5>Goalies</h5>");
+    console.log(player);
+    $("#left-head").html("Skaters");
+    $("#middle-head").html("Position");
+    $("#right-head").html("Stats");
+    let row = 1;
+    $("#tbody").html("");
     for(let p=0;p<player.length;p++){
         let currentPlayer = player[p];
         let gp = currentPlayer.stats.GamesPlayed["#text"];
 
         if(gp > 0 && currentPlayer.player.Position !== "G"){
-            $("#left").append(`${currentPlayer.player.FirstName}<br>${currentPlayer.player.LastName}<hr>`);
-            $("#middle").append(`${currentPlayer.stats.stats.Goals["#text"]} G, `);
-            $("#middle").append(`${currentPlayer.stats.stats.Assists["#text"]} A,<br>`);
-            $("#middle").append(`${currentPlayer.stats.stats.Points["#text"]} P, `);
-            $("#middle").append(`${currentPlayer.stats.stats.Shots["#text"]} Shots<hr>`);
+            $("#tbody").append(`<tr>
+            <th scope="row">${currentPlayer.player.JerseyNumber}</th><td>${currentPlayer.player.FirstName} ${currentPlayer.player.LastName}</td><td>${currentPlayer.player.Position}</td> <td>${currentPlayer.stats.stats.Goals["#text"]} G, ${currentPlayer.stats.stats.Assists["#text"]} A, ${currentPlayer.stats.stats.Points["#text"]} P, ${currentPlayer.stats.stats.Shots["#text"]} Shots</td></tr>`);
         }else if(gp > 0 && currentPlayer.player.Position == "G"){
             let ga = currentPlayer.stats.stats.GoalsAgainst["#text"];
             ga = parseInt(ga);
@@ -51,15 +51,15 @@ function listTeam(teamData){
 
             savePer = sv/savePer;
             savePer = Math.round(savePer * 10000) / 100;
-
-            $("#right").append(`${currentPlayer.player.FirstName} ${currentPlayer.player.LastName}<br>`);
-            $("#right").append(`Record: ${currentPlayer.stats.stats.Wins["#text"]}-${currentPlayer.stats.stats.Losses["#text"]}-${currentPlayer.stats.stats.OvertimeLosses["#text"]}<br>`);
-            $("#right").append(`Saves: ${sv}<br>`);
-            $("#right").append(`Shutouts: ${currentPlayer.stats.stats.Shutouts["#text"]}<br>`);
-            $("#right").append(`Goals Against Average: ${currentPlayer.stats.stats.GoalsAgainstAverage["#text"]}<br>`);
-            $("#right").append(`Save %: ${savePer}<hr>`);
+            $("#tbody").append(`<tr><th scope="row">${currentPlayer.player.JerseyNumber}</th><td><b>${currentPlayer.player.FirstName} ${currentPlayer.player.LastName}</b></td> 
+            <td>${currentPlayer.player.Position}</td>
+            <td>Record: ${currentPlayer.stats.stats.Wins["#text"]}-${currentPlayer.stats.stats.Losses["#text"]}-${currentPlayer.stats.stats.OvertimeLosses["#text"]}<br>
+            Saves: ${sv}<br> Shutouts: ${currentPlayer.stats.stats.Shutouts["#text"]}<br>
+            Goals Against Average: ${currentPlayer.stats.stats.GoalsAgainstAverage["#text"]}<br>
+            Save %: ${savePer}</td></tr>`);
 
         }
+        row = row +1;
     }
 
 }
