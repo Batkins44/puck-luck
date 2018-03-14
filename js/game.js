@@ -1,6 +1,6 @@
 "use strict";
 
-var gameUrl = 'http://statsapi.web.nhl.com/api/v1/game/2017021057/feed/live';
+var gameUrl = 'http://statsapi.web.nhl.com/api/v1/game/2017021074/feed/live';
 
 let game;
 let nhlData;
@@ -65,6 +65,8 @@ function listGame(gameData){
 
 
 
-useGame(listGame);
+
+
+// useGame(listGame);
 
 module.exports = {useGame,listGame};
