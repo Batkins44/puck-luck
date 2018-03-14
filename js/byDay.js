@@ -1,45 +1,99 @@
 "use strict";
 var moment = require('moment');
 
-var date = moment().format('YYYY-MM-DD');
+var date = moment().format('YYYYMMDD');
 
-console.log(date);
+let changeDate;
 
-var dayUrl = `https://statsapi.web.nhl.com/api/v1/schedule?startDate=${date}&expand=schedule.teams,schedule.linescore,schedule.broadcasts,schedule.ticket,schedule.game.content.media.epg&leaderCategories=&site=en_nhl&teamId=`;
+
+var dayUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/daily_game_schedule.json?fordate=${date}`;
 
 function useDay(callBackFunction){
 
+    let username = "batkins4";
+    let password = "puck-luck";
+    
+    
+        $.ajax({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
+            },
+            url: dayUrl
+        }).done(function(data) {
+            // When you tell jQuery to read a file via the ajax method
+            // it reads the contents, and then executes whatever function
+            // that you specify here in the done() method, and passes in
+            // the contents of the file as the first argument.
 
-
-    $.ajax({
-        url: dayUrl
-    }).done(function(data) {
-        // When you tell jQuery to read a file via the ajax method
-        // it reads the contents, and then executes whatever function
-        // that you specify here in the done() method, and passes in
-        // the contents of the file as the first argument.
-        console.log("full day",data);
-        let dayData = data;
-        callBackFunction(dayData);
-});
-}
+            let dayData = data;
+            console.log("datData",dayData);
+            callBackFunction(dayData);
+    });
+    }
 
 function listDay(dayData){
-    let day = dayData.dates[0].games;
+    // var date = moment().format('MM-DD-YYYY');
+    let day = dayData.dailygameschedule.gameentry;
+    let row = 1;
+    $("#tbody").html("");
     for(let l = 0;l < day.length;l++){
     let currentGame = day[l];
-    console.log("Game",l+1);
-    console.log("Away team",currentGame.teams.away.team.name);
-    console.log("Record",currentGame.teams.away.leagueRecord.wins,"-",
-    currentGame.teams.away.leagueRecord.losses,"-",
-    currentGame.teams.away.leagueRecord.ot);    
-    console.log("Home team",currentGame.teams.home.team.name);
-    console.log("Season Wins",currentGame.teams.home.leagueRecord.wins,"-",
-    currentGame.teams.home.leagueRecord.losses,"-",
-    currentGame.teams.home.leagueRecord.ot);  
+    // $("#print").append(currentGame.link);
+
+    $("#tbody").append(`<tr><th scope="row">${row}</th><td>${currentGame.awayTeam.City} ${currentGame.awayTeam.Name}</td>   
+    <td>${currentGame.homeTeam.City} ${currentGame.homeTeam.Name}</td>
+   <td>${currentGame.time} ${currentGame.location}</td></tr>`);
+    row = row + 1;
+
 }
 }
 
-useDay(listDay);
+function runDay(){
+    $("#title").html(`<h1>Today's Games</h1><br>`);
+    $("#title").append(`Or choose a different day.<br>`);
+    $("#title").append(`<input type="date" id="time-get">`);
+    $("#title").append(`<button id="time-run">Run</button>`);
+
+
+    $("#left-head").html("<h5>Away</h5>");
+    $("#middle-head").html("<h5>Home</h5>");
+    $("#right-head").html("<h5>Time/Location</h5>");
+    useDay(listDay);
+}
+
+function changeDay(url){
+    dayUrl = url;
+    console.log("dayUrl",dayUrl);
+    console.log("changeDate",changeDate);
+    $("#title").html(`<h1>Today's Games</h1><br>`);
+    $("#title").append(`Or choose a different day.<br>`);
+    $("#title").append(`<input type="date" id="time-get">`);
+    $("#title").append(`<button id="time-run">Run</button>`);
+
+
+    $("#left").html("<h5>Skaters</h5>");
+    $("#middle").html("<h5>Stats</h5>");
+    $("#right").html("<h5>Goalies</h5>");
+    useDay(listDay);
+}
+
+$(document).ready(function() {
+    $("body").click(function (event) {
+        let selectId = event.target.id;
+        console.log("Id",selectId);
+        // let date = event.target.value;
+        // console.log("date",date);
+
+        if(selectId == "time-run"){
+            changeDate = $("#time-get").val();
+            console.log("Change date",changeDate);
+            changeDate  = moment(changeDate).format('YYYYMMDD');
+            console.log("date formatted",changeDate);
+            dayUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/daily_game_schedule.json?fordate=${changeDate}`;
+        changeDay(dayUrl);
+    }});
+});
+
+$("#day-btn").click(runDay);
 
 module.exports = {useDay,listDay};

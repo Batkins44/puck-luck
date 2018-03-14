@@ -5,11 +5,80 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Hockey</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="lib\node_modules\bootstrap\dist\css\bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Coda+Caption:800|Fira+Sans|Quicksand" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+
+
 </head>
 <body>
-    <div id="print"></div>
+    <header>
+
+            <img src="hockeyexper.jpg" id="banner" style="width:100%">
+
+            <nav>
+
+                <div id="nav-wrapper">
+                    <button id="home-btn">Home</button>
+                    <button id="day-btn">Today's Games</button>
+                    <button id="btn-teams">Stats By Teams</button>
+                    <button id="players-btn">Stats by players</button>
+                    </div>
+                        <button id="login">Login</button>
+                    </div>
+                </div>
+
+            </nav>
+
+    </header>
+    <body>
+        <main>
+<div id="title"><h1>Welcome!</h1>
+</div>
+
+<div class="container">
+        <table class="table table-striped table-dark">
+                <thead>
+                  <tr>
+                    <th scope="col" id="counter">#</th>
+                    <th scope="col" id="left-head"></th>
+                    <th scope="col" id="middle-head"></th>
+                    <th scope="col" id="right-head"></th>
+                  </tr>
+                </thead>
+                <tbody id="tbody">
+                    <td id="last"></td>
+
+                </tbody>
+              </table>
+
+</div>   
+        </main>
+    </body>
+    <footer>
+
+    </footer>
     <script src="lib\node_modules\moment\moment.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="dist/app.js"></script>
 </body>
 </html>
+
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+
+
+
+        <!-- <div class="row">
+            <div class="col-2" id="left">
+            </div>
+        
+            <div class="col-6" id="middle">
+            </div>
+            
+            <div class="col-4" id="right">
+            </div>
+          </div> -->
