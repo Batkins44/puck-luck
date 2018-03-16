@@ -17,6 +17,9 @@
 
             <img src="hockeyexper.jpg" id="banner" style="width:100%">
 
+
+            
+
             <nav>
 
                 <div id="nav-wrapper">
@@ -25,18 +28,57 @@
                     <button id="btn-teams">Stats By Teams</button>
                     <button id="players-btn">Stats by players</button>
                     </div>
-                        <button id="login">Login</button>
-                    </div>
-                </div>
+
+
 
             </nav>
+            <div id="log-btns">
+                    <button id="login">Login</button>
+                    <button id="logout" class="is-hidden">Logout</button>
+                    </div>
 
     </header>
     <body>
         <main>
 <div id="title"><h1>Welcome!</h1>
 </div>
-
+<div id="favorite-div" class="is-hidden">
+<select id="favorite-team-select" >
+        <option value="c">Choose Your Favorite Team!</option>
+        <option value="anaheim-ducks">Anaheim Ducks</option>
+        <option value="arizona-coyotes">Arizona Coyotes</option>
+        <option value="boston-bruins">Boston Bruins</option>
+        <option value="buffalo-sabres">Buffalo Sabres</option>
+        <option value="calgary-flames">Calgary Flames</option>
+        <option value="carolina-hurricanes">Carolina Hurricanes</option>
+        <option value="chicago-blackhawks">Chicago Blackhawks</option>
+        <option value="colorado-avalanche">Colorado Avalanche</option>
+        <option value="columbus-bluejackets">Columbus Blue Jackets</option>
+        <option value="dallas-stars">Dallas Stars</option>
+        <option value="detroit-redwings">Detroit Red Wings</option>
+        <option value="edmonton-oilers">Edmonton Oilers</option>
+        <option value="florida-panthers">Florida Panthers</option>
+        <option value="losangeles-kings">Los Angeles Kings</option>
+        <option value="minnesota-wild">Minnesota Wild</option>
+        <option value="montreal-canadiens">Montreal Canadiens</option>
+        <option value="nashville-predators">Nashville Predators</option>
+        <option value="newjersey-devils">New Jersey Devils</option>
+        <option value="newyork-islanders">New York Islanders</option>
+        <option value="newyork-rangers">New York Rangers</option>
+        <option value="ottawa-senators">Ottawa Senators</option>
+        <option value="philadelphia-flyers">Philadelphia Flyers</option>
+        <option value="pittsburgh-penguins">Pittsburgh Penguins</option>
+        <option value="sanjose-sharks">San Jose Sharks</option>
+        <option value="stlouis-blues">St Louis Blues</option>
+        <option value="tampabay-lightning">Tampa Bay Lightning</option>
+        <option value="toronto-mapleleafs">Toronto Maple Leafs</option>
+        <option value="vancouver-canucks">Vancouver Canucks</option>
+        <option value="vegas-goldenknights">Vegas Golden Knights</option>
+        <option value="washington-capitals">Washington Capitals</option>
+        <option value="winnipeg-jets">Winnipeg Jets</option>
+        </select>
+        <button id="run-fav-team">Add</button>
+    </div>
 <div class="container">
         <table class="table table-striped table-dark">
                 <thead>
@@ -46,6 +88,7 @@
                     <th scope="col" id="middle-head"></th>
                     <th scope="col" id="right-head"></th>
                   </tr>
+                  
                 </thead>
                 <tbody id="tbody">
                     <td id="last"></td>
@@ -64,12 +107,6 @@
     <script src="dist/app.js"></script>
 </body>
 </html>
-
-<table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-
 
 
         <!-- <div class="row">
