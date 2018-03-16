@@ -25,7 +25,7 @@ $("#login").click(function() {
       let welcomeName = userDisplayName.substr(0,userDisplayName.indexOf(' '));
       console.log("welcome Name",welcomeName);
       db.checkUserExist();
-      $("#title").html(`Welcome ${welcomeName}`);
+      $("#title").html(`<h1>Welcome ${welcomeName}</h1>`);
 
       if (favoriteTeam){
         console.log("has a favorite team");
