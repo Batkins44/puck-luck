@@ -64,10 +64,10 @@ button{
     display:inline-block;
 }
 
-#login{
-    display:block;
-    float:left;
+#favorite-div{
+    text-align:center;
 }
+
 
 
 button:hover{
@@ -80,3 +80,8 @@ hr {
     border-top:2px solid $secondaryColor;
     border-bottom:2px solid $secondaryColor;
 }
+
+.is-hidden{
+  display: none;
+}
+
