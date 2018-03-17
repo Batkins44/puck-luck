@@ -65,6 +65,7 @@ function listTeam(teamData){
 }
 
 function printTeamHeader() {
+    $("#tbody").html("");
     $("#left").html("<h5>Skaters</h5>");
     $("#middle").html("<h5>Stats</h5>");
     $("#right").html("<h5>Goalies</h5>");
