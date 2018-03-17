@@ -40,12 +40,11 @@ function getUserData() {
     console.log("user Array",userArray);
     let uidArray = [];
     for (let i=0;i<userArray.length;i++){
-        console.log("here");
+
         let currentPush = userArray[i].uid;
-        console.log("current push",currentPush);
+
         uidArray.push(currentPush);
     }
-    console.log("uidArray",uidArray);
     let currentUid = user.getUser();
     console.log("uid",currentUid);
     if(uidArray.includes(currentUid)){
@@ -71,6 +70,21 @@ function getUserData() {
 //         return error;
 //      });
 //   }
+
+function retrieveFavTeam() {
+
+        console.log("url", firebase.getFBsettings().databaseURL);
+         return $.ajax({
+             url: `${firebase.getFBsettings().databaseURL}/favTeam.json`
+             // url: `https://musichistory-d16.firebaseio.com/songs.json?orderBy="uid"&equalTo="${user}"`
+         }).done((userData) => {
+             console.log("favTeam", userData);
+    
+             return userData;
+    
+        });
+    
+}
 
 function buildUserObj() {
     let userObj = {
@@ -151,7 +165,7 @@ function buildFavTeamObj(favoriteTeam){
     console.log("current user",currentUid);
     let favTeamObj = {
         "uid":currentUid,
-        "fav-team":favoriteTeam
+        "favTeam":favoriteTeam
     };
     console.log("fav team obj",favTeamObj);
     addFavTeam(favTeamObj);
@@ -177,5 +191,6 @@ module.exports = {
     logOut,
     getUserData,
     checkUserExist,
-    buildFavTeamObj
+    buildFavTeamObj,
+    retrieveFavTeam
 };

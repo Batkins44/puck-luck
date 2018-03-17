@@ -49,10 +49,11 @@ function listDay(dayData){
 }
 
 function runDay(){
+    $("#tbody").html("");
     $("#title").html(`<h1>Today's Games</h1><br>`);
     $("#title").append(`Or choose a different day.<br>`);
     $("#title").append(`<input type="date" id="time-get" min="2017-10-04" max="2018-04-07">`);
-    $("#title").append(`<button id="time-run">Run</button>`);
+    $("#title").append(`<button id="time-run">Go</button>`);
 
 
     $("#left-head").html("<h5>Away</h5>");

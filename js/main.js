@@ -3,6 +3,8 @@
 let game = require("./game");
 let day = require("./byDay");
 let team = require("./team");
+let players = require("./players");
+let dom =require("./dom-builder");
 let favoriteTeam;
 let userDisplayName;
 let result;
@@ -11,6 +13,7 @@ let db = require("./db-interaction"),
     user = require("./user");
 
 $('#btn-teams').click(team.printTeamHeader);
+$('#players-btn').click(players.printPlayerHeader);
 
 $("#login").click(function() {
     console.log("clicked login");
@@ -27,12 +30,10 @@ $("#login").click(function() {
       db.checkUserExist();
       $("#title").html(`<h1>Welcome ${welcomeName}</h1>`);
 
-      if (favoriteTeam){
-        console.log("has a favorite team");
-      }else{
-        console.log("no favorite team");
-        $("#favorite-div").removeClass("is-hidden");
-      }  
+ 
+
+        dom.populateFavTeam();
+
 
     });
   });
