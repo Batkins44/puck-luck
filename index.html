@@ -41,6 +41,7 @@
     <body>
         <main>
 <div id="title">
+    Please Log In to see favorite Teams and Players
 </div>
 
     <div id="player-search" class="is-hidden">
@@ -48,7 +49,7 @@
 
 <button id="run-player-search">Go</button>
 </div>
-<div id="favorite-div">
+<div id="favorite-div" class="is-hidden">
 <select id="favorite-team-select" >
         <option value="c">Add a Favorite Team!</option>
         <option value="anaheim-ducks">Anaheim Ducks</option>
@@ -87,7 +88,7 @@
     </div>
 <div class="container">
         <table class="table table-striped table-dark">
-                <thead>
+                <thead id="main-header" class="is-hidden">
                   <tr>
                     <th scope="col" id="counter">Favorite Team(s)</th>
                     <th scope="col" id="left-head">Previous Game</th>

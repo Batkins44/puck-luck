@@ -24,6 +24,8 @@ $("#login").click(function() {
       user.setName(result.user.displayName);
       $("#login").addClass("is-hidden");
       $("#logout").removeClass("is-hidden");
+      $("#main-header").removeClass("is-hidden");
+      $("#favorite-div").removeClass("is-hidden");
       userDisplayName = result.user.displayName;
       let welcomeName = userDisplayName.substr(0,userDisplayName.indexOf(' '));
       console.log("welcome Name",welcomeName);
@@ -45,6 +47,7 @@ $("#login").click(function() {
       $("#logout").addClass("is-hidden");
       $("#favorite-div").addClass("is-hidden");
       $("#title").html("Please Login To See Favorite Team");
+      $("tbody").html("");
   });
 
   $("#run-fav-team").click(() => {

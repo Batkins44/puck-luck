@@ -150,7 +150,7 @@ function logOut() {
 
 function addFavTeam(favTeamObj){
     return $.ajax({
-        url: `${firebase.getFBsettings().databaseURL}/fav-team.json`,
+        url: `${firebase.getFBsettings().databaseURL}/favTeam.json`,
         type: 'POST',
         data: JSON.stringify(favTeamObj),
         dataType: 'json'

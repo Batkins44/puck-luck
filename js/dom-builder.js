@@ -13,7 +13,7 @@ function populateFavTeam(){
         console.log("FBFAVTEAM",fbFavTeamArray);
         let currentUid = user.getUser();
         favTeams = [];
-        for (let i = 0;i <= 2;i++){
+        for (let i = 0;i < fbFavTeamArray.length;i++){
 
             let checkUid = fbFavTeamArray[i];
             checkUid = checkUid.uid;
@@ -24,6 +24,7 @@ function populateFavTeam(){
                 currentFavTeam = currentFavTeam.favTeam;
                 console.log("currentFavTeam",currentFavTeam);
                 favTeams.push(currentFavTeam);
+                console.log(favTeams);
                 
             }
         }
