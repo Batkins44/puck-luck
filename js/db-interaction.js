@@ -161,14 +161,83 @@ function addFavTeam(favTeamObj){
 
 function buildFavTeamObj(favoriteTeam){
     console.log(favoriteTeam);
-    let currentUid = user.getUser();
-    console.log("current user",currentUid);
-    let favTeamObj = {
-        "uid":currentUid,
-        "favTeam":favoriteTeam
-    };
-    console.log("fav team obj",favTeamObj);
-    addFavTeam(favTeamObj);
+    let favTeamObj;
+
+        let username = "batkins4";
+        let password = "puck-luck";
+        
+        
+        
+            $.ajax({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
+                },
+                url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/overall_team_standings.json?teamstats=W,L,GF,GA,Pts`
+            }).done(function(data) {
+                // When you tell jQuery to read a file via the ajax method
+                // it reads the contents, and then executes whatever function
+                // that you specify here in the done() method, and passes in
+                // the contents of the file as the first argument.
+                console.log("teamInfoData",data);
+                for (let i=0;i<data.overallteamstandings.teamstandingsentry.length;i++){
+
+                   let currentTeam = data.overallteamstandings.teamstandingsentry[i].team;
+                //    console.log("currentTeam",currentTeam,"currentID",currentTeam.ID);
+                   if (currentTeam.ID == favoriteTeam){
+                    let currentUid = user.getUser();
+                    // console.log("current user",currentUid);
+                    let name = (currentTeam.City + " " + currentTeam.Name);
+                    let favTeamObj = {
+                        uid:currentUid,
+                        ID:favoriteTeam,
+                        Name:name,
+                        abbr:currentTeam.Abbreviation
+                   };
+                   console.log("fav team obj",favTeamObj);
+                   addFavTeam(favTeamObj);
+                }
+
+        }
+
+    });
+
+
+}
+
+function buildFavPlayerObj(favoritePlayer,playerInfo){
+    // console.log(favoritePlayer,"is the fav player");
+    // console.log(playerInfo,"ist still here");
+    for(let f=0;f<playerInfo.length;f++){
+        let currentPlayer = playerInfo[f].playerID;
+        if(favoritePlayer == currentPlayer){
+            console.log(playerInfo[f].name);
+            let currentUid = user.getUser();
+            console.log(currentUid);
+            if (currentUid == null){
+                window.alert("Please Login to add a favorite player");
+
+            }else{
+            let favPlayerObj = {
+                name: playerInfo[f].name,
+                playerID: playerInfo[f].playerID,
+                uid:currentUid
+            };
+            console.log(favPlayerObj,"fav player OBJ");
+            addFavPlayer(favPlayerObj);
+            }
+        }
+    }
+}
+
+function addFavPlayer(favPlayerObj){
+    return $.ajax({
+        url: `${firebase.getFBsettings().databaseURL}/favPlayer.json`,
+        type: 'POST',
+        data: JSON.stringify(favPlayerObj),
+        dataType: 'json'
+     }).done((fbPlayerID) => {
+        return fbPlayerID;
+     });
 }
 
 //example with delete
@@ -192,5 +261,6 @@ module.exports = {
     getUserData,
     checkUserExist,
     buildFavTeamObj,
-    retrieveFavTeam
+    retrieveFavTeam,
+    buildFavPlayerObj
 };

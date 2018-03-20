@@ -9,8 +9,8 @@ function populateFavTeam(){
     .then((userData) => {
         console.log("this is the fav team info",userData);
         let fbFavTeamArray = (Object.values(userData));
-        console.log("length of array",fbFavTeamArray.length);
-        console.log("FBFAVTEAM",fbFavTeamArray);
+        // console.log("length of array",fbFavTeamArray.length);
+        // console.log("FBFAVTEAM",fbFavTeamArray);
         let currentUid = user.getUser();
         favTeams = [];
         $("#tbody").html("");
@@ -21,8 +21,8 @@ function populateFavTeam(){
             console.log("checkUID",checkUid,"currentUID",currentUid);
             if(currentUid == checkUid){
                 let currentFavTeam = fbFavTeamArray[i];
-                console.log("currentUser",currentFavTeam,"currentFavTeam",currentFavTeam.favTeam);
-                currentFavTeam = currentFavTeam.favTeam;
+                console.log("currentUser",currentFavTeam,"currentFavTeam",currentFavTeam.Name);
+                currentFavTeam = currentFavTeam.Name;
                 console.log("currentFavTeam",currentFavTeam);
                 favTeams.push(currentFavTeam);
                 console.log(favTeams);

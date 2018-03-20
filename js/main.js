@@ -9,6 +9,7 @@ let favoriteTeam;
 let userDisplayName;
 let result;
 let welcomeName;
+let favTeamID;
 
 let db = require("./db-interaction"),
     user = require("./user");
@@ -51,16 +52,19 @@ $("#login").click(function() {
       $("tbody").html("");
   });
 
-  $("#run-fav-team").click(() => {
+  $("#run-fav-team").click((event) => {
     favoriteTeam = $("#favorite-team-select").val();
+
+
     db.buildFavTeamObj(favoriteTeam);
-    setTimeout( dom.populateFavTeam, 1000 );
-
-
-
-
+    setTimeout( dom.populateFavTeam, 2000 );
 
 });
+
+// $("option").click((event) => {
+//     favTeamID = event.target.id;
+//     console.log("THIS IS YOUR TEAMS ID",favTeamID);
+// });
 
 $("#home-btn").click(() => {
     $("#favorite-div").removeClass("is-hidden");

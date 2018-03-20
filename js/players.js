@@ -2,6 +2,7 @@
 /*jshint -W069 */
 
 let team = require("./team");
+let db = require("./db-interaction");
 
 var playersUrl = "https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/active_players.json";
 let playerResults;
@@ -25,10 +26,7 @@ function usePlayers(callBackFunction){
             },
             url: playersUrl
         }).done(function(data) {
-            // When you tell jQuery to read a file via the ajax method
-            // it reads the contents, and then executes whatever function
-            // that you specify here in the done() method, and passes in
-            // the contents of the file as the first argument.
+
 
             let playersData = data;
 
@@ -56,84 +54,62 @@ function usePlayerStats(idArray,playerInfoObj){
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh`
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA`
         }).done(function(data) {
-            // When you tell jQuery to read a file via the ajax method
-            // it reads the contents, and then executes whatever function
-            // that you specify here in the done() method, and passes in
-            // the contents of the file as the first argument.
+            console.log("THIS HERE DATA",data);
+
             for(let i=0;i<idArray.length;i++){
                 let currentID = idArray[i];
-                // let currentID = data.cumulativeplayerstats.playerstatsentry[i].player.ID;
                 console.log("currentID",currentID);
                 for(let p=0;p<playerInfoObjArray.length;p++){
                     let currentCheckID = playerInfoObjArray[p].playerID;
                     console.log("checkID",currentCheckID);
                     if(currentID == currentCheckID){
                         console.log("found one",playerInfoObjArray[p].name);
-                        for (let z=0;z<1000;z++){
+                        for (let z=0;z<data.cumulativeplayerstats.playerstatsentry.length;z++){
                             let currentEntry = data.cumulativeplayerstats.playerstatsentry[z].player.ID;
-                            if (currentEntry == currentID){
+                            if (currentEntry == currentID && data.cumulativeplayerstats.playerstatsentry[z].player.Position !=="G"){
+                                console.log("currentEntry",currentEntry);
                                 let currentStats = data.cumulativeplayerstats.playerstatsentry[z].stats.stats;
                                 console.log(playerInfoObjArray[p].name,currentStats);
-
-
-                            
-
-                        
+                        $("#tbody").append(`<tr><th scope="row">${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br><button class="btn btn-light" id='addPlayer_${playerInfoObjArray[p].playerID}'>Add to Favorites</button></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
+                        <td>Team: ${data.cumulativeplayerstats.playerstatsentry[z].team.City} ${data.cumulativeplayerstats.playerstatsentry[z].team.Name}<br>Born: ${playerInfoObjArray[p].country}<br>Birthday: ${playerInfoObjArray[p].bday}<br>Height: ${playerInfoObjArray[p].height}<br>Weight:${playerInfoObjArray[p].weight}<br>${playerInfoObjArray[p].twitter}<br></td><td>Goals: ${currentStats.Goals["#text"]}<br>
+                        Assists: ${currentStats.Assists["#text"]}<br>Points: ${currentStats.Points["#text"]}<br>Shots: ${currentStats.Shots["#text"]}</td></tr>`);
+                    }else if(currentEntry == currentID && data.cumulativeplayerstats.playerstatsentry[z].player.Position == "G"){
+                        let currentStats = data.cumulativeplayerstats.playerstatsentry[z].stats.stats;
+                        let ga = currentStats.GoalsAgainst["#text"];
+                        ga = parseInt(ga);
+                        let sv = currentStats.Saves["#text"];
+                        sv = parseInt(sv);
+                        let savePer = sv+ga;
+            
+                        savePer = sv/savePer;
+                        savePer = Math.round(savePer * 10000) / 100;
                         $("#tbody").append(`<tr><th scope="row">${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}</th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
-                        <td>Born: ${playerInfoObjArray[p].country}<br>Birthday: ${playerInfoObjArray[p].bday}<br>Height: ${playerInfoObjArray[p].height}<br>Weight:${playerInfoObjArray[p].weight}<br>${playerInfoObjArray[p].twitter}</td><td>${currentStats.Goals["#text"]}</td></tr>`);
-                    }}
+                        <td>Team: ${data.cumulativeplayerstats.playerstatsentry[z].team.City} ${data.cumulativeplayerstats.playerstatsentry[z].team.Name}<br>Born: ${playerInfoObjArray[p].country}<br>Birthday: ${playerInfoObjArray[p].bday}<br>Height: ${playerInfoObjArray[p].height}<br>Weight:${playerInfoObjArray[p].weight}<br>${playerInfoObjArray[p].twitter}</td><td>
+                        Record: ${currentStats.Wins["#text"]}-${currentStats.Losses["#text"]}-${currentStats.OvertimeLosses["#text"]}<br>Shutouts: ${currentStats.Shutouts["#text"]}<br>GAA: ${currentStats.GoalsAgainstAverage["#text"]}<br>Save %: ${savePer}</td></tr>`);
+
+                    }
+                
+                
+                }
                     }
 
 
 
                 }
 
-            // let playerStatsGoals = data.cumulativeplayerstats.playerstatsentry["0"].stats.stats.Goals["#text"];
-            // let playerStatsAssists = data.cumulativeplayerstats.playerstatsentry["0"].stats.stats.Assists["#text"];
-            // let playerStatsPoints = data.cumulativeplayerstats.playerstatsentry["0"].stats.stats.Points["#text"];
-            // let playerStatsShots = data.cumulativeplayerstats.playerstatsentry["0"].stats.stats.Shots["#text"];
-            // playerStatsObject = {
-            //     psG:playerStatsGoals,
-            //     psA:playerStatsAssists,
-            //     psP:playerStatsPoints,
-            //     psS:playerStatsShots,
-            //     psID:playerID
+
             }
         }
-            // playerStatsArray.push(playerStatsObject);
+         
 
-
-            // console.log("right here",playerStatsObject);
-
-            // return playerStatsObject;
-
-        //     $("#tbody").append(`<tr><th scope="row">${playerInfoObj.jersey}<br>${playerInfoObj.position}</th><td>${playerInfoObj.name}<br>${playerInfoObj.image}</td>   
-        // <td>Born: ${playerInfoObj.country}<br>Birthday: ${playerInfoObj.bday}<br>Height: ${playerInfoObj.height}<br>Weight:${playerInfoObj.weight}<br>${playerInfoObj.twitter}</td><td>hey</td></tr>`);
-
-        );}
+        );
+    }
 
 
 
-// function listPlayerStats(playerStatsData) {
-//     // console.log(playerStatsData.cumulativeplayerstats.playerstatsentry["0"].stats.stats.Goals["#text"]);
-//         playerInfoObj['goals'] = playerStatsData.cumulativeplayerstats.playerstatsentry["0"].stats.stats.Goals["#text"];
-//         let playerStatsAssists = playerStatsData.cumulativeplayerstats.playerstatsentry["0"].stats.stats.Assists["#text"];
-//         let playerStatsPoints = playerStatsData.cumulativeplayerstats.playerstatsentry["0"].stats.stats.Points["#text"];
-//         let playerStatsShots = playerStatsData.cumulativeplayerstats.playerstatsentry["0"].stats.stats.Shots["#text"];
-//         // playerStatsObject = {
-//         //     psG:playerStatsGoals,
-//         //     psA:playerStatsAssists,
-//         //     psP:playerStatsPoints,
-//         //     psS:playerStatsShots
-            
-//         // };
-//         console.log("playerStats1",playerInfoObj);
-//         $("#tbody").append(`<tr><th scope="row">${playerInfoObj.jersey}<br>${playerInfoObj.position}</th><td>${playerInfoObj.name}<br>${playerInfoObj.image}</td>   
-//     <td>Born: ${playerInfoObj.country}<br>Birthday: ${playerInfoObj.bday}<br>Height: ${playerInfoObj.height}<br>Weight:${playerInfoObj.weight}<br>${playerInfoObj.twitter}</td><td>hey</td></tr>`);
 
-// }
 
 
 
@@ -166,7 +142,8 @@ function searchPlayers(playersData){
 
 }
 function listPlayers(playerResults){
-
+    idArray =[];
+    $("#tbody").html("");
     let c=0;
     for(let pd = 0;pd < playerResults.length;pd++){
     let printPlayer = playerResults[pd];
@@ -195,10 +172,30 @@ function listPlayers(playerResults){
         twitter:twitterAccount
 
     };
+
+    if (playerInfoObj.country == null){
+        playerInfoObj.country = "Not listed";
+    }
+
+    if (playerInfoObj.height == null){
+        playerInfoObj.country = "Not listed";
+    }
+
+    if (playerInfoObj.weight == null){
+        playerInfoObj.country = "Not listed";
+    }
+
+    if (playerInfoObj.jersey == null){
+        playerInfoObj.country = "Not listed";
+    }
+
+    if (playerInfoObj.bday == null){
+        playerInfoObj.country = "Not listed";
+    }
+
     playerInfoObjArray.push(playerInfoObj);
 
 
-    x=5;
     console.log(c);
     c = c+1;
     let playerID = printPlayer.ID;
@@ -209,38 +206,32 @@ function listPlayers(playerResults){
     }
     console.log(playerID);
     playerStatsUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh&player=${playerID}`;
-    // usePlayerStats(playerStatsUrl);
-    // setTimeout(playerPrint, 5000);
-    // $.when(usePlayerStats(playerID)).done(playerPrint);
 
 
-
-    // $("#tbody").append(`<tr><th scope="row">${playerInfoObj.jersey}<br>${playerInfoObj.position}</th><td>${playerInfoObj.name}<br>${image}</td>   
-    // <td>Born: ${playerInfoObj.country}<br>Birthday: ${playerInfoObj.bday}<br>Height: ${playerInfoObj.height}<br>Weight:${playerInfoObj.weight}<br>${twitterAccount}</td><td>${playerInfoObj.goals}</td></tr>`);
-   
-
-
-
-
-    // row = row + 1;
 
 }}
 
 
 
-// function playerPrint(){
-//     console.log("x",x);
 
-//     console.log("player stats2",playerInfoObj);
-//     $("#tbody").append(`<tr><th scope="row">${playerInfoObj.jersey}<br>${playerInfoObj.position}</th><td>${playerInfoObj.name}<br>${playerInfoObj.image}</td>   
-//     <td>Born: ${playerInfoObj.country}<br>Birthday: ${playerInfoObj.bday}<br>Height: ${playerInfoObj.height}<br>Weight:${playerInfoObj.weight}<br>${playerInfoObj.twitter}</td><td>${playerInfoObj.goals}</td></tr>`);
-// }
 
 function runSearch(){
     usePlayers(searchPlayers);
 }
 
+$(document).ready(function() {
+    $("body").click(function (event) {
+        let selectClass = event.target.className;
+        console.log("selectClass",selectClass);
+        let player = event.target.id;
+        let favoritePlayer = player.slice(10, 14);
+        if(selectClass == "btn btn-light"){
+            console.log("yessirrrr");
+            db.buildFavPlayerObj(favoritePlayer,playerInfoObjArray);
 
+
+}});
+});
 
 
 $("#run-player-search").click(runSearch);
