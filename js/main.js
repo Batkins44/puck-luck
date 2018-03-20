@@ -8,6 +8,7 @@ let dom =require("./dom-builder");
 let favoriteTeam;
 let userDisplayName;
 let result;
+let welcomeName;
 
 let db = require("./db-interaction"),
     user = require("./user");
@@ -53,4 +54,19 @@ $("#login").click(function() {
   $("#run-fav-team").click(() => {
     favoriteTeam = $("#favorite-team-select").val();
     db.buildFavTeamObj(favoriteTeam);
+    setTimeout( dom.populateFavTeam, 1000 );
+
+
+
+
+
 });
+
+$("#home-btn").click(() => {
+    $("#favorite-div").removeClass("is-hidden");
+    $("#player-search").addClass("is-hidden");
+    $("#title").html(`<h1>Your Teams</h1>`);
+    $("#tbody").html("");
+    dom.populateFavTeam();
+});
+

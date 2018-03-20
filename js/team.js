@@ -30,9 +30,6 @@ let password = "puck-luck";
 function listTeam(teamData){
     let player = teamData.cumulativeplayerstats.playerstatsentry;
     console.log(player);
-    $("#left-head").html("Skaters");
-    $("#middle-head").html("Position");
-    $("#right-head").html("Stats");
     let row = 1;
     $("#tbody").html("");
     for(let p=0;p<player.length;p++){
@@ -69,6 +66,11 @@ function printTeamHeader() {
     $("#left").html("<h5>Skaters</h5>");
     $("#middle").html("<h5>Stats</h5>");
     $("#right").html("<h5>Goalies</h5>");
+    $("#favorite-div").addClass("is-hidden");
+    $("#player-search").addClass("is-hidden");
+    $("#left-head").html(`<h5>Skaters<h5>`);
+    $("#middle-head").html(`<h5>Position</h5>`);
+    $("#right-head").html(`<h5>Stats</h5>`);
     $("#title").html(
     `<h1>Stats By Team</h1><br><select id="team-select">
     <option value="c">Choose a Team</option>
