@@ -7,6 +7,9 @@
 let firebase = require("./fb-config"),
     provider = new firebase.auth.GoogleAuthProvider(),
     user = require("./user");
+let players = require("./players");
+let playerTeamObject;
+let playerID;
 
 
 // ****************************************
@@ -58,6 +61,26 @@ function getUserData() {
     }}
 );
 }
+
+function usePlayersFav(callBackFunction){
+
+    let username = "batkins4";
+    let password = "puck-luck";
+    
+    
+        $.ajax({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
+            },
+            url: "https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/active_players.json"
+        }).done(function(data) {
+
+
+            let playersData = data;
+
+            callBackFunction(playersData);
+    });
+    }
 
 
 // function getFBDetails(user){
@@ -217,17 +240,26 @@ function buildFavPlayerObj(favoritePlayer,playerInfo){
                 window.alert("Please Login to add a favorite player");
 
             }else{
+
             let favPlayerObj = {
                 name: playerInfo[f].name,
                 playerID: playerInfo[f].playerID,
                 uid:currentUid
             };
-            console.log(favPlayerObj,"fav player OBJ");
+            // console.log(favPlayerObj,"fav player OBJ");
+            let playerID = favPlayerObj.playerID;
+
+            // favPlayerObj.team = playerTeamObject;
+            console.log(favPlayerObj);
+            console.log("playerTeamObject",playerTeamObject);
             // addFavPlayer(favPlayerObj);
+            grabFavPlayers();
             }
         }
     }
 }
+
+
 
 function addFavPlayer(favPlayerObj){
     return $.ajax({
@@ -242,7 +274,7 @@ function addFavPlayer(favPlayerObj){
 
 function retrieveFavPlayers(){
              return $.ajax({
-             url: `${firebase.getFBsettings().databaseURL}/favTeam.json`
+             url: `${firebase.getFBsettings().databaseURL}/favPlayer.json`
              // url: `https://musichistory-d16.firebaseio.com/songs.json?orderBy="uid"&equalTo="${user}"`
          }).done((userData) => {
              console.log("favTeam", userData);
@@ -257,10 +289,51 @@ function retrieveFavPlayers(){
 function grabFavPlayers(){
     retrieveFavPlayers()
     .then((userData) => {
+        let uidFavPlayers = [];
+        console.log("THIS HERE IS THE USERDATA",userData);
+        let favPlayerArray = (Object.values(userData));
+        let currentUid = user.getUser();
+        console.log("favplayerarray",favPlayerArray);
+        for (let i=0;i<favPlayerArray.length;i++){
+            if (currentUid == favPlayerArray[i].uid){
+                uidFavPlayers.push(favPlayerArray[i]);
+            }
+        }
+        console.log(uidFavPlayers);
+        
+        for(let p=0;p<uidFavPlayers.length;p++){
+            getPlayerLogs(uidFavPlayers[p].playerID);
+        }
 
 
     });
 }
+
+function getPlayerLogs(playerID){
+
+    let username = "batkins4";
+    let password = "puck-luck";
+    
+    
+        $.ajax({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
+            },
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/player_gamelogs.json?player=${playerID}`
+        }).done(function(data) {
+                console.log("HERE IS THE DATA I NEED TO WORK WITH",data.playergamelogs.gamelogs);
+                let gamelogs = data.playergamelogs.gamelogs;
+                let previousGame = gamelogs[gamelogs.length-1];
+                let previousGameTwo = gamelogs[gamelogs.length-2];
+                let previousGameThree = gamelogs[gamelogs.length-3];
+
+
+
+
+    });
+    }
+
+$("#run-fav-players").click(grabFavPlayers);
 
 //example with delete
 // function deleteItem(fbID) {

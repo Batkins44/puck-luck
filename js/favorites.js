@@ -227,9 +227,11 @@ for(let q=0;q<players.length;q++){
     }
     
 }
+}
+
 
 // return playerInfo;
-}
+
 
 // function refreshFavTeams(){
 //     console.log("FAVTEAMINFOARRAY",favTeamInfoArray);
