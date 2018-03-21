@@ -37,7 +37,7 @@ $("#login").click(function() {
 
  
 
-        dom.populateFavTeam();
+        setTimeout(dom.populateFavTeam(),1000);
 
 
     });
@@ -59,6 +59,7 @@ $("#login").click(function() {
 
     db.buildFavTeamObj(favoriteTeam);
     setTimeout(dom.populateFavTeam, 2000 );
+    setTimeout(favorites.refreshFavTeams(),5000);
 
 });
 

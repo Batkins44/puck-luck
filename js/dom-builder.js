@@ -10,6 +10,7 @@ function populateFavTeam(){
     db.retrieveFavTeam()
     .then((userData) => {
         let fbFavTeamArray = (Object.values(userData));
+        console.log("fbFavTeamArray",fbFavTeamArray);
         let currentUid = user.getUser();
         favTeams = [];
         $("#tbody").html("");
@@ -17,6 +18,7 @@ function populateFavTeam(){
             let checkUid = fbFavTeamArray[i];
             checkUid = checkUid.uid;
             if(currentUid == checkUid){
+                console.log("currentUid",currentUid,"checkUid",checkUid);
                 let currentFavTeam = fbFavTeamArray[i];
                 currentFavTeam = currentFavTeam.Name;
                 favTeams.push(currentFavTeam);
@@ -24,14 +26,14 @@ function populateFavTeam(){
                 
             }
         }
-        for(let q = 0;q<favTeams.length;q++){
-            $("#tbody").append(`<tr><th scope="row">${favTeams[q]}</th><td></td>   
-            <td></td>
-           <td></td>
-           </tr>`);
-        }
+        // for(let q = 0;q<favTeams.length;q++){
+        //     $("#tbody").append(`<tr><th scope="row">${favTeams[q]}</th><td></td>   
+        //     <td></td>
+        //    <td></td>
+        //    </tr>`);
+        // }
     });
-    favorites.favTeamSchedule(favTeams);
+    favorites.favTeamSchedule();
 }
 
 module.exports = {populateFavTeam};

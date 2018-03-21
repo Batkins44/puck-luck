@@ -193,7 +193,7 @@ function buildFavTeamObj(favoriteTeam){
                         abbr:currentTeam.Abbreviation
                    };
                    console.log("fav team obj",favTeamObj);
-                //    addFavTeam(favTeamObj);
+                   addFavTeam(favTeamObj);
                 }
 
         }
