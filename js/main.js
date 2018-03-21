@@ -34,13 +34,15 @@ $("#login").click(function() {
       console.log("welcome Name",welcomeName);
       db.checkUserExist();
       $("#title").html(`<h1>Welcome ${welcomeName}</h1>`);
+      setTimeout(dom.populateFavTeam(),3000);
 
  
 
-        setTimeout(dom.populateFavTeam(),1000);
+
 
 
     });
+
   });
   
   $("#logout").click(() => {
@@ -51,6 +53,7 @@ $("#login").click(function() {
       $("#favorite-div").addClass("is-hidden");
       $("#title").html("Please Login To See Favorite Team");
       $("tbody").html("");
+      
   });
 
   $("#run-fav-team").click((event) => {
@@ -59,7 +62,7 @@ $("#login").click(function() {
 
     db.buildFavTeamObj(favoriteTeam);
     setTimeout(dom.populateFavTeam, 2000 );
-    setTimeout(favorites.refreshFavTeams(),5000);
+    // setTimeout(favorites.refreshFavTeams(),5000);
 
 });
 
@@ -73,6 +76,10 @@ $("#home-btn").click(() => {
     $("#player-search").addClass("is-hidden");
     $("#title").html(`<h1>Your Teams</h1>`);
     $("#tbody").html("");
+    $("#counter").html("<h5>Favorite Teams</h5>");
+    $("#left-head").html("<h5>Next Game</h5>");
+    $("#middle-head").html("<h5>Previous Game</h5>");
+    $("#right-head").html("<h5>Notable Players from Previous Game</h5>");
     dom.populateFavTeam();
 });
 

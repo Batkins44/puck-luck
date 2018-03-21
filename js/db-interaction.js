@@ -204,12 +204,13 @@ function buildFavTeamObj(favoriteTeam){
 }
 
 function buildFavPlayerObj(favoritePlayer,playerInfo){
+    console.log("MY FAVPLAYERINFO",playerInfo);
     // console.log(favoritePlayer,"is the fav player");
     // console.log(playerInfo,"ist still here");
     for(let f=0;f<playerInfo.length;f++){
         let currentPlayer = playerInfo[f].playerID;
         if(favoritePlayer == currentPlayer){
-            console.log(playerInfo[f].name);
+
             let currentUid = user.getUser();
             console.log(currentUid);
             if (currentUid == null){
@@ -222,7 +223,7 @@ function buildFavPlayerObj(favoritePlayer,playerInfo){
                 uid:currentUid
             };
             console.log(favPlayerObj,"fav player OBJ");
-            addFavPlayer(favPlayerObj);
+            // addFavPlayer(favPlayerObj);
             }
         }
     }
@@ -237,6 +238,28 @@ function addFavPlayer(favPlayerObj){
      }).done((fbPlayerID) => {
         return fbPlayerID;
      });
+}
+
+function retrieveFavPlayers(){
+             return $.ajax({
+             url: `${firebase.getFBsettings().databaseURL}/favTeam.json`
+             // url: `https://musichistory-d16.firebaseio.com/songs.json?orderBy="uid"&equalTo="${user}"`
+         }).done((userData) => {
+             console.log("favTeam", userData);
+    
+             return userData;
+    
+        });
+    
+}
+
+
+function grabFavPlayers(){
+    retrieveFavPlayers()
+    .then((userData) => {
+
+
+    });
 }
 
 //example with delete

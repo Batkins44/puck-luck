@@ -40,10 +40,9 @@ function listDay(dayData){
     let currentGame = day[l];
     // $("#print").append(currentGame.link);
 
-    $("#tbody").append(`<tr><th scope="row">${row}</th><td>${currentGame.awayTeam.City} ${currentGame.awayTeam.Name}</td>   
+    $("#tbody").append(`<tr><th scope="row">${currentGame.time}</th><td>${currentGame.awayTeam.City} ${currentGame.awayTeam.Name}</td>   
     <td>${currentGame.homeTeam.City} ${currentGame.homeTeam.Name}</td>
-   <td>${currentGame.time} ${currentGame.location}</td></tr>`);
-    row = row + 1;
+   <td>${currentGame.location}</td></tr>`);
 
 }
 }
@@ -57,7 +56,7 @@ function runDay(){
     $("#favorite-div").addClass("is-hidden");
     $("#player-search").addClass("is-hidden");
 
-
+    $("#counter").html(`<h5>Time</h5>`);
     $("#left-head").html(`<h5>Away</h5>`);
     $("#middle-head").html(`<h5>Home</h5>`);
     $("#right-head").html(`<h5>Time/Location</h5>`);
@@ -68,7 +67,8 @@ function changeDay(url){
     dayUrl = url;
     console.log("dayUrl",dayUrl);
     console.log("changeDate",changeDate);
-    $("#title").html(`<h1>Today's Games</h1><br>`);
+    let displayDate  = moment(changeDate).format('MM-DD-YY');
+    $("#title").html(`<h1>${displayDate}</h1><br>`);
     $("#title").append(`Or choose a different day.<br>`);
     $("#title").append(`<input type="date" id="time-get">`);
     $("#title").append(`<button id="time-run">Run</button>`);

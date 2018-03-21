@@ -48,7 +48,7 @@ function listTeam(teamData){
 
             savePer = sv/savePer;
             savePer = Math.round(savePer * 10000) / 100;
-            $("#tbody").append(`<tr><th scope="row">${currentPlayer.player.JerseyNumber}</th><td><b>${currentPlayer.player.FirstName} ${currentPlayer.player.LastName}</b></td> 
+            $("#tbody").append(`<tr><th scope="row">#${currentPlayer.player.JerseyNumber}</th><td><b>${currentPlayer.player.FirstName} ${currentPlayer.player.LastName}</b></td> 
             <td>${currentPlayer.player.Position}</td>
             <td>Record: ${currentPlayer.stats.stats.Wins["#text"]}-${currentPlayer.stats.stats.Losses["#text"]}-${currentPlayer.stats.stats.OvertimeLosses["#text"]}<br>
             Saves: ${sv}<br> Shutouts: ${currentPlayer.stats.stats.Shutouts["#text"]}<br>
@@ -63,12 +63,10 @@ function listTeam(teamData){
 
 function printTeamHeader() {
     $("#tbody").html("");
-    $("#left").html("<h5>Skaters</h5>");
-    $("#middle").html("<h5>Stats</h5>");
-    $("#right").html("<h5>Goalies</h5>");
     $("#favorite-div").addClass("is-hidden");
     $("#player-search").addClass("is-hidden");
-    $("#left-head").html(`<h5>Skaters<h5>`);
+    $("#counter").html(`<h5>Jersey Number`);
+    $("#left-head").html(`<h5>Player<h5>`);
     $("#middle-head").html(`<h5>Position</h5>`);
     $("#right-head").html(`<h5>Stats</h5>`);
     $("#title").html(

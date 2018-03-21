@@ -21,7 +21,7 @@ function getGameInfo(abbr,teams){
             let nextGameIndex = null;
             let today = new Date();
             today = Date.parse(today);
-            today = today-150000000;
+            today = today-75000000;
             console.log(today);
             console.log("what is teams",teams);
             for(let j=0;j<teams.length;j++){
@@ -65,13 +65,15 @@ function getGameInfo(abbr,teams){
        });
     }
 
-function favTeamSchedule(){
+function favTeamSchedule(favTeamArray){
 let stringAbbr = "";
-    db.retrieveFavTeam()
-    .then((userData) => {
+    // db.retrieveFavTeam()
+    // .then((userData) => {
         let currentUser = user.getUser();
 
-        let favTeamArray = (Object.values(userData));
+        // console.log("FAVTEAMARRAY",favTeamArray);
+
+        // let favTeamArray = (Object.values(userData));
         
         for (let i=0;i<favTeamArray.length;i++){
             console.log(favTeamArray[i].abbr);
@@ -81,13 +83,13 @@ let stringAbbr = "";
         stringAbbr = stringAbbr.substring(0, stringAbbr.length - 1);
         console.log("stringAbbr",stringAbbr);
         getGameInfo(stringAbbr,favTeamArray);
-    });
+    // });
 
 }
 
 
 function formatTeams(teams){
-console.log("please have all the data teams",teams);
+// console.log("please have all the data teams",teams);
 let urlString = "";
 for (let i=0;i<teams.length;i++){
     let currentTeam = teams[i];
@@ -95,7 +97,7 @@ for (let i=0;i<teams.length;i++){
     var newDate = currentDate.replace(/-/g, "");
 
     urlString = (newDate + "-" + currentTeam.previousGame[0] + "-" + currentTeam.previousGame[1]);
-    console.log(urlString);
+    // console.log(urlString);
     teams[i].urlString = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/game_boxscore.json?gameid=${urlString}&teamstats=W,L,GF,GA,Pts&playerstats=G,A,Pts,Sh`;
     usePreviousGame(getPreviousGamePlayers,teams[i]);
 }
@@ -126,7 +128,7 @@ function usePreviousGame(callBackFunction,team){
     }
 
 function getPreviousGamePlayers(gameData,teams){
-    console.log("gameData",gameData,"teams",teams);
+    // console.log("gameData",gameData,"teams",teams);
     let goalsArray = [];
     let assistsArray = [];
     let pointsArray = [];
@@ -191,7 +193,7 @@ function getPreviousGamePlayers(gameData,teams){
 
 
 function idPlayerFinder(id, players){
-console.log("GAMEDATA IS HERE",players,"id",id);
+// console.log("GAMEDATA IS HERE",players,"id",id);
 let goals = "";
 let assists ="";
 let points = "";
@@ -220,7 +222,7 @@ for(let q=0;q<players.length;q++){
         playerInfo = playerInfo + goals;
         playerInfo = playerInfo + assists;
         playerInfo = playerInfo + points;
-        console.log(playerInfo);
+        // console.log(playerInfo);
         return playerInfo;
     }
     
