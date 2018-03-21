@@ -7,6 +7,9 @@
 let firebase = require("./fb-config"),
     provider = new firebase.auth.GoogleAuthProvider(),
     user = require("./user");
+let players = require("./players");
+let playerTeamObject;
+let playerID;
 
 
 // ****************************************
@@ -59,6 +62,26 @@ function getUserData() {
 );
 }
 
+function usePlayersFav(callBackFunction){
+
+    let username = "batkins4";
+    let password = "puck-luck";
+    
+    
+        $.ajax({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
+            },
+            url: "https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/active_players.json"
+        }).done(function(data) {
+
+
+            let playersData = data;
+
+            callBackFunction(playersData);
+    });
+    }
+
 
 // function getFBDetails(user){
 //     return $.ajax({
@@ -73,7 +96,6 @@ function getUserData() {
 
 function retrieveFavTeam() {
 
-        console.log("url", firebase.getFBsettings().databaseURL);
          return $.ajax({
              url: `${firebase.getFBsettings().databaseURL}/favTeam.json`
              // url: `https://musichistory-d16.firebaseio.com/songs.json?orderBy="uid"&equalTo="${user}"`
@@ -150,7 +172,7 @@ function logOut() {
 
 function addFavTeam(favTeamObj){
     return $.ajax({
-        url: `${firebase.getFBsettings().databaseURL}/fav-team.json`,
+        url: `${firebase.getFBsettings().databaseURL}/favTeam.json`,
         type: 'POST',
         data: JSON.stringify(favTeamObj),
         dataType: 'json'
@@ -161,15 +183,157 @@ function addFavTeam(favTeamObj){
 
 function buildFavTeamObj(favoriteTeam){
     console.log(favoriteTeam);
-    let currentUid = user.getUser();
-    console.log("current user",currentUid);
-    let favTeamObj = {
-        "uid":currentUid,
-        "favTeam":favoriteTeam
-    };
-    console.log("fav team obj",favTeamObj);
-    addFavTeam(favTeamObj);
+    let favTeamObj;
+
+        let username = "batkins4";
+        let password = "puck-luck";
+        
+        
+        
+            $.ajax({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
+                },
+                url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/overall_team_standings.json?teamstats=W,L,GF,GA,Pts`
+            }).done(function(data) {
+                // When you tell jQuery to read a file via the ajax method
+                // it reads the contents, and then executes whatever function
+                // that you specify here in the done() method, and passes in
+                // the contents of the file as the first argument.
+                console.log("teamInfoData",data);
+                for (let i=0;i<data.overallteamstandings.teamstandingsentry.length;i++){
+
+                   let currentTeam = data.overallteamstandings.teamstandingsentry[i].team;
+                //    console.log("currentTeam",currentTeam,"currentID",currentTeam.ID);
+                   if (currentTeam.ID == favoriteTeam){
+                    let currentUid = user.getUser();
+                    // console.log("current user",currentUid);
+                    let name = (currentTeam.City + " " + currentTeam.Name);
+                    let favTeamObj = {
+                        uid:currentUid,
+                        ID:favoriteTeam,
+                        Name:name,
+                        abbr:currentTeam.Abbreviation
+                   };
+                   console.log("fav team obj",favTeamObj);
+                   addFavTeam(favTeamObj);
+                }
+
+        }
+
+    });
+
+
 }
+
+function buildFavPlayerObj(favoritePlayer,playerInfo){
+    console.log("MY FAVPLAYERINFO",playerInfo);
+    // console.log(favoritePlayer,"is the fav player");
+    // console.log(playerInfo,"ist still here");
+    for(let f=0;f<playerInfo.length;f++){
+        let currentPlayer = playerInfo[f].playerID;
+        if(favoritePlayer == currentPlayer){
+
+            let currentUid = user.getUser();
+            console.log(currentUid);
+            if (currentUid == null){
+                window.alert("Please Login to add a favorite player");
+
+            }else{
+
+            let favPlayerObj = {
+                name: playerInfo[f].name,
+                playerID: playerInfo[f].playerID,
+                uid:currentUid
+            };
+            // console.log(favPlayerObj,"fav player OBJ");
+            let playerID = favPlayerObj.playerID;
+
+            // favPlayerObj.team = playerTeamObject;
+            console.log(favPlayerObj);
+            console.log("playerTeamObject",playerTeamObject);
+            // addFavPlayer(favPlayerObj);
+            grabFavPlayers();
+            }
+        }
+    }
+}
+
+
+
+function addFavPlayer(favPlayerObj){
+    return $.ajax({
+        url: `${firebase.getFBsettings().databaseURL}/favPlayer.json`,
+        type: 'POST',
+        data: JSON.stringify(favPlayerObj),
+        dataType: 'json'
+     }).done((fbPlayerID) => {
+        return fbPlayerID;
+     });
+}
+
+function retrieveFavPlayers(){
+             return $.ajax({
+             url: `${firebase.getFBsettings().databaseURL}/favPlayer.json`
+             // url: `https://musichistory-d16.firebaseio.com/songs.json?orderBy="uid"&equalTo="${user}"`
+         }).done((userData) => {
+             console.log("favTeam", userData);
+    
+             return userData;
+    
+        });
+    
+}
+
+
+function grabFavPlayers(){
+    retrieveFavPlayers()
+    .then((userData) => {
+        let uidFavPlayers = [];
+        console.log("THIS HERE IS THE USERDATA",userData);
+        let favPlayerArray = (Object.values(userData));
+        let currentUid = user.getUser();
+        console.log("favplayerarray",favPlayerArray);
+        for (let i=0;i<favPlayerArray.length;i++){
+            if (currentUid == favPlayerArray[i].uid){
+                uidFavPlayers.push(favPlayerArray[i]);
+            }
+        }
+        console.log(uidFavPlayers);
+        
+        for(let p=0;p<uidFavPlayers.length;p++){
+            getPlayerLogs(uidFavPlayers[p].playerID);
+        }
+
+
+    });
+}
+
+function getPlayerLogs(playerID){
+
+    let username = "batkins4";
+    let password = "puck-luck";
+    
+    
+        $.ajax({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
+            },
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/player_gamelogs.json?player=${playerID}`
+        }).done(function(data) {
+                console.log("HERE IS THE DATA I NEED TO WORK WITH",data.playergamelogs.gamelogs);
+                let gamelogs = data.playergamelogs.gamelogs;
+                let previousGame = gamelogs[gamelogs.length-1];
+                let previousGameTwo = gamelogs[gamelogs.length-2];
+                let previousGameThree = gamelogs[gamelogs.length-3];
+
+
+
+
+    });
+    }
+
+$("#run-fav-players").click(grabFavPlayers);
 
 //example with delete
 // function deleteItem(fbID) {
@@ -192,5 +356,6 @@ module.exports = {
     getUserData,
     checkUserExist,
     buildFavTeamObj,
-    retrieveFavTeam
+    retrieveFavTeam,
+    buildFavPlayerObj
 };

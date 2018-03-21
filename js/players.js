@@ -1,10 +1,19 @@
 "use strict";
+/*jshint -W069 */
 
 let team = require("./team");
+let db = require("./db-interaction");
 
 var playersUrl = "https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/active_players.json";
 let playerResults;
-
+let playerID;
+var playerStatsUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh&player=${playerID}`;
+let playerStatsObject;
+let playerInfoObj;
+// let playerStatsArray=[];
+let playerInfoObjArray=[];
+let idArray = [];
+let x;
 function usePlayers(callBackFunction){
 
     let username = "batkins4";
@@ -17,10 +26,7 @@ function usePlayers(callBackFunction){
             },
             url: playersUrl
         }).done(function(data) {
-            // When you tell jQuery to read a file via the ajax method
-            // it reads the contents, and then executes whatever function
-            // that you specify here in the done() method, and passes in
-            // the contents of the file as the first argument.
+
 
             let playersData = data;
 
@@ -29,12 +35,83 @@ function usePlayers(callBackFunction){
     }
 
 function printPlayerHeader(){
+
     $("#player-search").removeClass("is-hidden");
     $("#left-head").html("<h5>Player</h5>");
     $("#middle-head").html("<h5>Info</h5>");
     $("#right-head").html("<h5>Stats</h5>");
     $("#counter").html(`<h5>Number/Position</h5>`);
+    $("#favorite-div").addClass("is-hidden");
+    $("#title").html(`<h1>Search For a Player</h1>`);
+    $("#tbody").html("");
 }
+
+function usePlayerStats(idArray,playerInfoObj){
+    let username = "batkins4";
+    let password = "puck-luck";
+    
+        $.ajax({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
+            },
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA`
+        }).done(function(data) {
+            console.log("THIS HERE DATA",data);
+
+            for(let i=0;i<idArray.length;i++){
+                let currentID = idArray[i];
+                console.log("currentID",currentID);
+                for(let p=0;p<playerInfoObjArray.length;p++){
+                    let currentCheckID = playerInfoObjArray[p].playerID;
+                    console.log("checkID",currentCheckID);
+                    if(currentID == currentCheckID){
+                        console.log("found one",playerInfoObjArray[p].name);
+                        for (let z=0;z<data.cumulativeplayerstats.playerstatsentry.length;z++){
+                            let currentEntry = data.cumulativeplayerstats.playerstatsentry[z].player.ID;
+                            if (currentEntry == currentID && data.cumulativeplayerstats.playerstatsentry[z].player.Position !=="G"){
+                                console.log("currentEntry",currentEntry);
+                                let currentStats = data.cumulativeplayerstats.playerstatsentry[z].stats.stats;
+                                console.log(playerInfoObjArray[p].name,currentStats);
+                        $("#tbody").append(`<tr><th scope="row">${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br><button class="btn btn-light" id='addPlayer_${playerInfoObjArray[p].playerID}'>Add to Favorites</button></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
+                        <td>Team: ${data.cumulativeplayerstats.playerstatsentry[z].team.City} ${data.cumulativeplayerstats.playerstatsentry[z].team.Name}<br>Born: ${playerInfoObjArray[p].country}<br>Birthday: ${playerInfoObjArray[p].bday}<br>Height: ${playerInfoObjArray[p].height}<br>Weight:${playerInfoObjArray[p].weight}<br>${playerInfoObjArray[p].twitter}<br></td><td>Goals: ${currentStats.Goals["#text"]}<br>
+                        Assists: ${currentStats.Assists["#text"]}<br>Points: ${currentStats.Points["#text"]}<br>Shots: ${currentStats.Shots["#text"]}</td></tr>`);
+                    }else if(currentEntry == currentID && data.cumulativeplayerstats.playerstatsentry[z].player.Position == "G"){
+                        let currentStats = data.cumulativeplayerstats.playerstatsentry[z].stats.stats;
+                        let ga = currentStats.GoalsAgainst["#text"];
+                        ga = parseInt(ga);
+                        let sv = currentStats.Saves["#text"];
+                        sv = parseInt(sv);
+                        let savePer = sv+ga;
+            
+                        savePer = sv/savePer;
+                        savePer = Math.round(savePer * 10000) / 100;
+                        $("#tbody").append(`<tr><th scope="row">${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br><button class="btn btn-light" id='addPlayer_${playerInfoObjArray[p].playerID}'>Add to Favorites</button></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
+                        <td>Team: ${data.cumulativeplayerstats.playerstatsentry[z].team.City} ${data.cumulativeplayerstats.playerstatsentry[z].team.Name}<br>Born: ${playerInfoObjArray[p].country}<br>Birthday: ${playerInfoObjArray[p].bday}<br>Height: ${playerInfoObjArray[p].height}<br>Weight:${playerInfoObjArray[p].weight}<br>${playerInfoObjArray[p].twitter}</td><td>
+                        Record: ${currentStats.Wins["#text"]}-${currentStats.Losses["#text"]}-${currentStats.OvertimeLosses["#text"]}<br>Shutouts: ${currentStats.Shutouts["#text"]}<br>GAA: ${currentStats.GoalsAgainstAverage["#text"]}<br>Save %: ${savePer}</td></tr>`);
+
+                    }
+                
+                
+                }
+                    }
+
+
+
+                }
+
+
+            }
+        }
+         
+
+        );
+    }
+
+
+
+
+
+
 
 function searchPlayers(playersData){
     // var date = moment().format('MM-DD-YYYY');
@@ -62,12 +139,15 @@ function searchPlayers(playersData){
 
     }
     listPlayers(playerResults);
+
 }
 function listPlayers(playerResults){
-
-
+    idArray =[];
+    $("#tbody").html("");
+    let c=0;
     for(let pd = 0;pd < playerResults.length;pd++){
     let printPlayer = playerResults[pd];
+
         let twitterAccount = "";
         let image = `(No Available Image)`;
         if(printPlayer.Twitter){
@@ -77,17 +157,81 @@ function listPlayers(playerResults){
             image=`<img src="${printPlayer.officialImageSrc} "height="200px" width="200px">`;
         }
 
-    $("#tbody").append(`<tr><th scope="row">${printPlayer.JerseyNumber}<br>${printPlayer.Position}</th><td>${printPlayer.FirstName + " " + printPlayer.LastName}<br>${image}</td>   
-    <td>Born: ${printPlayer.BirthCountry}<br>Birthday: ${printPlayer.BirthDate}<br>Height: ${printPlayer.Height}<br>Weight:${printPlayer.Weight}<br>${twitterAccount}</td>
-   <td></td>
-   </tr>`);
-    // row = row + 1;
+    let name = printPlayer.FirstName + " " + printPlayer.LastName;
+
+    playerInfoObj = {
+        playerID:printPlayer.ID,
+        name:name,
+        jersey:printPlayer.JerseyNumber,
+        position:printPlayer.Position,
+        image:image,
+        country:printPlayer.BirthCountry,
+        bday:printPlayer.BirthDate,
+        height:printPlayer.Height,
+        weight:printPlayer.Weight,
+        twitter:twitterAccount
+
+    };
+
+    if (playerInfoObj.country == null){
+        playerInfoObj.country = "Not listed";
+    }
+
+    if (playerInfoObj.height == null){
+        playerInfoObj.country = "Not listed";
+    }
+
+    if (playerInfoObj.weight == null){
+        playerInfoObj.country = "Not listed";
+    }
+
+    if (playerInfoObj.jersey == null){
+        playerInfoObj.country = "Not listed";
+    }
+
+    if (playerInfoObj.bday == null){
+        playerInfoObj.country = "Not listed";
+    }
+
+    playerInfoObjArray.push(playerInfoObj);
+
+
+    console.log(c);
+    c = c+1;
+    let playerID = printPlayer.ID;
+    idArray.push(playerID);
+    if(c==playerResults.length){
+        console.log("idArray",idArray);
+        usePlayerStats(idArray);
+    }
+    console.log(playerID);
+    playerStatsUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh&player=${playerID}`;
+
+
 
 }}
+
+
+
+
 
 function runSearch(){
     usePlayers(searchPlayers);
 }
+
+$(document).ready(function() {
+    $("body").click(function (event) {
+        let selectClass = event.target.className;
+        console.log("selectClass",selectClass);
+        let player = event.target.id;
+        let favoritePlayer = player.slice(10, 14);
+        if(selectClass == "btn btn-light"){
+            console.log("yessirrrr");
+            db.buildFavPlayerObj(favoritePlayer,playerInfoObjArray);
+
+
+}});
+});
 
 
 $("#run-player-search").click(runSearch);

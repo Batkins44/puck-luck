@@ -40,10 +40,9 @@ function listDay(dayData){
     let currentGame = day[l];
     // $("#print").append(currentGame.link);
 
-    $("#tbody").append(`<tr><th scope="row">${row}</th><td>${currentGame.awayTeam.City} ${currentGame.awayTeam.Name}</td>   
+    $("#tbody").append(`<tr><th scope="row">${currentGame.time}</th><td>${currentGame.awayTeam.City} ${currentGame.awayTeam.Name}</td>   
     <td>${currentGame.homeTeam.City} ${currentGame.homeTeam.Name}</td>
-   <td>${currentGame.time} ${currentGame.location}</td></tr>`);
-    row = row + 1;
+   <td>${currentGame.location}</td></tr>`);
 
 }
 }
@@ -54,11 +53,13 @@ function runDay(){
     $("#title").append(`Or choose a different day.<br>`);
     $("#title").append(`<input type="date" id="time-get" min="2017-10-04" max="2018-04-07">`);
     $("#title").append(`<button id="time-run">Go</button>`);
+    $("#favorite-div").addClass("is-hidden");
+    $("#player-search").addClass("is-hidden");
 
-
-    $("#left-head").html("<h5>Away</h5>");
-    $("#middle-head").html("<h5>Home</h5>");
-    $("#right-head").html("<h5>Time/Location</h5>");
+    $("#counter").html(`<h5>Time</h5>`);
+    $("#left-head").html(`<h5>Away</h5>`);
+    $("#middle-head").html(`<h5>Home</h5>`);
+    $("#right-head").html(`<h5>Time/Location</h5>`);
     useDay(listDay);
 }
 
@@ -66,15 +67,13 @@ function changeDay(url){
     dayUrl = url;
     console.log("dayUrl",dayUrl);
     console.log("changeDate",changeDate);
-    $("#title").html(`<h1>Today's Games</h1><br>`);
+    let displayDate  = moment(changeDate).format('MM-DD-YY');
+    $("#title").html(`<h1>${displayDate}</h1><br>`);
     $("#title").append(`Or choose a different day.<br>`);
     $("#title").append(`<input type="date" id="time-get">`);
     $("#title").append(`<button id="time-run">Run</button>`);
 
 
-    $("#left").html("<h5>Skaters</h5>");
-    $("#middle").html("<h5>Stats</h5>");
-    $("#right").html("<h5>Goalies</h5>");
     useDay(listDay);
 }
 

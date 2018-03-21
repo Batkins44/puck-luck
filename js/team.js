@@ -30,9 +30,6 @@ let password = "puck-luck";
 function listTeam(teamData){
     let player = teamData.cumulativeplayerstats.playerstatsentry;
     console.log(player);
-    $("#left-head").html("Skaters");
-    $("#middle-head").html("Position");
-    $("#right-head").html("Stats");
     let row = 1;
     $("#tbody").html("");
     for(let p=0;p<player.length;p++){
@@ -51,7 +48,7 @@ function listTeam(teamData){
 
             savePer = sv/savePer;
             savePer = Math.round(savePer * 10000) / 100;
-            $("#tbody").append(`<tr><th scope="row">${currentPlayer.player.JerseyNumber}</th><td><b>${currentPlayer.player.FirstName} ${currentPlayer.player.LastName}</b></td> 
+            $("#tbody").append(`<tr><th scope="row">#${currentPlayer.player.JerseyNumber}</th><td><b>${currentPlayer.player.FirstName} ${currentPlayer.player.LastName}</b></td> 
             <td>${currentPlayer.player.Position}</td>
             <td>Record: ${currentPlayer.stats.stats.Wins["#text"]}-${currentPlayer.stats.stats.Losses["#text"]}-${currentPlayer.stats.stats.OvertimeLosses["#text"]}<br>
             Saves: ${sv}<br> Shutouts: ${currentPlayer.stats.stats.Shutouts["#text"]}<br>
@@ -66,43 +63,46 @@ function listTeam(teamData){
 
 function printTeamHeader() {
     $("#tbody").html("");
-    $("#left").html("<h5>Skaters</h5>");
-    $("#middle").html("<h5>Stats</h5>");
-    $("#right").html("<h5>Goalies</h5>");
+    $("#favorite-div").addClass("is-hidden");
+    $("#player-search").addClass("is-hidden");
+    $("#counter").html(`<h5>Jersey Number`);
+    $("#left-head").html(`<h5>Player<h5>`);
+    $("#middle-head").html(`<h5>Position</h5>`);
+    $("#right-head").html(`<h5>Stats</h5>`);
     $("#title").html(
     `<h1>Stats By Team</h1><br><select id="team-select">
     <option value="c">Choose a Team</option>
-    <option value="anaheim-ducks">Anaheim Ducks</option>
-    <option value="arizona-coyotes">Arizona Coyotes</option>
-    <option value="boston-bruins">Boston Bruins</option>
-    <option value="buffalo-sabres">Buffalo Sabres</option>
-    <option value="calgary-flames">Calgary Flames</option>
-    <option value="carolina-hurricanes">Carolina Hurricanes</option>
-    <option value="chicago-blackhawks">Chicago Blackhawks</option>
-    <option value="colorado-avalanche">Colorado Avalanche</option>
-    <option value="columbus-bluejackets">Columbus Blue Jackets</option>
-    <option value="dallas-stars">Dallas Stars</option>
-    <option value="detroit-redwings">Detroit Red Wings</option>
-    <option value="edmonton-oilers">Edmonton Oilers</option>
-    <option value="florida-panthers">Florida Panthers</option>
-    <option value="losangeles-kings">Los Angeles Kings</option>
-    <option value="minnesota-wild">Minnesota Wild</option>
-    <option value="montreal-canadiens">Montreal Canadiens</option>
-    <option value="nashville-predators">Nashville Predators</option>
-    <option value="newjersey-devils">New Jersey Devils</option>
-    <option value="newyork-islanders">New York Islanders</option>
-    <option value="newyork-rangers">New York Rangers</option>
-    <option value="ottawa-senators">Ottawa Senators</option>
-    <option value="philadelphia-flyers">Philadelphia Flyers</option>
-    <option value="pittsburgh-penguins">Pittsburgh Penguins</option>
-    <option value="sanjose-sharks">San Jose Sharks</option>
-    <option value="stlouis-blues">St Louis Blues</option>
-    <option value="tampabay-lightning">Tampa Bay Lightning</option>
-    <option value="toronto-mapleleafs">Toronto Maple Leafs</option>
-    <option value="vancouver-canucks">Vancouver Canucks</option>
-    <option value="vegas-goldenknights">Vegas Golden Knights</option>
-    <option value="washington-capitals">Washington Capitals</option>
-    <option value="winnipeg-jets">Winnipeg Jets</option>
+    <option id="29" value="anaheim-ducks">Anaheim Ducks</option>
+    <option id="30" value="arizona-coyotes">Arizona Coyotes</option>
+    <option id="11" value="boston-bruins">Boston Bruins</option>
+    <option id="15" value="buffalo-sabres">Buffalo Sabres</option>
+    <option id="23" value="calgary-flames">Calgary Flames</option>
+    <option id="3" value="carolina-hurricanes">Carolina Hurricanes</option>
+    <option id="20" value="chicago-blackhawks">Chicago Blackhawks</option>
+    <option id="22" value="colorado-avalanche">Colorado Avalanche</option>
+    <option id="19" value="columbus-bluejackets">Columbus Blue Jackets</option>
+    <option id="27" value="dallas-stars">Dallas Stars</option>
+    <option id="16" value="detroit-redwings">Detroit Red Wings</option>
+    <option id="24" value="edmonton-oilers">Edmonton Oilers</option>
+    <option id="4" value="florida-panthers">Florida Panthers</option>
+    <option id="28" value="losangeles-kings">Los Angeles Kings</option>
+    <option id="25" value="minnesota-wild">Minnesota Wild</option>
+    <option id="14" value="montreal-canadiens">Montreal Canadiens</option>
+    <option id="18" value="nashville-predators">Nashville Predators</option>
+    <option id="7" value="newjersey-devils">New Jersey Devils</option>
+    <option id="8" value="newyork-islanders">New York Islanders</option>
+    <option id="9" value="newyork-rangers">New York Rangers</option>
+    <option id="13" value="ottawa-senators">Ottawa Senators</option>
+    <option id="6" value="philadelphia-flyers">Philadelphia Flyers</option>
+    <option id="23" value="pittsburgh-penguins">Pittsburgh Penguins</option>
+    <option id="26" value="sanjose-sharks">San Jose Sharks</option>
+    <option id="17" value="stlouis-blues">St Louis Blues</option>
+    <option id="1" value="tampabay-lightning">Tampa Bay Lightning</option>
+    <option id="12" value="toronto-mapleleafs">Toronto Maple Leafs</option>
+    <option id="21" value="vancouver-canucks">Vancouver Canucks</option>
+    <option id="142" value="vegas-goldenknights">Vegas Golden Knights</option>
+    <option id="5" value="washington-capitals">Washington Capitals</option>
+    <option id="2" value="winnipeg-jets">Winnipeg Jets</option>
     </select>`);
 }
 
