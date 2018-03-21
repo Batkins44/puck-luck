@@ -252,7 +252,7 @@ function buildFavPlayerObj(favoritePlayer,playerInfo){
             // favPlayerObj.team = playerTeamObject;
             console.log(favPlayerObj);
             console.log("playerTeamObject",playerTeamObject);
-            // addFavPlayer(favPlayerObj);
+            addFavPlayer(favPlayerObj);
             grabFavPlayers();
             }
         }
@@ -293,26 +293,36 @@ function grabFavPlayers(){
         console.log("THIS HERE IS THE USERDATA",userData);
         let favPlayerArray = (Object.values(userData));
         let currentUid = user.getUser();
-        console.log("favplayerarray",favPlayerArray);
+
         for (let i=0;i<favPlayerArray.length;i++){
             if (currentUid == favPlayerArray[i].uid){
                 uidFavPlayers.push(favPlayerArray[i]);
             }
         }
         console.log(uidFavPlayers);
-        
+        $("#title").html("<h1>Favorite Players<h1><br><h5>Recent Game Performance<h5>");
+        $("#tbody").html("");
+        $("#counter").html("Player");
+        $("#left-head").html("");
+        $("#middle-head").html("");
+        $("#right-head").html("");
+        $("#favorite-div").addClass("is-hidden");
+        $("#run-favorite-teams").removeClass("is-hidden");
+        console.log("ThE ArRaY Im LoOkInG fOr",uidFavPlayers);
+
         for(let p=0;p<uidFavPlayers.length;p++){
-            getPlayerLogs(uidFavPlayers[p].playerID);
+            getPlayerLogs(uidFavPlayers[p]);
         }
 
 
     });
 }
 
-function getPlayerLogs(playerID){
+function getPlayerLogs(uidFavPlayers){
 
     let username = "batkins4";
     let password = "puck-luck";
+    let playerID = uidFavPlayers.playerID;
     
     
         $.ajax({
@@ -322,10 +332,62 @@ function getPlayerLogs(playerID){
             url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/player_gamelogs.json?player=${playerID}`
         }).done(function(data) {
                 console.log("HERE IS THE DATA I NEED TO WORK WITH",data.playergamelogs.gamelogs);
+                console.log(`https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/player_gamelogs.json?player=${playerID}`);
+                
                 let gamelogs = data.playergamelogs.gamelogs;
+
                 let previousGame = gamelogs[gamelogs.length-1];
                 let previousGameTwo = gamelogs[gamelogs.length-2];
                 let previousGameThree = gamelogs[gamelogs.length-3];
+                console.log(previousGameTwo);
+                let previousStats;
+                let previousStatsTwo;
+                let previousStatsThree;
+
+
+
+
+                if(previousGame.player.Position == "G"){
+                    if(previousGameThree.stats.Wins["#text"] == "1"){
+
+                        previousStatsThree = `Win<br>${previousGameThree.stats.Saves["#text"]}<br>Save %: ${previousGameThree.stats.SavePercentage["#text"]}<br>GAA: ${previousGameThree.stats.GoalsAgainstAverage["#text"]}`;
+                    }else if(previousGameThree.stats.OvertimeLosses["#text"] == "1"){
+                    previousStatsThree = `OverTime Loss<br>Saves: ${previousGameThree.stats.Saves["#text"]}<br>Save %: ${previousGameThree.stats.SavePercentage["#text"]}<br>GAA: ${previousGameThree.stats.GoalsAgainstAverage["#text"]}`;
+                    }else{
+                       previousStatsThree = `Loss<br>Saves: ${previousGameThree.stats.Saves["#text"]}<br>Save %: ${previousGameThree.stats.SavePercentage["#text"]}<br>GAA: ${previousGameThree.stats.GoalsAgainstAverage["#text"]}`;
+                    }
+                    if(previousGameTwo.stats.Wins["#text"] == "1"){
+
+                        previousStatsTwo = `Win<br>Saves: ${previousGameTwo.stats.Saves["#text"]}<br>Save %: ${previousGameTwo.stats.SavePercentage["#text"]}<br>GAA: ${previousGameTwo.stats.GoalsAgainstAverage["#text"]}`;
+                    }else if(previousGameTwo.stats.OvertimeLosses["#text"] == "1"){
+                    previousStatsTwo = `OverTime Loss<br>Saves: ${previousGameTwo.stats.Saves["#text"]}<br>Save %: ${previousGameTwo.stats.SavePercentage["#text"]}<br>GAA: ${previousGameTwo.stats.GoalsAgainstAverage["#text"]}`;
+                    }else{
+                       previousStatsTwo = `Loss<br>Saves: ${previousGameTwo.stats.Saves["#text"]}<br>Save %: ${previousGameTwo.stats.SavePercentage["#text"]}<br>GAA: ${previousGameTwo.stats.GoalsAgainstAverage["#text"]}`;
+                    }
+                    if(previousGame.stats.Wins["#text"] == "1"){
+                        previousStats = `Win<br>Saves: ${previousGame.stats.Saves["#text"]}<br>Save %: ${previousGame.stats.SavePercentage["#text"]}<br>GAA: ${previousGame.stats.GoalsAgainstAverage["#text"]}`;
+                    }else if(previousGame.stats.OvertimeLosses["#text"] == "1"){
+                    previousStats = `OverTime Loss<br>Saves: ${previousGame.stats.Saves["#text"]}<br>Save %: ${previousGame.stats.SavePercentage["#text"]}<br>GAA: ${previousGame.stats.GoalsAgainstAverage["#text"]}`;
+                    }else{
+                       previousStats = `Loss<br>Saves: ${previousGame.stats.Saves["#text"]}<br>Save %: ${previousGame.stats.SavePercentage["#text"]}<br>GAA: ${previousGame.stats.GoalsAgainstAverage["#text"]}`;
+                    }
+
+                                   }
+                                    else{
+                    previousStats=`Goals: ${previousGame.stats.Goals["#text"]}<br>
+                    Assists: ${previousGame.stats.Assists["#text"]}<br>
+                    Shots: ${previousGame.stats.Shots["#text"]}<br>
+                    Hits: ${previousGame.stats.Hits["#text"]}<br>
+                    Blocks: ${previousGame.stats.BlockedShots["#text"]}`;
+                    previousStatsTwo=``;
+                    previousStatsThree=``;
+
+                }
+
+                $("#tbody").append(`<tr><th scope="row">${uidFavPlayers.name}<br>${previousGame.team.City} ${previousGame.team.Name}</th><td>${previousGame.game.date}<br>${previousStats}</td> 
+                <td>${previousGameTwo.game.date}<br>${previousStatsTwo}</td>
+                <td>${previousGameThree.game.date}<br>${previousStatsThree}</td></tr>`);
+
 
 
 

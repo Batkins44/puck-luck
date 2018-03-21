@@ -3,6 +3,7 @@
 var moment = require('moment');
 let db = require("./db-interaction");
 let user = require("./user");
+let dom = require("./dom-builder");
 let urlString;
 let favTeamInfoArray = [];
 
@@ -246,5 +247,9 @@ for(let q=0;q<players.length;q++){
 // }}
 
 // $("#refresh").click(refreshFavTeams);
+
+
+
+
 
 module.exports = {getGameInfo,favTeamSchedule};

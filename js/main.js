@@ -83,3 +83,14 @@ $("#home-btn").click(() => {
     dom.populateFavTeam();
 });
 
+$("#run-fav-teams").click(() => {
+    $("#favorite-div").removeClass("is-hidden");
+    $("#player-search").addClass("is-hidden");
+    $("#title").html(`<h1>Your Teams</h1>`);
+    $("#tbody").html("");
+    $("#counter").html("<h5>Favorite Teams</h5>");
+    $("#left-head").html("<h5>Next Game</h5>");
+    $("#middle-head").html("<h5>Previous Game</h5>");
+    $("#right-head").html("<h5>Notable Players from Previous Game</h5>");
+    dom.populateFavTeam();
+});
