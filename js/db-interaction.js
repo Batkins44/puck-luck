@@ -73,7 +73,6 @@ function getUserData() {
 
 function retrieveFavTeam() {
 
-        console.log("url", firebase.getFBsettings().databaseURL);
          return $.ajax({
              url: `${firebase.getFBsettings().databaseURL}/favTeam.json`
              // url: `https://musichistory-d16.firebaseio.com/songs.json?orderBy="uid"&equalTo="${user}"`
@@ -194,7 +193,7 @@ function buildFavTeamObj(favoriteTeam){
                         abbr:currentTeam.Abbreviation
                    };
                    console.log("fav team obj",favTeamObj);
-                   addFavTeam(favTeamObj);
+                //    addFavTeam(favTeamObj);
                 }
 
         }

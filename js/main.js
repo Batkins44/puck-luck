@@ -5,6 +5,7 @@ let day = require("./byDay");
 let team = require("./team");
 let players = require("./players");
 let dom =require("./dom-builder");
+let favorites = ("./favorites");
 let favoriteTeam;
 let userDisplayName;
 let result;
@@ -57,7 +58,7 @@ $("#login").click(function() {
 
 
     db.buildFavTeamObj(favoriteTeam);
-    setTimeout( dom.populateFavTeam, 2000 );
+    setTimeout(dom.populateFavTeam, 2000 );
 
 });
 

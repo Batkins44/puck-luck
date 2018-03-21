@@ -85,7 +85,7 @@ function usePlayerStats(idArray,playerInfoObj){
             
                         savePer = sv/savePer;
                         savePer = Math.round(savePer * 10000) / 100;
-                        $("#tbody").append(`<tr><th scope="row">${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}</th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
+                        $("#tbody").append(`<tr><th scope="row">${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br><button class="btn btn-light" id='addPlayer_${playerInfoObjArray[p].playerID}'>Add to Favorites</button></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
                         <td>Team: ${data.cumulativeplayerstats.playerstatsentry[z].team.City} ${data.cumulativeplayerstats.playerstatsentry[z].team.Name}<br>Born: ${playerInfoObjArray[p].country}<br>Birthday: ${playerInfoObjArray[p].bday}<br>Height: ${playerInfoObjArray[p].height}<br>Weight:${playerInfoObjArray[p].weight}<br>${playerInfoObjArray[p].twitter}</td><td>
                         Record: ${currentStats.Wins["#text"]}-${currentStats.Losses["#text"]}-${currentStats.OvertimeLosses["#text"]}<br>Shutouts: ${currentStats.Shutouts["#text"]}<br>GAA: ${currentStats.GoalsAgainstAverage["#text"]}<br>Save %: ${savePer}</td></tr>`);
 
