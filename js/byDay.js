@@ -26,7 +26,6 @@ function useDay(callBackFunction){
             // the contents of the file as the first argument.
 
             let dayData = data;
-            console.log("datData",dayData);
             callBackFunction(dayData);
     });
     }
@@ -49,6 +48,9 @@ function listDay(dayData){
 
 function runDay(){
     $("#tbody").html("");
+    $("#run-fav-teams").addClass("is-hidden");
+    $("#run-fav-players").addClass("is-hidden");
+
     $("#title").html(`<h1>Today's Games</h1><br>`);
     $("#title").append(`Or choose a different day.<br>`);
     $("#title").append(`<input type="date" id="time-get" min="2017-10-04" max="2018-04-07">`);
@@ -65,8 +67,6 @@ function runDay(){
 
 function changeDay(url){
     dayUrl = url;
-    console.log("dayUrl",dayUrl);
-    console.log("changeDate",changeDate);
     let displayDate  = moment(changeDate).format('MM-DD-YY');
     $("#title").html(`<h1>${displayDate}</h1><br>`);
     $("#title").append(`Or choose a different day.<br>`);
@@ -80,15 +80,10 @@ function changeDay(url){
 $(document).ready(function() {
     $("body").click(function (event) {
         let selectId = event.target.id;
-        console.log("Id",selectId);
-        // let date = event.target.value;
-        // console.log("date",date);
 
         if(selectId == "time-run"){
             changeDate = $("#time-get").val();
-            console.log("Change date",changeDate);
             changeDate  = moment(changeDate).format('YYYYMMDD');
-            console.log("date formatted",changeDate);
             dayUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/daily_game_schedule.json?fordate=${changeDate}`;
         changeDay(dayUrl);
     }});
