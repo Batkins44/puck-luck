@@ -7,21 +7,17 @@ let favorites = require("./favorites");
 let favTeams = [];
 function populateFavTeam(){
     favTeams = [];
-    console.log("made it");
     db.retrieveFavTeam()
     .then((userData) => {
         let fbFavTeamArray = (Object.values(userData));
-        console.log("fbFavTeamArray",fbFavTeamArray);
         let currentUid = user.getUser();
         $("#tbody").html("");
         for (let i = 0;i < fbFavTeamArray.length;i++){
             let checkUid = fbFavTeamArray[i].uid;
             if(currentUid == checkUid){
-                console.log("currentUid",currentUid,"checkUid",checkUid);
                 let currentFavTeam = fbFavTeamArray[i];
                 // currentFavTeam = currentFavTeam.Name;
                 favTeams.push(currentFavTeam);
-                console.log("after pushing fav teams",favTeams);
 
                 
             }
@@ -36,7 +32,6 @@ function populateFavTeam(){
         //    </tr>`);
         // }
     });
-    console.log("finalFav Teams",favTeams);
     favorites.favTeamSchedule(favTeams);
 }
 

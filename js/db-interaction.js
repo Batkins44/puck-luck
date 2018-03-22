@@ -10,6 +10,7 @@ let firebase = require("./fb-config"),
 let players = require("./players");
 let playerTeamObject;
 let playerID;
+let favoritePlayerObjArray=[];
 
 
 // ****************************************
@@ -21,12 +22,10 @@ let playerID;
 // PUT - Update data to a specified resource.
 
 function getUserData() {
-    console.log("url", firebase.getFBsettings().databaseURL);
      return $.ajax({
          url: `${firebase.getFBsettings().databaseURL}/user.json`
          // url: `https://musichistory-d16.firebaseio.com/songs.json?orderBy="uid"&equalTo="${user}"`
      }).done((userData) => {
-         console.log("userData", userData);
 
          return userData;
 
@@ -38,9 +37,7 @@ function getUserData() {
     getUserData()
     .then((userData) => {
     // userData = userData;
-    console.log("this is the userData",userData);
     let userArray = (Object.values(userData));
-    console.log("user Array",userArray);
     let uidArray = [];
     for (let i=0;i<userArray.length;i++){
 
@@ -49,12 +46,9 @@ function getUserData() {
         uidArray.push(currentPush);
     }
     let currentUid = user.getUser();
-    console.log("uid",currentUid);
     if(uidArray.includes(currentUid)){
-        console.log("already exists");
         
     }else{
-        console.log("this is a new user");
         let userObj = buildUserObj();
         addUserFB(userObj);
 
@@ -100,7 +94,6 @@ function retrieveFavTeam() {
              url: `${firebase.getFBsettings().databaseURL}/favTeam.json`
              // url: `https://musichistory-d16.firebaseio.com/songs.json?orderBy="uid"&equalTo="${user}"`
          }).done((userData) => {
-             console.log("favTeam", userData);
     
              return userData;
     
@@ -108,13 +101,13 @@ function retrieveFavTeam() {
     
 }
 
+
+
 function buildUserObj() {
     let userObj = {
-    // We can use the same variable or reference that we use to display the name at the top of the page
     name: user.getName(),
     uid: user.getUser()
     };
-    //console.log("userObj",userObj);
     return userObj;
     
 }
@@ -130,35 +123,7 @@ function addUserFB(userObj){
      });
 }
 
-// function updateUserFB(userObj){
-//     return $.ajax({
-//         url: `${firebase.getFBsettings().databaseURL}/user/${userObj.fbID}.json`,
-//         type: 'PUT',
-//         data: JSON.stringify(userObj),
-//         dataType: 'json'
-//      }).done((userID) => {
-//         return userID;
-//      });
-// }
 
-// remember firebase returns a promise
-// function createUser(userObj) {
-//    return firebase.auth().createUserWithEmailAndPassword(userObj.email, userObj.password)
-//       .catch(function (error) {
-//          let errorCode = error.code;
-//          let errorMessage = error.message;
-//          console.log("error:", errorCode, errorMessage);
-//       });
-// }
-
-// function loginUser(userObj) {
-//    return firebase.auth().signInWithEmailAndPassword(userObj.email, userObj.password)
-//       .catch(function (error) {
-//          let errorCode = error.code;
-//          let errorMessage = error.message;
-//          console.log("error:", errorCode, errorMessage);
-//       });
-// }
 
 function logInGoogle() {
    //all firebase functions return a promise!! Add a then when called
@@ -182,7 +147,6 @@ function addFavTeam(favTeamObj){
 }
 
 function buildFavTeamObj(favoriteTeam){
-    console.log(favoriteTeam);
     let favTeamObj;
 
         let username = "batkins4";
@@ -200,14 +164,11 @@ function buildFavTeamObj(favoriteTeam){
                 // it reads the contents, and then executes whatever function
                 // that you specify here in the done() method, and passes in
                 // the contents of the file as the first argument.
-                console.log("teamInfoData",data);
                 for (let i=0;i<data.overallteamstandings.teamstandingsentry.length;i++){
 
                    let currentTeam = data.overallteamstandings.teamstandingsentry[i].team;
-                //    console.log("currentTeam",currentTeam,"currentID",currentTeam.ID);
                    if (currentTeam.ID == favoriteTeam){
                     let currentUid = user.getUser();
-                    // console.log("current user",currentUid);
                     let name = (currentTeam.City + " " + currentTeam.Name);
                     let favTeamObj = {
                         uid:currentUid,
@@ -215,7 +176,6 @@ function buildFavTeamObj(favoriteTeam){
                         Name:name,
                         abbr:currentTeam.Abbreviation
                    };
-                   console.log("fav team obj",favTeamObj);
                    addFavTeam(favTeamObj);
                 }
 
@@ -227,15 +187,11 @@ function buildFavTeamObj(favoriteTeam){
 }
 
 function buildFavPlayerObj(favoritePlayer,playerInfo){
-    console.log("MY FAVPLAYERINFO",playerInfo);
-    // console.log(favoritePlayer,"is the fav player");
-    // console.log(playerInfo,"ist still here");
     for(let f=0;f<playerInfo.length;f++){
         let currentPlayer = playerInfo[f].playerID;
         if(favoritePlayer == currentPlayer){
 
             let currentUid = user.getUser();
-            console.log(currentUid);
             if (currentUid == null){
                 window.alert("Please Login to add a favorite player");
 
@@ -246,13 +202,10 @@ function buildFavPlayerObj(favoritePlayer,playerInfo){
                 playerID: playerInfo[f].playerID,
                 uid:currentUid
             };
-            // console.log(favPlayerObj,"fav player OBJ");
             let playerID = favPlayerObj.playerID;
 
             // favPlayerObj.team = playerTeamObject;
-            console.log(favPlayerObj);
-            console.log("playerTeamObject",playerTeamObject);
-            // addFavPlayer(favPlayerObj);
+            addFavPlayer(favPlayerObj);
             grabFavPlayers();
             }
         }
@@ -275,9 +228,7 @@ function addFavPlayer(favPlayerObj){
 function retrieveFavPlayers(){
              return $.ajax({
              url: `${firebase.getFBsettings().databaseURL}/favPlayer.json`
-             // url: `https://musichistory-d16.firebaseio.com/songs.json?orderBy="uid"&equalTo="${user}"`
          }).done((userData) => {
-             console.log("favTeam", userData);
     
              return userData;
     
@@ -290,29 +241,44 @@ function grabFavPlayers(){
     retrieveFavPlayers()
     .then((userData) => {
         let uidFavPlayers = [];
-        console.log("THIS HERE IS THE USERDATA",userData);
         let favPlayerArray = (Object.values(userData));
         let currentUid = user.getUser();
-        console.log("favplayerarray",favPlayerArray);
+
         for (let i=0;i<favPlayerArray.length;i++){
             if (currentUid == favPlayerArray[i].uid){
                 uidFavPlayers.push(favPlayerArray[i]);
             }
         }
-        console.log(uidFavPlayers);
-        
+        $("#title").html("<h1>Favorite Players<h1>");
+        $("#tbody").html("");
+        $("#counter").html("Player");
+        $("#left-head").html("");
+        $("#middle-head").html("");
+        $("#right-head").html("");
+        $("#favorite-div").addClass("is-hidden");
+        $("#run-fav-teams").removeClass("is-hidden");
+        $("#run-fav-players").addClass("is-hidden");
+
         for(let p=0;p<uidFavPlayers.length;p++){
-            getPlayerLogs(uidFavPlayers[p].playerID);
+            getPlayerLogs(uidFavPlayers[p]);
         }
 
 
     });
 }
 
-function getPlayerLogs(playerID){
+
+
+
+
+
+
+function getPlayerLogs(uidFavPlayers){
+
 
     let username = "batkins4";
     let password = "puck-luck";
+    let playerID = uidFavPlayers.playerID;
     
     
         $.ajax({
@@ -321,11 +287,84 @@ function getPlayerLogs(playerID){
             },
             url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/player_gamelogs.json?player=${playerID}`
         }).done(function(data) {
-                console.log("HERE IS THE DATA I NEED TO WORK WITH",data.playergamelogs.gamelogs);
+                
                 let gamelogs = data.playergamelogs.gamelogs;
+
                 let previousGame = gamelogs[gamelogs.length-1];
                 let previousGameTwo = gamelogs[gamelogs.length-2];
                 let previousGameThree = gamelogs[gamelogs.length-3];
+                let previousStats;
+                let previousStatsTwo;
+                let previousStatsThree;
+
+
+
+
+                if(previousGame.player.Position == "G"){
+                    if(previousGameThree.stats.Wins["#text"] == "1"){
+
+                        previousStatsThree = `Win<br>${previousGameThree.stats.Saves["#text"]}<br>Save %: ${previousGameThree.stats.SavePercentage["#text"]}<br>GAA: ${previousGameThree.stats.GoalsAgainstAverage["#text"]}`;
+                    }else if(previousGameThree.stats.OvertimeLosses["#text"] == "1"){
+                    previousStatsThree = `OverTime Loss<br>Saves: ${previousGameThree.stats.Saves["#text"]}<br>Save %: ${previousGameThree.stats.SavePercentage["#text"]}<br>GAA: ${previousGameThree.stats.GoalsAgainstAverage["#text"]}`;
+                    }else{
+                       previousStatsThree = `Loss<br>Saves: ${previousGameThree.stats.Saves["#text"]}<br>Save %: ${previousGameThree.stats.SavePercentage["#text"]}<br>GAA: ${previousGameThree.stats.GoalsAgainstAverage["#text"]}`;
+                    }
+                    if(previousGameTwo.stats.Wins["#text"] == "1"){
+
+                        previousStatsTwo = `Win<br>Saves: ${previousGameTwo.stats.Saves["#text"]}<br>Save %: ${previousGameTwo.stats.SavePercentage["#text"]}<br>GAA: ${previousGameTwo.stats.GoalsAgainstAverage["#text"]}`;
+                    }else if(previousGameTwo.stats.OvertimeLosses["#text"] == "1"){
+                    previousStatsTwo = `OverTime Loss<br>Saves: ${previousGameTwo.stats.Saves["#text"]}<br>Save %: ${previousGameTwo.stats.SavePercentage["#text"]}<br>GAA: ${previousGameTwo.stats.GoalsAgainstAverage["#text"]}`;
+                    }else{
+                       previousStatsTwo = `Loss<br>Saves: ${previousGameTwo.stats.Saves["#text"]}<br>Save %: ${previousGameTwo.stats.SavePercentage["#text"]}<br>GAA: ${previousGameTwo.stats.GoalsAgainstAverage["#text"]}`;
+                    }
+                    if(previousGame.stats.Wins["#text"] == "1"){
+                        previousStats = `Win<br>Saves: ${previousGame.stats.Saves["#text"]}<br>Save %: ${previousGame.stats.SavePercentage["#text"]}<br>GAA: ${previousGame.stats.GoalsAgainstAverage["#text"]}`;
+                    }else if(previousGame.stats.OvertimeLosses["#text"] == "1"){
+                    previousStats = `OverTime Loss<br>Saves: ${previousGame.stats.Saves["#text"]}<br>Save %: ${previousGame.stats.SavePercentage["#text"]}<br>GAA: ${previousGame.stats.GoalsAgainstAverage["#text"]}`;
+                    }else{
+                       previousStats = `Loss<br>Saves: ${previousGame.stats.Saves["#text"]}<br>Save %: ${previousGame.stats.SavePercentage["#text"]}<br>GAA: ${previousGame.stats.GoalsAgainstAverage["#text"]}`;
+                    }
+
+                                   }
+                                    else{
+                    previousStats=`Goals: ${previousGame.stats.Goals["#text"]}<br>
+                    Assists: ${previousGame.stats.Assists["#text"]}<br>
+                    Shots: ${previousGame.stats.Shots["#text"]}<br>
+                    Hits: ${previousGame.stats.Hits["#text"]}<br>
+                    Blocks: ${previousGame.stats.BlockedShots["#text"]}`;
+                    previousStatsTwo=`Goals: ${previousGameTwo.stats.Goals["#text"]}<br>
+                    Assists: ${previousGameTwo.stats.Assists["#text"]}<br>
+                    Shots: ${previousGameTwo.stats.Shots["#text"]}<br>
+                    Hits: ${previousGameTwo.stats.Hits["#text"]}<br>
+                    Blocks: ${previousGameTwo.stats.BlockedShots["#text"]}`;
+                    previousStatsThree=`Goals: ${previousGameThree.stats.Goals["#text"]}<br>
+                    Assists: ${previousGameThree.stats.Assists["#text"]}<br>
+                    Shots: ${previousGameThree.stats.Shots["#text"]}<br>
+                    Hits: ${previousGameThree.stats.Hits["#text"]}<br>
+                    Blocks: ${previousGame.stats.BlockedShots["#text"]}`;
+
+                }
+
+                let team = `${previousGame.team.City} ${previousGame.team.Name}`;
+
+                let favPlayersObj = {
+                    name:uidFavPlayers.name,
+                    team: team,
+                    date1: previousGame.game.date,
+                    stats1: previousStats,
+                    date2: previousGameTwo.game.date,
+                    stats2: previousStatsTwo,
+                    date3:previousGameThree.game.date,
+                    stats3:previousStatsThree
+ };
+ favoritePlayerObjArray.push(favPlayersObj);
+
+
+
+                $("#tbody").append(`<tr><th scope="row">${uidFavPlayers.name}<br>${previousGame.team.City} ${previousGame.team.Name}<br><button id="delete_${playerID}" class="btn btn-danger">Delete</button></th><td>${previousGame.game.date}<br>${previousStats}</td> 
+                <td>${previousGameTwo.game.date}<br>${previousStatsTwo}</td>
+                <td>${previousGameThree.game.date}<br>${previousStatsThree}</td></tr>`);
+
 
 
 
@@ -357,5 +396,7 @@ module.exports = {
     checkUserExist,
     buildFavTeamObj,
     retrieveFavTeam,
-    buildFavPlayerObj
+    buildFavPlayerObj,
+    grabFavPlayers,
+    retrieveFavPlayers
 };

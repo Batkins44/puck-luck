@@ -29,7 +29,6 @@ let password = "puck-luck";
 
 function listTeam(teamData){
     let player = teamData.cumulativeplayerstats.playerstatsentry;
-    console.log(player);
     let row = 1;
     $("#tbody").html("");
     for(let p=0;p<player.length;p++){
@@ -63,6 +62,8 @@ function listTeam(teamData){
 
 function printTeamHeader() {
     $("#tbody").html("");
+    $("#run-fav-teams").addClass("is-hidden");
+    $("#run-fav-players").addClass("is-hidden");
     $("#favorite-div").addClass("is-hidden");
     $("#player-search").addClass("is-hidden");
     $("#counter").html(`<h5>Jersey Number`);

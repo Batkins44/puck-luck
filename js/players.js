@@ -43,6 +43,9 @@ function printPlayerHeader(){
     $("#counter").html(`<h5>Number/Position</h5>`);
     $("#favorite-div").addClass("is-hidden");
     $("#title").html(`<h1>Search For a Player</h1>`);
+    $("#run-fav-teams").addClass("is-hidden");
+    $("#run-fav-players").addClass("is-hidden");
+
     $("#tbody").html("");
 }
 
@@ -56,22 +59,22 @@ function usePlayerStats(idArray,playerInfoObj){
             },
             url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA`
         }).done(function(data) {
-            console.log("THIS HERE DATA",data);
+
 
             for(let i=0;i<idArray.length;i++){
                 let currentID = idArray[i];
-                console.log("currentID",currentID);
+
                 for(let p=0;p<playerInfoObjArray.length;p++){
                     let currentCheckID = playerInfoObjArray[p].playerID;
-                    console.log("checkID",currentCheckID);
+
                     if(currentID == currentCheckID){
-                        console.log("found one",playerInfoObjArray[p].name);
+
                         for (let z=0;z<data.cumulativeplayerstats.playerstatsentry.length;z++){
                             let currentEntry = data.cumulativeplayerstats.playerstatsentry[z].player.ID;
                             if (currentEntry == currentID && data.cumulativeplayerstats.playerstatsentry[z].player.Position !=="G"){
-                                console.log("currentEntry",currentEntry);
+
                                 let currentStats = data.cumulativeplayerstats.playerstatsentry[z].stats.stats;
-                                console.log(playerInfoObjArray[p].name,currentStats);
+
                         $("#tbody").append(`<tr><th scope="row">${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br><button class="btn btn-light" id='addPlayer_${playerInfoObjArray[p].playerID}'>Add to Favorites</button></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
                         <td>Team: ${data.cumulativeplayerstats.playerstatsentry[z].team.City} ${data.cumulativeplayerstats.playerstatsentry[z].team.Name}<br>Born: ${playerInfoObjArray[p].country}<br>Birthday: ${playerInfoObjArray[p].bday}<br>Height: ${playerInfoObjArray[p].height}<br>Weight:${playerInfoObjArray[p].weight}<br>${playerInfoObjArray[p].twitter}<br></td><td>Goals: ${currentStats.Goals["#text"]}<br>
                         Assists: ${currentStats.Assists["#text"]}<br>Points: ${currentStats.Points["#text"]}<br>Shots: ${currentStats.Shots["#text"]}</td></tr>`);
@@ -118,7 +121,7 @@ function searchPlayers(playersData){
 
     $("#tbody").html("");
 
-    console.log("The Player Data",playersData.activeplayers.playerentry);
+
     let playerArray = playersData.activeplayers.playerentry;
     let playerSearch = $("#player-input").val();
     let playerResults = [];
@@ -128,13 +131,13 @@ function searchPlayers(playersData){
     let lcLastName = currentLastName.toLowerCase();
     let currentFirstName = playerArray[p].player.FirstName;
     let lcFirstName = currentFirstName.toLowerCase();
-    // console.log("search item",playerSearch);
+
 
     if (lcLastName.includes(playerSearch) || lcFirstName.includes(playerSearch)){
         let currentFullName = currentFirstName+" "+currentLastName;
-        console.log("Found",currentFullName);
+
         playerResults.push(playerArray[p].player);
-        console.log(playerResults);
+
     }
 
     }
@@ -196,15 +199,15 @@ function listPlayers(playerResults){
     playerInfoObjArray.push(playerInfoObj);
 
 
-    console.log(c);
+
     c = c+1;
     let playerID = printPlayer.ID;
     idArray.push(playerID);
     if(c==playerResults.length){
-        console.log("idArray",idArray);
+
         usePlayerStats(idArray);
     }
-    console.log(playerID);
+
     playerStatsUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh&player=${playerID}`;
 
 
@@ -222,11 +225,11 @@ function runSearch(){
 $(document).ready(function() {
     $("body").click(function (event) {
         let selectClass = event.target.className;
-        console.log("selectClass",selectClass);
+
         let player = event.target.id;
         let favoritePlayer = player.slice(10, 14);
         if(selectClass == "btn btn-light"){
-            console.log("yessirrrr");
+
             db.buildFavPlayerObj(favoritePlayer,playerInfoObjArray);
 
 
