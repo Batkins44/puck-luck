@@ -189,6 +189,7 @@ function buildFavTeamObj(favoriteTeam){
 function buildFavPlayerObj(favoritePlayer,playerInfo){
     for(let f=0;f<playerInfo.length;f++){
         let currentPlayer = playerInfo[f].playerID;
+        console.log("favorite player",currentPlayer);
         if(favoritePlayer == currentPlayer){
 
             let currentUid = user.getUser();
@@ -265,6 +266,7 @@ function grabFavPlayers(){
 
 
     });
+
 }
 
 
@@ -289,7 +291,8 @@ function getPlayerLogs(uidFavPlayers){
         }).done(function(data) {
                 
                 let gamelogs = data.playergamelogs.gamelogs;
-
+            if(gamelogs){
+                console.log(gamelogs);
                 let previousGame = gamelogs[gamelogs.length-1];
                 let previousGameTwo = gamelogs[gamelogs.length-2];
                 let previousGameThree = gamelogs[gamelogs.length-3];
@@ -365,11 +368,14 @@ function getPlayerLogs(uidFavPlayers){
                 <td>${previousGameTwo.game.date}<br>${previousStatsTwo}</td>
                 <td>${previousGameThree.game.date}<br>${previousStatsThree}</td></tr>`);
 
-
+            }else{
+                $("#tbody").append(`<tr><th scope="row">${uidFavPlayers.name}<br><button id="delete_${playerID}" class="btn btn-danger">Delete</button></th><td><h5>Player Hasn't Played</h5><td></tr>`);
+            }
 
 
 
     });
+
     }
 
 $("#run-fav-players").click(grabFavPlayers);

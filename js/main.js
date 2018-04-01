@@ -6,11 +6,12 @@ let team = require("./team");
 let players = require("./players");
 let dom =require("./dom-builder");
 let favorites = ("./favorites");
+let welcomeName;
 let favoriteTeam;
 let userDisplayName;
 let result;
-let welcomeName;
 let favTeamID;
+let deleteVar = "dt";
 
 let firebase = require("./fb-config"),
     provider = new firebase.auth.GoogleAuthProvider();
@@ -25,17 +26,28 @@ $("#login").click(function() {
 
     db.logInGoogle()
     .then((result) => {
+        $("#pacman").removeClass("is-hidden");
       user.setUser(result.user.uid);
       user.setName(result.user.displayName);
       $("#login").addClass("is-hidden");
       $("#logout").removeClass("is-hidden");
-      $("#main-header").removeClass("is-hidden");
+      $("#low-header").html("");
+      $("#low-body").html("");
+      $("#low-title").html("");
       $("#favorite-div").removeClass("is-hidden");
       $("#run-fav-players").removeClass("is-hidden");
       $("run-fav-teams").addClass("is-hidden");
       $("#main-header").removeClass("is-hidden");
+      deleteVar = "dt";
+      $("#main-header").html(`<tr>
+      <th scope="col" id="counter"><h5>Favorite Team(s)</h5></th>
+      <th scope="col" id="left-head"><h5>Next Game</h5></th>
+      <th scope="col" id="middle-head"><h5>Previous Game</h5></th>
+      <th scope="col" id="right-head"><h5>Notable Players from Previous Game</h5></th>
+  
+    </tr>`);
       userDisplayName = result.user.displayName;
-      let welcomeName = userDisplayName.substr(0,userDisplayName.indexOf(' '));
+      welcomeName = userDisplayName.substr(0,userDisplayName.indexOf(' '));
       db.checkUserExist();
       $("#title").html(`<h1>Welcome ${welcomeName}</h1>`);
       setTimeout(dom.populateFavTeam(),3000);
@@ -61,6 +73,7 @@ $("#login").click(function() {
 
   $("#run-fav-team").click((event) => {
     favoriteTeam = $("#favorite-team-select").val();
+    deleteVar = "dt";
 
 
     db.buildFavTeamObj(favoriteTeam);
@@ -75,13 +88,29 @@ $("#home-btn").click(() => {
     $("#favorite-div").removeClass("is-hidden");
     $("#player-search").addClass("is-hidden");
     $("#run-fav-players").removeClass("is-hidden");
-    $("#title").html(`<h1>Your Teams</h1>`);
+    $("#title").html(`<h1>Welcome ${welcomeName}</h1>`);
     $("#tbody").html("");
-    $("#counter").html("<h5>Favorite Teams</h5>");
-    $("#left-head").html("<h5>Next Game</h5>");
-    $("#middle-head").html("<h5>Previous Game</h5>");
-    $("#right-head").html("<h5>Notable Players from Previous Game</h5>");
+    $("#low-body").html("");
+    $("#low-title").html("");
+    $("#main-header").html(`<tr>
+    <th scope="col" id="counter"><h5>Favorite Team(s)</h5></th>
+    <th scope="col" id="left-head"><h5>Next Game</h5></th>
+    <th scope="col" id="middle-head"><h5>Previous Game</h5></th>
+    <th scope="col" id="right-head"><h5>Notable Players from Previous Game</h5></th>
+
+  </tr>`);
+    $("#low-header").html("");
+    // $("#counter").html("<h5>Favorite Teams</h5>");
+    // $("#left-head").html("<h5>Next Game</h5>");
+    // $("#middle-head").html("<h5>Previous Game</h5>");
+    // $("#right-head").html("<h5>Notable Players from Previous Game</h5>");
     dom.populateFavTeam();
+    deleteVar = "dt";
+
+});
+
+$("#run-fav-players").click(() => {
+    deleteVar = "dp";
 });
 
 $("#run-fav-teams").click(() => {
@@ -95,6 +124,7 @@ $("#run-fav-teams").click(() => {
     $("#left-head").html("<h5>Next Game</h5>");
     $("#middle-head").html("<h5>Previous Game</h5>");
     $("#right-head").html("<h5>Notable Players from Previous Game</h5>");
+    deleteVar = "dt";
     dom.populateFavTeam();
 });
 
@@ -118,6 +148,19 @@ function deleteFavPlayers(fbID) {
     });
 }
 
+$(document).ready(function() {
+    $("body").click(function (event) {
+        let selectClass = event.target.className;
+
+        let player = event.target.id;
+        let favoritePlayer = player.slice(10, 14);
+        if(selectClass == "btn btn-light"){
+            deleteVar = "dp";
+
+
+}});
+});
+
 
 
 
@@ -126,8 +169,10 @@ $(document).ready(function() {
         let selectClass = event.target.className;
 
         let team = event.target.id;
-        if(selectClass == "btn btn-danger" && team.length < 10){
-            let teamID = team.substring(7, 10);
+        if(selectClass == "btn btn-danger" && deleteVar == "dt"){
+            console.log("delete-team");
+            let teamID = team.match(/\d+/)[0];
+            console.log(teamID);
 
             let currentUid = user.getUser();
             db.retrieveFavTeam()
@@ -161,8 +206,9 @@ $(document).ready(function() {
         let selectClass = event.target.className;
 
         let player = event.target.id;
-        if(selectClass == "btn btn-danger" && player.length > 10){
-            let playerID = player.substring(7, 11);
+        if(selectClass == "btn btn-danger" && deleteVar == "dp"){
+            console.log("delete player");
+            let playerID = player.match(/\d+/)[0];
             
 
             let currentUid = user.getUser();

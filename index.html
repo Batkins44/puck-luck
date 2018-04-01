@@ -47,7 +47,8 @@
     <div id="player-search" class="is-hidden">
 <input id="player-input">
 
-<button id="run-player-search">Go</button>
+<button id="run-player-search">Go</button><hr>
+<h5>Skaters</h5>
 </div>
 <div id="favorite-div" class="is-hidden">
 <select id="favorite-team-select" >
@@ -85,23 +86,43 @@
     <option id="2" value="2">Winnipeg Jets</option>
         </select>
         <button id="run-fav-team">Add</button>
+        <hr>
+        <h5>Your Favorite Teams</h5>
 
         <!-- <button id="refresh">Refresh</button> -->
     </div>
     <button id="run-fav-players" class="is-hidden">See Favorite Players</button>
     <button id="run-fav-teams" class="is-hidden">See Favorite Teams</button>
 <div class="container">
+    <img src="pacman.gif" class="is-hidden" id="pacman">
         <table class="table table-striped table-dark">
                 <thead id="main-header" class="is-hidden">
                   <tr>
                     <th scope="col" id="counter"><h5>Favorite Team(s)</h5></th>
                     <th scope="col" id="left-head"><h5>Next Game</h5></th>
                     <th scope="col" id="middle-head"><h5>Previous Game</h5></th>
-                    <th scope="col" id="right-head"><h5>Notable Players from Last Game</h5></th>
+                    <th scope="col" id="right-head"><h5></h5></th>
+
                   </tr>
                   
                 </thead>
                 <tbody id="tbody">
+
+
+                </tbody>
+              </table>
+              <div id="low-title"></div>
+              <table class="table table-striped table-dark">
+                <thead id="low-header" class="is-hidden">
+                  <tr>
+                    <th scope="col" id="low-counter"></th>
+                    <th scope="col" id="low-left-head"></th>
+                    <th scope="col" id="low-middle-head"></th>
+                    <th scope="col" id="low-right-head"></th>
+                  </tr>
+                  
+                </thead>
+                <tbody id="low-body">
 
 
                 </tbody>

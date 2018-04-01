@@ -31,13 +31,14 @@ function listTeam(teamData){
     let player = teamData.cumulativeplayerstats.playerstatsentry;
     let row = 1;
     $("#tbody").html("");
+    $("#low-body").html("");
     for(let p=0;p<player.length;p++){
         let currentPlayer = player[p];
         let gp = currentPlayer.stats.GamesPlayed["#text"];
 
         if(gp > 0 && currentPlayer.player.Position !== "G"){
             $("#tbody").append(`<tr>
-            <th scope="row">${currentPlayer.player.JerseyNumber}</th><td>${currentPlayer.player.FirstName} ${currentPlayer.player.LastName}</td><td>${currentPlayer.player.Position}</td> <td>${currentPlayer.stats.stats.Goals["#text"]} G, ${currentPlayer.stats.stats.Assists["#text"]} A, ${currentPlayer.stats.stats.Points["#text"]} P, ${currentPlayer.stats.stats.Shots["#text"]} Shots</td></tr>`);
+            <th scope="row">${currentPlayer.player.JerseyNumber}</th><td><b>${currentPlayer.player.FirstName} ${currentPlayer.player.LastName}</b></td><td>${currentPlayer.player.Position}</td> <td>${currentPlayer.stats.stats.Goals["#text"]} </td> <td>${currentPlayer.stats.stats.Assists["#text"]}</td><td>${currentPlayer.stats.stats.Points["#text"]}</td><td>${currentPlayer.stats.stats.Shots["#text"]}</td></tr>`);
         }else if(gp > 0 && currentPlayer.player.Position == "G"){
             let ga = currentPlayer.stats.stats.GoalsAgainst["#text"];
             ga = parseInt(ga);
@@ -47,12 +48,12 @@ function listTeam(teamData){
 
             savePer = sv/savePer;
             savePer = Math.round(savePer * 10000) / 100;
-            $("#tbody").append(`<tr><th scope="row">#${currentPlayer.player.JerseyNumber}</th><td><b>${currentPlayer.player.FirstName} ${currentPlayer.player.LastName}</b></td> 
+            $("#low-body").append(`<tr><th scope="row">${currentPlayer.player.JerseyNumber}</th><td><b>${currentPlayer.player.FirstName} ${currentPlayer.player.LastName}</b></td> 
             <td>${currentPlayer.player.Position}</td>
-            <td>Record: ${currentPlayer.stats.stats.Wins["#text"]}-${currentPlayer.stats.stats.Losses["#text"]}-${currentPlayer.stats.stats.OvertimeLosses["#text"]}<br>
-            Saves: ${sv}<br> Shutouts: ${currentPlayer.stats.stats.Shutouts["#text"]}<br>
-            Goals Against Average: ${currentPlayer.stats.stats.GoalsAgainstAverage["#text"]}<br>
-            Save %: ${savePer}</td></tr>`);
+            <td>${currentPlayer.stats.stats.Wins["#text"]}-${currentPlayer.stats.stats.Losses["#text"]}-${currentPlayer.stats.stats.OvertimeLosses["#text"]}</td>
+            <td>${sv}</td><td>${currentPlayer.stats.stats.Shutouts["#text"]}</td>
+            <td>${currentPlayer.stats.stats.GoalsAgainstAverage["#text"]}</td>
+            <td>${savePer}</td></tr>`);
 
         }
         row = row +1;
@@ -62,14 +63,35 @@ function listTeam(teamData){
 
 function printTeamHeader() {
     $("#tbody").html("");
+    $("#low-body").html("");
     $("#run-fav-teams").addClass("is-hidden");
     $("#run-fav-players").addClass("is-hidden");
     $("#favorite-div").addClass("is-hidden");
     $("#player-search").addClass("is-hidden");
-    $("#counter").html(`<h5>Jersey Number`);
-    $("#left-head").html(`<h5>Player<h5>`);
-    $("#middle-head").html(`<h5>Position</h5>`);
-    $("#right-head").html(`<h5>Stats</h5>`);
+    $("#main-header").html(`<th scope="col" id="counter"><h5>Jersey Number</h5></th>
+    <th scope="col" id="left-head"><h5>Player</h5></th>
+    <th scope="col" id="middle-head"><h5>Position</h5></th>
+    <th scope="col" id="right-head"><h5>G</h5></th>
+    <th scope="col" id="5-head"><h5>A</h5></th>
+    <th scope="col" id="6-head"><h5>Pts</h5></th>
+    <th scope="col" id="7-head"><h5>SOG</h5></th>
+    </tr>`);
+    $("#low-header").html(`<th scope="col" id="counter"><h5>Jersey Number</h5></th>
+    <th scope="col" id="left-head"><h5>Player</h5></th>
+    <th scope="col" id="middle-head"><h5>Position</h5></th>
+    <th scope="col" id="right-head"><h5>Record</h5></th>
+    <th scope="col" id="5-head"><h5>SV</h5></th>
+    <th scope="col" id="6-head"><h5>SO</h5></th>
+    <th scope="col" id="7-head"><h5>GAA</h5></th>
+    <th scope="col" id="8-head"><h5>SV%</h5></th>
+    </tr>`);
+    $("#low-title").html(`<h5>Goalies</h5><br>`);
+  $("#main-header").removeClass("is-hidden");
+  $("#low-header").removeClass("is-hidden");
+    // $("#counter").html(`<h5>Jersey Number`);
+    // $("#left-head").html(`<h5>Player<h5>`);
+    // $("#middle-head").html(`<h5>Position</h5>`);
+    // $("#right-head").html(`<h5>Stats</h5>`);
     $("#title").html(
     `<h1>Stats By Team</h1><br><select id="team-select">
     <option value="c">Choose a Team</option>
@@ -104,7 +126,9 @@ function printTeamHeader() {
     <option id="142" value="vegas-goldenknights">Vegas Golden Knights</option>
     <option id="5" value="washington-capitals">Washington Capitals</option>
     <option id="2" value="winnipeg-jets">Winnipeg Jets</option>
-    </select>`);
+    </select>
+    <hr>
+    <h5>Skaters</h5>`);
 }
 
 

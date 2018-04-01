@@ -185,6 +185,7 @@ function getPreviousGamePlayers(gameData,teams){
     <td>${teams.previousGame[0]} @ ${teams.previousGame[1]}<br>${teams.previousGame[3]}<br>${teams.previousGame[4]}</td>
    <td>Goals Leader: ${goalsLeader}<br>Assists Leader: ${assistLeader}<br>Points Leader: ${pointsLeader}</td>
    </tr>`);
+   $("#pacman").addClass("is-hidden");
 
 }
 
