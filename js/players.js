@@ -35,11 +35,31 @@ function usePlayers(callBackFunction){
     }
 
 function printPlayerHeader(){
-
+    $("#main-header").html(`<tr>
+    <th scope="col" id="counter"><h5>Number/Position</h5></th>
+    <th scope="col" id="left-head"><h5>Player</h5></th>
+    <th scope="col" id="middle-head"><h5>Info</h5></th>
+    <th scope="col" id="right-head"><h5>G</h5></th>
+    <th scope="col" id="5-head"><h5>A</h5></th>
+    <th scope="col" id="6-head"><h5>PTS</h5></th>
+    <th scope="col" id="7-head"><h5>SOG</h5></th>
+  </tr>`);
+  $("#main-header").removeClass("is-hidden");
+  $("#low-header").html(`<th scope="col" id="counter"><h5>Number/Position</h5></th>
+  <th scope="col" id="left-head"><h5>Player</h5></th>
+  <th scope="col" id="middle-head"><h5>Info</h5></th>
+  <th scope="col" id="right-head"><h5>Record</h5></th>
+  <th scope="col" id="5-head"><h5>SO</h5></th>
+  <th scope="col" id="6-head"><h5>GAA</h5></th>
+  <th scope="col" id="7-head"><h5>SV%</h5></th>
+  </tr>`);
     $("#player-search").removeClass("is-hidden");
-    $("#left-head").html("<h5>Player</h5>");
-    $("#middle-head").html("<h5>Info</h5>");
-    $("#right-head").html("<h5>Stats</h5>");
+    $("#low-header").removeClass("is-hidden");
+    $("#low-body").html("");
+    $("#low-title").html(`<h5>Goalies</h5><br>`);
+    // $("#left-head").html("<h5>Player</h5>");
+    // $("#middle-head").html("<h5>Info</h5>");
+    // $("#right-head").html("<h5>Stats</h5>");
     $("#counter").html(`<h5>Number/Position</h5>`);
     $("#favorite-div").addClass("is-hidden");
     $("#title").html(`<h1>Search For a Player</h1>`);
@@ -75,9 +95,9 @@ function usePlayerStats(idArray,playerInfoObj){
 
                                 let currentStats = data.cumulativeplayerstats.playerstatsentry[z].stats.stats;
 
-                        $("#tbody").append(`<tr><th scope="row">${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br><button class="btn btn-light" id='addPlayer_${playerInfoObjArray[p].playerID}'>Add to Favorites</button></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
-                        <td>Team: ${data.cumulativeplayerstats.playerstatsentry[z].team.City} ${data.cumulativeplayerstats.playerstatsentry[z].team.Name}<br>Born: ${playerInfoObjArray[p].country}<br>Birthday: ${playerInfoObjArray[p].bday}<br>Height: ${playerInfoObjArray[p].height}<br>Weight:${playerInfoObjArray[p].weight}<br>${playerInfoObjArray[p].twitter}<br></td><td>Goals: ${currentStats.Goals["#text"]}<br>
-                        Assists: ${currentStats.Assists["#text"]}<br>Points: ${currentStats.Points["#text"]}<br>Shots: ${currentStats.Shots["#text"]}</td></tr>`);
+                        $("#tbody").append(`<tr><th scope="row">#${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br><button class="btn btn-light" id='addPlayer_${playerInfoObjArray[p].playerID}'>Add to Favorites</button></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
+                        <td>Team: ${data.cumulativeplayerstats.playerstatsentry[z].team.City} ${data.cumulativeplayerstats.playerstatsentry[z].team.Name}<br>Born: ${playerInfoObjArray[p].country}<br>Birthday: ${playerInfoObjArray[p].bday}<br>Height: ${playerInfoObjArray[p].height}<br>Weight: ${playerInfoObjArray[p].weight}<br>${playerInfoObjArray[p].twitter}<br></td><td>${currentStats.Goals["#text"]}</td>
+                        <td>${currentStats.Assists["#text"]}</td><td>${currentStats.Points["#text"]}</td><td>${currentStats.Shots["#text"]}</td></tr>`);
                     }else if(currentEntry == currentID && data.cumulativeplayerstats.playerstatsentry[z].player.Position == "G"){
                         let currentStats = data.cumulativeplayerstats.playerstatsentry[z].stats.stats;
                         let ga = currentStats.GoalsAgainst["#text"];
@@ -88,9 +108,9 @@ function usePlayerStats(idArray,playerInfoObj){
             
                         savePer = sv/savePer;
                         savePer = Math.round(savePer * 10000) / 100;
-                        $("#tbody").append(`<tr><th scope="row">${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br><button class="btn btn-light" id='addPlayer_${playerInfoObjArray[p].playerID}'>Add to Favorites</button></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
+                        $("#low-body").append(`<tr><th scope="row">#${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br><button class="btn btn-light" id='addPlayer_${playerInfoObjArray[p].playerID}'>Add to Favorites</button></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
                         <td>Team: ${data.cumulativeplayerstats.playerstatsentry[z].team.City} ${data.cumulativeplayerstats.playerstatsentry[z].team.Name}<br>Born: ${playerInfoObjArray[p].country}<br>Birthday: ${playerInfoObjArray[p].bday}<br>Height: ${playerInfoObjArray[p].height}<br>Weight:${playerInfoObjArray[p].weight}<br>${playerInfoObjArray[p].twitter}</td><td>
-                        Record: ${currentStats.Wins["#text"]}-${currentStats.Losses["#text"]}-${currentStats.OvertimeLosses["#text"]}<br>Shutouts: ${currentStats.Shutouts["#text"]}<br>GAA: ${currentStats.GoalsAgainstAverage["#text"]}<br>Save %: ${savePer}</td></tr>`);
+                        ${currentStats.Wins["#text"]}-${currentStats.Losses["#text"]}-${currentStats.OvertimeLosses["#text"]}</td><td>${currentStats.Shutouts["#text"]}</td><td>${currentStats.GoalsAgainstAverage["#text"]}</td><td>${savePer}</td></tr>`);
 
                     }
                 
@@ -104,10 +124,12 @@ function usePlayerStats(idArray,playerInfoObj){
 
 
             }
+            $("#pacman").addClass("is-hidden");
         }
          
 
         );
+
     }
 
 
@@ -120,6 +142,7 @@ function searchPlayers(playersData){
     // var date = moment().format('MM-DD-YYYY');
 
     $("#tbody").html("");
+    $("#low-body").html("");
 
 
     let playerArray = playersData.activeplayers.playerentry;
@@ -219,6 +242,7 @@ function listPlayers(playerResults){
 
 
 function runSearch(){
+    $("#pacman").removeClass("is-hidden");
     usePlayers(searchPlayers);
 }
 
@@ -227,7 +251,11 @@ $(document).ready(function() {
         let selectClass = event.target.className;
 
         let player = event.target.id;
-        let favoritePlayer = player.slice(10, 14);
+        console.log("player",player);
+
+        let favoritePlayer = player.match(/\d+/);
+        console.log("favoritePlayer",favoritePlayer);
+
         if(selectClass == "btn btn-light"){
 
             db.buildFavPlayerObj(favoritePlayer,playerInfoObjArray);

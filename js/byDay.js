@@ -48,6 +48,17 @@ function listDay(dayData){
 
 function runDay(){
     $("#tbody").html("");
+    $("#low-body").html("");
+    $("#main-header").html(`<tr>
+    <th scope="col" id="counter"><h5>Time(Eastern)</h5></th>
+    <th scope="col" id="left-head"><h5>Away</h5></th>
+    <th scope="col" id="middle-head"><h5>Home</h5></th>
+    <th scope="col" id="right-head"><h5>Location</h5></th>
+
+  </tr>`);
+  $("#low-title").html("");
+    $("#main-header").removeClass("is-hidden");
+    $("#low-header").html("");
     $("#run-fav-teams").addClass("is-hidden");
     $("#run-fav-players").addClass("is-hidden");
 
@@ -58,10 +69,10 @@ function runDay(){
     $("#favorite-div").addClass("is-hidden");
     $("#player-search").addClass("is-hidden");
 
-    $("#counter").html(`<h5>Time</h5>`);
-    $("#left-head").html(`<h5>Away</h5>`);
-    $("#middle-head").html(`<h5>Home</h5>`);
-    $("#right-head").html(`<h5>Time/Location</h5>`);
+    // $("#counter").html(`<h5>Time</h5>`);
+    // $("#left-head").html(`<h5>Away</h5>`);
+    // $("#middle-head").html(`<h5>Home</h5>`);
+    // $("#right-head").html(`<h5>Time/Location</h5>`);
     useDay(listDay);
 }
 
