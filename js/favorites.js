@@ -6,6 +6,7 @@ let user = require("./user");
 let dom = require("./dom-builder");
 let urlString;
 let favTeamInfoArray = [];
+let c=0;
 
 let firebase = require("./fb-config"),
     provider = new firebase.auth.GoogleAuthProvider();
@@ -19,8 +20,9 @@ function getGameInfo(abbr,teams){
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/full_game_schedule.json?team=${abbr}`
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/full_game_schedule.json?team=${abbr}&date=since-3-weeks-ago`
         }).done((data) => {
+            console.log("data",data);
 
             let nextGameIndex = null;
             let today = new Date();
@@ -37,14 +39,14 @@ function getGameInfo(abbr,teams){
                         currentDate = Date.parse(currentDate);
                         if(currentDate > today){
 
-                            teams[j].nextGame = [currentGame.awayTeam.Abbreviation,currentGame.homeTeam.Abbreviation,currentGame.id,currentGame.date,currentGame.time];
+                            teams[j].nextGame = [currentGame.awayTeam.Abbreviation,currentGame.homeTeam.Abbreviation,currentGame.id,currentGame.date,currentGame.time,currentGame.awayTeam.City,currentGame.awayTeam.Name,currentGame.homeTeam.City,currentGame.homeTeam.Name];
                             let k = i-1;
                             for(let p=k;p>0;p--){
                                 let currentGame = data.fullgameschedule.gameentry[p];
 
                                 if (currentGame.awayTeam.ID == currentTeamID || currentGame.homeTeam.ID == currentTeamID){
                                     
-                                    teams[j].previousGame = [currentGame.awayTeam.Abbreviation,currentGame.homeTeam.Abbreviation,currentGame.id,currentGame.date,currentGame.time];
+                                    teams[j].previousGame = [currentGame.awayTeam.Abbreviation,currentGame.homeTeam.Abbreviation,currentGame.id,currentGame.date,currentGame.time,currentGame.awayTeam.City,currentGame.awayTeam.Name,currentGame.homeTeam.City,currentGame.homeTeam.Name];
                                     break;
                                 }
                             }
@@ -72,15 +74,22 @@ let stringAbbr = "";
 
         let currentUser = user.getUser();
 
-
+    console.log("favTeamArray",favTeamArray);
+    setTimeout(function(){console.log("favteamlenght",favTeamArray.length);
+    for (let j=0;j<favTeamArray.length;j++){
+        console.log("single abbr",favTeamArray[j].abbr);
         
-        for (let i=0;i<favTeamArray.length;i++){
-            stringAbbr += favTeamArray[i].abbr;
-            stringAbbr += ",";
-        }
-        stringAbbr = stringAbbr.substring(0, stringAbbr.length - 1);
+        stringAbbr += favTeamArray[j].abbr;
+        stringAbbr += ",";
 
-        getGameInfo(stringAbbr,favTeamArray);
+    }
+    stringAbbr = stringAbbr.substring(0, stringAbbr.length - 1);
+    console.log("abbr",stringAbbr);
+    getGameInfo(stringAbbr,favTeamArray);
+},3000);
+
+
+
     // });
 
 }
@@ -96,7 +105,7 @@ for (let i=0;i<teams.length;i++){
 
     urlString = (newDate + "-" + currentTeam.previousGame[0] + "-" + currentTeam.previousGame[1]);
 
-    teams[i].urlString = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/game_boxscore.json?gameid=${urlString}&teamstats=W,L,GF,GA,Pts&playerstats=G,A,Pts,Sh`;
+    teams[i].urlString = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/game_boxscore.json?gameid=${urlString}&teamstats=W,L,GF,GA,Pts&playerstats=G,A,Pts,Sh,ht,bs`;
     usePreviousGame(getPreviousGamePlayers,teams[i]);
 }
 
@@ -132,11 +141,33 @@ function getPreviousGamePlayers(gameData,teams){
     let pointsArray = [];
     let players;
 
+
+    console.log("gameData",gameData);
+
     if(teams.ID == gameData.gameboxscore.game.awayTeam.ID){
         players = gameData.gameboxscore.awayTeam.awayPlayers.playerEntry;
+        teams.previousScoreFor = gameData.gameboxscore.awayTeam.awayTeamStats.GoalsFor["#text"];
+        teams.previousScoreAgainst = gameData.gameboxscore.homeTeam.homeTeamStats.GoalsFor["#text"];
+        if(gameData.gameboxscore.awayTeam.awayTeamStats.Points["#text"] == 2){
+            teams.previousGameResult = "W";
+        }else if(gameData.gameboxscore.awayTeam.awayTeamStats.Points["#text"] == 1){
+            teams.previousGameResult = "OTL";
+        }else if(gameData.gameboxscore.awayTeam.awayTeamStats.Points["#text"] == 0){
+            teams.previousGameResult = "L";
+        }
     }
     else{
         players = gameData.gameboxscore.homeTeam.homePlayers.playerEntry;
+        teams.previousScoreFor = gameData.gameboxscore.homeTeam.homeTeamStats.GoalsFor["#text"];
+        teams.previousScoreAgainst = gameData.gameboxscore.awayTeam.awayTeamStats.GoalsFor["#text"];
+        if(gameData.gameboxscore.homeTeam.homeTeamStats.Points["#text"] == 2){
+            teams.previousGameResult = "W";
+        }else if(gameData.gameboxscore.homeTeam.homeTeamStats.Points["#text"] == 1){
+            teams.previousGameResult = "OTL";
+        }else if(gameData.gameboxscore.homeTeam.homeTeamStats.Points["#text"] == 0){
+            teams.previousGameResult = "L";
+        }
+
     }
 
     for(let i=0;i<players.length;i++){
@@ -167,83 +198,114 @@ function getPreviousGamePlayers(gameData,teams){
         return b[0].localeCompare(a[0]);
     });
 
-    let goalsLeader = idPlayerFinder(goalsArray[0][1],players);
-    let assistLeader = idPlayerFinder(assistsArray[0][1],players);
-    let pointsLeader = idPlayerFinder(pointsArray[0][1],players);
-    teams.goalsLeader = goalsLeader;
-    teams.assistLeader = assistLeader;
-    teams.pointsLeader = pointsLeader;
+    let pointsLeaderName = "No player qualifies";
+    let mvpGoals = "";
+    let mvpAssists = "";
+    let mvpPoints = "";
+    let mvpShots = "";
+    let mvpHits = "";
+    let mvpBlocks = "";
+    let pointsLeader;
+    // let assistLeader = "none";
+    // let pointsLeader = "none";
+    // console.log("goalsArray",goalsArray);
+    if(pointsArray.length > 0){
+    // goalsLeader = idPlayerFinder(goalsArray[0][1],players);
+
+    // assistLeader = idPlayerFinder(assistsArray[0][1],players);
+    pointsLeader = idPlayerFinder(pointsArray[0][1],players);
+    console.log("pointsLeader",pointsLeader);
+    pointsLeaderName = pointsLeader.name;
+    mvpGoals = pointsLeader.goals;
+    mvpAssists = pointsLeader.assists;
+    mvpPoints = pointsLeader.points;
+    mvpShots = pointsLeader.shots;
+    mvpHits = pointsLeader.hits;
+    mvpBlocks = pointsLeader.blocks;
+}
+    // teams.goalsLeader = goalsLeader;
+    // teams.assistLeader = assistLeader;
+    // teams.pointsLeader = pointsLeader;
 
     favTeamInfoArray.push(teams);
 
+console.log("teams",teams);
+console.log("favTeamInfoArray",favTeamInfoArray);
 
 
-
-
-    $("#tbody").append(`<tr><th scope="row">${teams.Name}<br><button id="delete_${teams.ID}" class="btn btn-danger">Delete</button></th><td>${teams.nextGame[0]} @ ${teams.nextGame[1]}<br>${teams.nextGame[3]}<br>
-    ${teams.nextGame[4]}</td>   
-    <td>${teams.previousGame[0]} @ ${teams.previousGame[1]}<br>${teams.previousGame[3]}<br>${teams.previousGame[4]}</td>
-   <td>Goals Leader: ${goalsLeader}<br>Assists Leader: ${assistLeader}<br>Points Leader: ${pointsLeader}</td>
-   </tr>`);
+    $("#print").append(`<table class="table table-striped table-dark"><tr><th scope="row"><div class="teamname">${teams.Name}</div></th><td></td><td></td><td></td><td></td><td></td><th><button id="delete_${teams.ID}" class="btn btn-danger">Delete</button></th></tr>
+    <tr><th>Last Game<br>${teams.previousGame[3]}<br>${teams.previousGame[4]}</th><td>${teams.previousGame[5]} ${teams.previousGame[6]}</td> <td>@ ${teams.previousGame[7]} ${teams.previousGame[8]}</td>
+    <th>Final Score:</th><td class="score"><h5>${teams.previousScoreFor}-${teams.previousScoreAgainst}</h5><div id="win-or-lose_${c}">${teams.previousGameResult}</div></td></tr>
+    <tr><th>Player Of The Game</th><th>G</th><th>A</th><th>PTS</th><th>SOG</th><th>HIT</th><th>BLK</th></tr><tr><td>${pointsLeaderName}</td><td>${mvpGoals}</td><td>${mvpAssists}</td><td>${mvpPoints}</td><td>${mvpShots}</td><td>${mvpHits}</td><td>${mvpBlocks}</td>
+    </tr>
+    <tr><th>Next Game<br>${teams.nextGame[3]}<br>${teams.nextGame[4]}</th><td>${teams.nextGame[5]} ${teams.nextGame[6]}</td><td>@ ${teams.nextGame[7]} ${teams.nextGame[8]}</td><td></td><td></td><td></td><td></td>
+    </tr>
+    
+</table>`);
    $("#pacman").addClass("is-hidden");
+    if(teams.previousGameResult == "W"){
+        $(`#win-or-lose_${c}`).addClass("green");
+    }else if(teams.previousGameResult == "OTL"){
+        $(`#win-or-lose_${c}`).addClass("black");
 
+    }else{
+        $(`#win-or-lose_${c}`).addClass("red");
+    }
+    
+c=c+1;
 }
 
 
 
 function idPlayerFinder(id, players){
-let goals = "";
-let assists ="";
-let points = "";
+let goals = "0";
+let assists ="0";
+let points = "0";
+let shots = "0";
+let hits = "0";
+let blocks = "0";
 
 for(let q=0;q<players.length;q++){
     let currentPlayerID = players[q].player.ID;
 
     if (currentPlayerID == id){
-
-        let playerInfo = (players[q].player.FirstName + " " + players[q].player.LastName + " ");
+        console.log("playerData",players[q]);
+    let playerName =  (players[q].player.FirstName + " " + players[q].player.LastName + " ");
         if(players[q].stats.Goals["#text"]>0){
-            goals = ((players[q].stats.Goals["#text"])+ " G ");
+            goals = ((players[q].stats.Goals["#text"]));
 
         }
         if(players[q].stats.Assists["#text"]>0){
-            assists = ((players[q].stats.Assists["#text"])+ " A ");
+            assists = ((players[q].stats.Assists["#text"]));
         }
         if(players[q].stats.Points["#text"]>0){
-            if(players[q].stats.Points["#text"]>1){
-            points = ((players[q].stats.Points["#text"])+ " Pts ");
-            }
-            else{
-                points = ((players[q].stats.Points["#text"])+ " Pt ");
-            }
+            points = ((players[q].stats.Points["#text"]));         
         }
-        playerInfo = playerInfo + goals;
-        playerInfo = playerInfo + assists;
-        playerInfo = playerInfo + points;
-        return playerInfo;
+        if(players[q].stats.Shots["#text"]>0){
+            shots = ((players[q].stats.Shots["#text"]));
+        }
+        if(players[q].stats.Hits["#text"]>0){
+            hits = ((players[q].stats.Hits["#text"]));
+        }
+        if(players[q].stats.BlockedShots["#text"]>0){
+            blocks = ((players[q].stats.BlockedShots["#text"]));
+        }
+        let playerInfoObj = {
+            name: playerName,
+            goals:goals,
+            assists:assists,
+            points:points,
+            shots:shots,
+            hits:hits,
+            blocks:blocks
+        };
+        console.log("playerInfo",playerInfoObj);
+        return playerInfoObj;
     }
     
 }
 }
 
-
-
-
-// return playerInfo;
-
-
-// function refreshFavTeams(){
-//     let teams = favTeamInfoArray;
-//     $("#tbody").html("");
-//     for(let i=0;i<teams.length;i++){
-//     $("#tbody").append(`<tr><th scope="row">${teams[i].Name}</th><td>${teams[i].nextGame[0]} @ ${teams[i].nextGame[1]}<br>${teams[i].nextGame[3]}<br>
-//     ${teams[i].nextGame[4]}</td>   
-//     <td>${teams[i].previousGame[0]} @ ${teams[i].previousGame[1]}<br>${teams[i].previousGame[3]}<br>${teams[i].previousGame[4]}</td>
-//    <td>Goals Leader: ${teams[i].goalsLeader}<br>Assists Leader: ${teams[i].assistLeader}<br>Points Leader: ${teams[i].pointsLeader}</td>
-//    </tr>`);
-// }}
-
-// $("#refresh").click(refreshFavTeams);
 
 
 

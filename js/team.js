@@ -68,6 +68,7 @@ function printTeamHeader() {
     $("#run-fav-players").addClass("is-hidden");
     $("#favorite-div").addClass("is-hidden");
     $("#player-search").addClass("is-hidden");
+    $("#print").html("");
     $("#main-header").html(`<th scope="col" id="counter"><h5>Jersey Number</h5></th>
     <th scope="col" id="left-head"><h5>Player</h5></th>
     <th scope="col" id="middle-head"><h5>Position</h5></th>

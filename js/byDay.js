@@ -56,6 +56,7 @@ function runDay(){
     <th scope="col" id="right-head"><h5>Location</h5></th>
 
   </tr>`);
+  $("#print").html("");
   $("#low-title").html("");
     $("#main-header").removeClass("is-hidden");
     $("#low-header").html("");

@@ -241,6 +241,7 @@ function retrieveFavPlayers(){
 
 function grabFavPlayers(){
     retrieveFavPlayers()
+
     .then((userData) => {
         let uidFavPlayers = [];
         let favPlayerArray = (Object.values(userData));
