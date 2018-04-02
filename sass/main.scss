@@ -95,3 +95,54 @@ hr {
 #pacman {
     text-align:center;
 }
+
+.green{
+    color:green;
+    font-family:$primaryFont;
+    font-size:32px;
+    text-shadow: 2px 2px $secondaryColor;
+    text-align:center;
+}
+
+.black{
+    color:black;
+    font-family:$primaryFont;
+    font-size:32px;
+    text-shadow: 2px 2px $secondaryColor;
+    text-align:center;
+}
+
+.red{
+    color:$tertiaryColor;
+    font-family:$primaryFont;
+    font-size:32px;
+    text-shadow: 2px 2px $secondaryColor;
+    text-align:center;
+
+}
+
+.score{
+    text-align:center;
+    
+}
+
+
+
+.teamname{
+    color:$tertiaryColor;
+    font-family:$primaryFont;
+    font-size:32px;
+    text-shadow: 2px 2px $secondaryColor;
+}
+
+#tbody{
+    font-family:$secondaryFont;
+}
+
+#low-body{
+    font-family:$secondaryFont;
+}
+
+#print{
+    font-family:$secondaryFont;
+}

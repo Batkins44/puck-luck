@@ -12,6 +12,7 @@ function populateFavTeam(){
         let fbFavTeamArray = (Object.values(userData));
         let currentUid = user.getUser();
         $("#tbody").html("");
+$("#print").html("");
         for (let i = 0;i < fbFavTeamArray.length;i++){
             let checkUid = fbFavTeamArray[i].uid;
             if(currentUid == checkUid){

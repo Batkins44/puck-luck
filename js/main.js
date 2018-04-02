@@ -39,14 +39,9 @@ $("#login").click(function() {
       $("#run-fav-players").removeClass("is-hidden");
       $("run-fav-teams").addClass("is-hidden");
       $("#main-header").removeClass("is-hidden");
+      $("#print").html("");
       deleteVar = "dt";
-      $("#main-header").html(`<tr>
-      <th scope="col" id="counter"><h5>Favorite Team(s)</h5></th>
-      <th scope="col" id="left-head"><h5>Next Game</h5></th>
-      <th scope="col" id="middle-head"><h5>Previous Game</h5></th>
-      <th scope="col" id="right-head"><h5>Notable Players from Previous Game</h5></th>
-  
-    </tr>`);
+      $("#main-header").html("");
       userDisplayName = result.user.displayName;
       welcomeName = userDisplayName.substr(0,userDisplayName.indexOf(' '));
       db.checkUserExist();
@@ -71,6 +66,11 @@ $("#login").click(function() {
       $("tbody").html("");
       $("#low-header").html("");
       $("#low-body").html("");
+      $("#print").html("");
+      $("#main-header").html("");
+      $("#run-fav-players").addClass("is-hidden");
+      $("run-fav-teams").addClass("is-hidden");
+
       
   });
 
@@ -87,7 +87,6 @@ $("#login").click(function() {
 });
 
 
-
 $("#home-btn").click(() => {
     $("#favorite-div").removeClass("is-hidden");
     $("#player-search").addClass("is-hidden");
@@ -98,13 +97,17 @@ $("#home-btn").click(() => {
     $("#low-title").html("");
     $("#run-fav-teams").addClass("is-hidden");
     $("#pacman").removeClass("is-hidden");
-    $("#main-header").html(`<tr>
-    <th scope="col" id="counter"><h5>Favorite Team(s)</h5></th>
-    <th scope="col" id="left-head"><h5>Next Game</h5></th>
-    <th scope="col" id="middle-head"><h5>Previous Game</h5></th>
-    <th scope="col" id="right-head"><h5>Notable Players from Previous Game</h5></th>
+    $("#main-header").html("");
+    $("print").html("");
+    $("#print").html("");
 
-  </tr>`);
+//     $("#main-header").html(`<tr>
+//     <th scope="col" id="counter"><h5>Favorite Team(s)</h5></th>
+//     <th scope="col" id="left-head"><h5>Next Game</h5></th>
+//     <th scope="col" id="middle-head"><h5>Previous Game</h5></th>
+//     <th scope="col" id="right-head"><h5>Notable Players from Previous Game</h5></th>
+
+//   </tr>`);
   $("#main-header").removeClass("is-hidden");
     $("#low-header").html("");
     // $("#counter").html("<h5>Favorite Teams</h5>");
@@ -118,6 +121,8 @@ $("#home-btn").click(() => {
 
 $("#run-fav-players").click(() => {
     deleteVar = "dp";
+    $("#print").html("");
+
 });
 
 $("#run-fav-teams").click(() => {
@@ -130,13 +135,16 @@ $("#run-fav-teams").click(() => {
     $("#low-body").html("");
     $("#tbody").html("");
     $("#main-header").removeClass("is-hidden");
-    $("#main-header").html(`<tr>
-    <th scope="col" id="counter"><h5>Favorite Team(s)</h5></th>
-    <th scope="col" id="left-head"><h5>Next Game</h5></th>
-    <th scope="col" id="middle-head"><h5>Previous Game</h5></th>
-    <th scope="col" id="right-head"><h5>Notable Players from Previous Game</h5></th>
+    $("#main-header").html("");
+    $("#print").html("");
 
-  </tr>`);
+//     $("#main-header").html(`<tr>
+//     <th scope="col" id="counter"><h5>Favorite Team(s)</h5></th>
+//     <th scope="col" id="left-head"><h5>Next Game</h5></th>
+//     <th scope="col" id="middle-head"><h5>Previous Game</h5></th>
+//     <th scope="col" id="right-head"><h5>Notable Players from Previous Game</h5></th>
+
+//   </tr>`);
     $("#pacman").removeClass("is-hidden");
 
     deleteVar = "dt";

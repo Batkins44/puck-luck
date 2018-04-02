@@ -65,7 +65,7 @@ function printPlayerHeader(){
     $("#title").html(`<h1>Search For a Player</h1>`);
     $("#run-fav-teams").addClass("is-hidden");
     $("#run-fav-players").addClass("is-hidden");
-
+    $("#print").html("");
     $("#tbody").html("");
 }
 
