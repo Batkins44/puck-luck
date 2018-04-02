@@ -32,6 +32,7 @@ $("#login").click(function() {
       $("#login").addClass("is-hidden");
       $("#logout").removeClass("is-hidden");
       $("#low-header").html("");
+      $("#player-search").addClass("is-hidden");
       $("#low-body").html("");
       $("#low-title").html("");
       $("#favorite-div").removeClass("is-hidden");
@@ -68,12 +69,15 @@ $("#login").click(function() {
       $("#favorite-div").addClass("is-hidden");
       $("#title").html("Please Login To See Favorite Team");
       $("tbody").html("");
+      $("#low-header").html("");
+      $("#low-body").html("");
       
   });
 
   $("#run-fav-team").click((event) => {
     favoriteTeam = $("#favorite-team-select").val();
     deleteVar = "dt";
+
 
 
     db.buildFavTeamObj(favoriteTeam);
@@ -92,6 +96,8 @@ $("#home-btn").click(() => {
     $("#tbody").html("");
     $("#low-body").html("");
     $("#low-title").html("");
+    $("#run-fav-teams").addClass("is-hidden");
+    $("#pacman").removeClass("is-hidden");
     $("#main-header").html(`<tr>
     <th scope="col" id="counter"><h5>Favorite Team(s)</h5></th>
     <th scope="col" id="left-head"><h5>Next Game</h5></th>
@@ -99,6 +105,7 @@ $("#home-btn").click(() => {
     <th scope="col" id="right-head"><h5>Notable Players from Previous Game</h5></th>
 
   </tr>`);
+  $("#main-header").removeClass("is-hidden");
     $("#low-header").html("");
     // $("#counter").html("<h5>Favorite Teams</h5>");
     // $("#left-head").html("<h5>Next Game</h5>");
@@ -119,11 +126,19 @@ $("#run-fav-teams").click(() => {
     $("#run-fav-players").removeClass("is-hidden");
     $("#player-search").addClass("is-hidden");
     $("#title").html(`<h1>Your Teams</h1>`);
+    $("#low-title").html("");
+    $("#low-body").html("");
     $("#tbody").html("");
-    $("#counter").html("<h5>Favorite Teams</h5>");
-    $("#left-head").html("<h5>Next Game</h5>");
-    $("#middle-head").html("<h5>Previous Game</h5>");
-    $("#right-head").html("<h5>Notable Players from Previous Game</h5>");
+    $("#main-header").removeClass("is-hidden");
+    $("#main-header").html(`<tr>
+    <th scope="col" id="counter"><h5>Favorite Team(s)</h5></th>
+    <th scope="col" id="left-head"><h5>Next Game</h5></th>
+    <th scope="col" id="middle-head"><h5>Previous Game</h5></th>
+    <th scope="col" id="right-head"><h5>Notable Players from Previous Game</h5></th>
+
+  </tr>`);
+    $("#pacman").removeClass("is-hidden");
+
     deleteVar = "dt";
     dom.populateFavTeam();
 });
