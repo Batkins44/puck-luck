@@ -29,6 +29,7 @@ $("#login").click(function() {
         $("#pacman").removeClass("is-hidden");
       user.setUser(result.user.uid);
       user.setName(result.user.displayName);
+      $("#home-btn").removeClass("is-hidden");
       $("#fav-players-btn").removeClass("is-hidden");
       $("#fav-teams-btn").removeClass("is-hidden");
       $("#login").addClass("is-hidden");
@@ -207,9 +208,7 @@ $(document).ready(function() {
 
         let team = event.target.id;
         if(selectClass == "btn btn-danger" && deleteVar == "dt"){
-            console.log("delete-team");
             let teamID = team.match(/\d+/)[0];
-            console.log(teamID);
             let teamTableID=`team_${teamID}`;
             $('#'+teamTableID).html("");
 
@@ -246,7 +245,6 @@ $(document).ready(function() {
 
         let player = event.target.id;
         if(selectClass == "btn btn-danger" && deleteVar == "dp"){
-            console.log("delete player");
             let playerID = player.match(/\d+/)[0];
             let playerTableID = `player_${playerID}`;
             $('#' + playerTableID).html("");

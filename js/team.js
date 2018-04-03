@@ -36,7 +36,6 @@ function listTeam(teamData){
         let currentPlayer = player[p];
         let addPlayerButton;
         let gp = currentPlayer.stats.GamesPlayed["#text"];
-        console.log("the info I need",currentPlayer);
         if(gp > 3 && currentPlayer.player.Position !== "G"){
             $("#tbody").append(`<tr>
             <th scope="row">#${currentPlayer.player.JerseyNumber}</th><td><b>${currentPlayer.player.FirstName} ${currentPlayer.player.LastName}</b></td><td>${currentPlayer.player.Position}</td> <td>${currentPlayer.stats.stats.Goals["#text"]} </td> <td>${currentPlayer.stats.stats.Assists["#text"]}</td><td>${currentPlayer.stats.stats.Points["#text"]}</td><td>${currentPlayer.stats.stats.Shots["#text"]}</td></tr>`);

@@ -15,19 +15,14 @@ function useGame(callBackFunction){
         // it reads the contents, and then executes whatever function
         // that you specify here in the done() method, and passes in
         // the contents of the file as the first argument.
-        console.log("fulldata",data);
         let gameData = data;
         callBackFunction(gameData);
 });
 }
 
 function listGame(gameData){
-    //console.log(articles);
     let game = gameData.liveData.boxscore.teams.home.players;
-    console.log(game);
     let playersId = Object.keys(game);
-    console.log("playersId",playersId);
-    console.log("player data",game);
     for(let i=0;i<playersId.length;i++){
         let id = playersId[i];
 
