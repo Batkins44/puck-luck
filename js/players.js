@@ -17,7 +17,7 @@ let x;
 function usePlayers(callBackFunction){
 
     let username = "batkins4";
-    let password = "puck-luck";
+    let password = "Cohort24";
     
     
         $.ajax({
@@ -66,12 +66,13 @@ function printPlayerHeader(){
     $("#run-fav-teams").addClass("is-hidden");
     $("#run-fav-players").addClass("is-hidden");
     $("#print").html("");
+    $("#low-print").html("");
     $("#tbody").html("");
 }
 
 function usePlayerStats(idArray,playerInfoObj){
     let username = "batkins4";
-    let password = "puck-luck";
+    let password = "Cohort24";
     
         $.ajax({
             beforeSend: function (xhr) {
@@ -80,7 +81,7 @@ function usePlayerStats(idArray,playerInfoObj){
             url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA`
         }).done(function(data) {
 
-
+            console.log("playerINfoObjArray",playerInfoObjArray);
             for(let i=0;i<idArray.length;i++){
                 let currentID = idArray[i];
 
@@ -154,21 +155,26 @@ function searchPlayers(playersData){
     let lcLastName = currentLastName.toLowerCase();
     let currentFirstName = playerArray[p].player.FirstName;
     let lcFirstName = currentFirstName.toLowerCase();
+    let currentFullName = lcFirstName + " " + lcLastName;
+    let lcFullName = currentFullName.toLowerCase();
 
 
-    if (lcLastName.includes(playerSearch) || lcFirstName.includes(playerSearch)){
+
+    if (lcFullName.includes(playerSearch)){
         let currentFullName = currentFirstName+" "+currentLastName;
-
+        console.log("lcFullName",lcFullName);
         playerResults.push(playerArray[p].player);
 
     }
 
     }
+    console.log(playerResults,"playerResults");
     listPlayers(playerResults);
 
 }
 function listPlayers(playerResults){
     idArray =[];
+    playerInfoObjArray = [];
     $("#tbody").html("");
     let c=0;
     for(let pd = 0;pd < playerResults.length;pd++){
@@ -226,8 +232,9 @@ function listPlayers(playerResults){
     c = c+1;
     let playerID = printPlayer.ID;
     idArray.push(playerID);
-    if(c==playerResults.length){
 
+    if(c==playerResults.length){
+        console.log("idArray",idArray);
         usePlayerStats(idArray);
     }
 
@@ -243,13 +250,15 @@ function listPlayers(playerResults){
 
 function runSearch(){
     $("#pacman").removeClass("is-hidden");
+    $("#tbody").html("");
+    $("#low-body").html("");
     usePlayers(searchPlayers);
 }
 
 $(document).ready(function() {
     $("body").click(function (event) {
         let selectClass = event.target.className;
-
+        console.log("What class is it",selectClass);
         let player = event.target.id;
         console.log("player",player);
 
@@ -257,7 +266,7 @@ $(document).ready(function() {
         console.log("favoritePlayer",favoritePlayer);
 
         if(selectClass == "btn btn-light"){
-
+            console.log("was clicked");
             db.buildFavPlayerObj(favoritePlayer,playerInfoObjArray);
 
 
