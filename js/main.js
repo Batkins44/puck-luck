@@ -29,6 +29,8 @@ $("#login").click(function() {
         $("#pacman").removeClass("is-hidden");
       user.setUser(result.user.uid);
       user.setName(result.user.displayName);
+      $("#fav-players-btn").removeClass("is-hidden");
+      $("#fav-teams-btn").removeClass("is-hidden");
       $("#login").addClass("is-hidden");
       $("#logout").removeClass("is-hidden");
       $("#low-header").html("");
@@ -39,7 +41,9 @@ $("#login").click(function() {
       $("#run-fav-players").removeClass("is-hidden");
       $("run-fav-teams").addClass("is-hidden");
       $("#main-header").removeClass("is-hidden");
+      $("#banner").addClass("is-hidden");
       $("#print").html("");
+      $("#low-print").html("");
       deleteVar = "dt";
       $("#main-header").html("");
       userDisplayName = result.user.displayName;
@@ -59,10 +63,12 @@ $("#login").click(function() {
   
   $("#logout").click(() => {
       db.logOut();
+      $("#fav-players-btn").addClass("is-hidden");
+      $("#fav-teams-btn").addClass("is-hidden");
       $("#login").removeClass("is-hidden");
       $("#logout").addClass("is-hidden");
       $("#favorite-div").addClass("is-hidden");
-      $("#title").html("Please Login To See Favorite Team");
+      $("#title").html("<h5>Please Login To See Favorite Team</h5>");
       $("tbody").html("");
       $("#low-header").html("");
       $("#low-body").html("");
@@ -70,6 +76,8 @@ $("#login").click(function() {
       $("#main-header").html("");
       $("#run-fav-players").addClass("is-hidden");
       $("run-fav-teams").addClass("is-hidden");
+      $("#low-print").html("");
+      $("#banner").removeClass("is-hidden");
 
       
   });
@@ -79,6 +87,7 @@ $("#login").click(function() {
     deleteVar = "dt";
 
 
+    $("#pacman").removeClass("is-hidden");
 
     db.buildFavTeamObj(favoriteTeam);
     setTimeout(dom.populateFavTeam, 2000 );
@@ -87,7 +96,7 @@ $("#login").click(function() {
 });
 
 
-$("#home-btn").click(() => {
+$("#home-btn,#fav-teams-btn").click(() => {
     $("#favorite-div").removeClass("is-hidden");
     $("#player-search").addClass("is-hidden");
     $("#run-fav-players").removeClass("is-hidden");
@@ -100,6 +109,7 @@ $("#home-btn").click(() => {
     $("#main-header").html("");
     $("print").html("");
     $("#print").html("");
+    $("#low-print").html("");
 
 //     $("#main-header").html(`<tr>
 //     <th scope="col" id="counter"><h5>Favorite Team(s)</h5></th>
@@ -119,9 +129,11 @@ $("#home-btn").click(() => {
 
 });
 
-$("#run-fav-players").click(() => {
+$("#run-fav-players,#fav-players-btn").click(() => {
     deleteVar = "dp";
     $("#print").html("");
+    $("#low-print").html("");
+
 
 });
 
@@ -137,6 +149,7 @@ $("#run-fav-teams").click(() => {
     $("#main-header").removeClass("is-hidden");
     $("#main-header").html("");
     $("#print").html("");
+    $("#low-print").html("");
 
 //     $("#main-header").html(`<tr>
 //     <th scope="col" id="counter"><h5>Favorite Team(s)</h5></th>
@@ -145,7 +158,8 @@ $("#run-fav-teams").click(() => {
 //     <th scope="col" id="right-head"><h5>Notable Players from Previous Game</h5></th>
 
 //   </tr>`);
-    $("#pacman").removeClass("is-hidden");
+
+$("#pacman").removeClass("is-hidden");
 
     deleteVar = "dt";
     dom.populateFavTeam();
@@ -156,7 +170,7 @@ function deleteFavTeam(fbID) {
           url: `${firebase.getFBsettings().databaseURL}/favTeam/${fbID}.json`,
           method: "DELETE"
     }).done((data) => {
-        dom.populateFavTeam();
+        // dom.populateFavTeam();
         return data;
     });
 }
@@ -166,7 +180,7 @@ function deleteFavPlayers(fbID) {
           url: `${firebase.getFBsettings().databaseURL}/favPlayer/${fbID}.json`,
           method: "DELETE"
     }).done((data) => {
-        db.grabFavPlayers();
+        // db.grabFavPlayers();
         return data;
     });
 }
@@ -196,6 +210,8 @@ $(document).ready(function() {
             console.log("delete-team");
             let teamID = team.match(/\d+/)[0];
             console.log(teamID);
+            let teamTableID=`team_${teamID}`;
+            $('#'+teamTableID).html("");
 
             let currentUid = user.getUser();
             db.retrieveFavTeam()
@@ -232,6 +248,8 @@ $(document).ready(function() {
         if(selectClass == "btn btn-danger" && deleteVar == "dp"){
             console.log("delete player");
             let playerID = player.match(/\d+/)[0];
+            let playerTableID = `player_${playerID}`;
+            $('#' + playerTableID).html("");
             
 
             let currentUid = user.getUser();

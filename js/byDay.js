@@ -11,7 +11,7 @@ var dayUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/dail
 function useDay(callBackFunction){
 
     let username = "batkins4";
-    let password = "puck-luck";
+    let password = "Cohort24";
     
     
         $.ajax({
@@ -57,6 +57,8 @@ function runDay(){
 
   </tr>`);
   $("#print").html("");
+  $("#low-print").html("");
+
   $("#low-title").html("");
     $("#main-header").removeClass("is-hidden");
     $("#low-header").html("");

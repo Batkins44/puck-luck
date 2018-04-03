@@ -7,7 +7,7 @@ var teamUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cum
 function useTeam(callBackFunction){
 
 let username = "batkins4";
-let password = "puck-luck";
+let password = "Cohort24";
 
 
 
@@ -34,12 +34,13 @@ function listTeam(teamData){
     $("#low-body").html("");
     for(let p=0;p<player.length;p++){
         let currentPlayer = player[p];
+        let addPlayerButton;
         let gp = currentPlayer.stats.GamesPlayed["#text"];
-
-        if(gp > 0 && currentPlayer.player.Position !== "G"){
+        console.log("the info I need",currentPlayer);
+        if(gp > 3 && currentPlayer.player.Position !== "G"){
             $("#tbody").append(`<tr>
-            <th scope="row">${currentPlayer.player.JerseyNumber}</th><td><b>${currentPlayer.player.FirstName} ${currentPlayer.player.LastName}</b></td><td>${currentPlayer.player.Position}</td> <td>${currentPlayer.stats.stats.Goals["#text"]} </td> <td>${currentPlayer.stats.stats.Assists["#text"]}</td><td>${currentPlayer.stats.stats.Points["#text"]}</td><td>${currentPlayer.stats.stats.Shots["#text"]}</td></tr>`);
-        }else if(gp > 0 && currentPlayer.player.Position == "G"){
+            <th scope="row">#${currentPlayer.player.JerseyNumber}</th><td><b>${currentPlayer.player.FirstName} ${currentPlayer.player.LastName}</b></td><td>${currentPlayer.player.Position}</td> <td>${currentPlayer.stats.stats.Goals["#text"]} </td> <td>${currentPlayer.stats.stats.Assists["#text"]}</td><td>${currentPlayer.stats.stats.Points["#text"]}</td><td>${currentPlayer.stats.stats.Shots["#text"]}</td></tr>`);
+        }else if(gp > 3 && currentPlayer.player.Position == "G"){
             let ga = currentPlayer.stats.stats.GoalsAgainst["#text"];
             ga = parseInt(ga);
             let sv = currentPlayer.stats.stats.Saves["#text"];
@@ -69,6 +70,7 @@ function printTeamHeader() {
     $("#favorite-div").addClass("is-hidden");
     $("#player-search").addClass("is-hidden");
     $("#print").html("");
+    $("#low-print").html("");
     $("#main-header").html(`<th scope="col" id="counter"><h5>Jersey Number</h5></th>
     <th scope="col" id="left-head"><h5>Player</h5></th>
     <th scope="col" id="middle-head"><h5>Position</h5></th>

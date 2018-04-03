@@ -59,7 +59,7 @@ function getUserData() {
 function usePlayersFav(callBackFunction){
 
     let username = "batkins4";
-    let password = "puck-luck";
+    let password = "Cohort24";
     
     
         $.ajax({
@@ -150,7 +150,7 @@ function buildFavTeamObj(favoriteTeam){
     let favTeamObj;
 
         let username = "batkins4";
-        let password = "puck-luck";
+        let password = "Cohort24";
         
         
         
@@ -208,7 +208,10 @@ function buildFavPlayerObj(favoritePlayer,playerInfo){
 
             // favPlayerObj.team = playerTeamObject;
             addFavPlayer(favPlayerObj);
-            grabFavPlayers();
+            window.alert(`Added ${favPlayerObj.name}`);
+            let playerButtonID = `addPlayer_${favPlayerObj.playerID}`;
+            $("#"+playerButtonID).addClass("is-hidden");
+            // grabFavPlayers();
             }
         }
     }
@@ -223,6 +226,7 @@ function addFavPlayer(favPlayerObj){
         data: JSON.stringify(favPlayerObj),
         dataType: 'json'
      }).done((fbPlayerID) => {
+
         return fbPlayerID;
      });
 }
@@ -291,7 +295,7 @@ function getPlayerLogs(uidFavPlayers,idString){
 
 
     let username = "batkins4";
-    let password = "puck-luck";
+    let password = "Cohort24";
 
     
     
@@ -422,15 +426,15 @@ console.log(twoWeeksGames);
         let thirdGame = twoWeeksGames[z+2];
         console.log("thirdGame",thirdGame);
         if(currentGame.position == "G"){
-            $("#low-body").append(`<tr><th scope="row">${currentGame.image}</th><th>${currentGame.name}<br>${currentGame.team}</th><td></td><td></td><td></td><td><th><button id="delete_${currentGame.playerID}" class="btn btn-danger">Delete</button></th><tr><th scope="row"></th><td></td><th>W</th><th>SV</th><th>GA</th><th>GAA</th><th>SV%</th></tr>
+            $("#low-print").append(`<table class="table table-striped table-dark" id="player_${currentGame.playerID}"><tr><th scope="row">${currentGame.image}</th><th>${currentGame.name}<br>${currentGame.team}</th><td></td><td></td><td></td><td><th><button id="delete_${currentGame.playerID}" class="btn btn-danger">Delete</button></th><tr><th scope="row"></th><td></td><th>W</th><th>SV</th><th>GA</th><th>GAA</th><th>SV%</th></tr>
             <tr><th>${currentGame.date}</th> <td></td><td>${currentGame.stats.Wins["#text"]}</td><td>${currentGame.stats.Saves["#text"]}</td><td>${currentGame.stats.GoalsAgainst["#text"]}</td><td>${currentGame.stats.GoalsAgainstAverage["#text"]}</td><td>${currentGame.stats.SavePercentage["#text"]}</td></tr><br>
             <tr><th>${secondGame.date}</th><td></td><td>${secondGame.stats.Wins["#text"]}</td><td>${secondGame.stats.Saves["#text"]}</td><td>${secondGame.stats.GoalsAgainst["#text"]}</td><td>${secondGame.stats.GoalsAgainstAverage["#text"]}</td><td>${secondGame.stats.SavePercentage["#text"]}</td></tr><br>
-            <tr><th>${thirdGame.date}</th><td></td><td>${thirdGame.stats.Wins["#text"]}</td><td>${thirdGame.stats.Saves["#text"]}</td><td>${thirdGame.stats.GoalsAgainst["#text"]}</td><td>${thirdGame.stats.GoalsAgainstAverage["#text"]}</td><td>${thirdGame.stats.SavePercentage["#text"]}</td></tr><br><hr>`);
+            <tr><th>${thirdGame.date}</th><td></td><td>${thirdGame.stats.Wins["#text"]}</td><td>${thirdGame.stats.Saves["#text"]}</td><td>${thirdGame.stats.GoalsAgainst["#text"]}</td><td>${thirdGame.stats.GoalsAgainstAverage["#text"]}</td><td>${thirdGame.stats.SavePercentage["#text"]}</td></tr></table>`);
         }else{
-            $("#tbody").append(`<tr><th scope="row">${currentGame.image}</th><th>${currentGame.name}<br>${currentGame.team}</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><th><button id="delete_${currentGame.playerID}" class="btn btn-danger">Delete</button></th><tr><th scope="row"></th><td></td><th>G</th><th>A</th><th>PTS</th><th>SOG</th><th>+/-</th><th>BLK</th><th>HIT</th><th>PIM</th></tr>
+            $("#print").append(`<table class="table table-striped table-dark" id="player_${currentGame.playerID}"><tr><th scope="row">${currentGame.image}</th><th>${currentGame.name}<br>${currentGame.team}</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><th><button id="delete_${currentGame.playerID}" class="btn btn-danger">Delete</button></th><tr><th scope="row"></th><td></td><th>G</th><th>A</th><th>PTS</th><th>SOG</th><th>+/-</th><th>BLK</th><th>HIT</th><th>PIM</th></tr>
             <tr><th>${currentGame.date}</th><td></td><td>${currentGame.stats.Goals["#text"]}</td><td>${currentGame.stats.Assists["#text"]}</td><td>${currentGame.stats.Points["#text"]}</td><td>${currentGame.stats.Shots["#text"]}</td><td>${currentGame.stats.PlusMinus["#text"]}</td><td>${currentGame.stats.BlockedShots["#text"]}</td><td>${currentGame.stats.Hits["#text"]}</td><td>${currentGame.stats.PenaltyMinutes["#text"]}</td></tr><br>
             <tr><th>${secondGame.date}</th><td></td><td>${secondGame.stats.Goals["#text"]}</td><td>${secondGame.stats.Assists["#text"]}</td><td>${secondGame.stats.Points["#text"]}</td><td>${secondGame.stats.Shots["#text"]}</td><td>${secondGame.stats.PlusMinus["#text"]}</td><td>${secondGame.stats.BlockedShots["#text"]}</td><td>${secondGame.stats.Hits["#text"]}</td><td>${secondGame.stats.PenaltyMinutes["#text"]}</td></tr><br>
-            <tr><th>${thirdGame.date}</th><td></td><td>${thirdGame.stats.Goals["#text"]}</td><td>${thirdGame.stats.Assists["#text"]}</td><td>${thirdGame.stats.Points["#text"]}</td><td>${thirdGame.stats.Shots["#text"]}</td><td>${thirdGame.stats.PlusMinus["#text"]}</td><td>${thirdGame.stats.BlockedShots["#text"]}</td><td>${thirdGame.stats.Hits["#text"]}</td><td>${thirdGame.stats.PenaltyMinutes["#text"]}</td></tr><hr>`);
+            <tr><th>${thirdGame.date}</th><td></td><td>${thirdGame.stats.Goals["#text"]}</td><td>${thirdGame.stats.Assists["#text"]}</td><td>${thirdGame.stats.Points["#text"]}</td><td>${thirdGame.stats.Shots["#text"]}</td><td>${thirdGame.stats.PlusMinus["#text"]}</td><td>${thirdGame.stats.BlockedShots["#text"]}</td><td>${thirdGame.stats.Hits["#text"]}</td><td>${thirdGame.stats.PenaltyMinutes["#text"]}</td></tr></table>`);
         }
         z += 2;
     }
@@ -439,7 +443,7 @@ console.log(twoWeeksGames);
 
     }
 
-$("#run-fav-players").click(grabFavPlayers);
+$("#run-fav-players,#fav-players-btn").click(grabFavPlayers);
 
 
 

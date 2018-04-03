@@ -14,7 +14,7 @@ let firebase = require("./fb-config"),
 function getGameInfo(abbr,teams){
 
     let username = "batkins4";
-    let password = "puck-luck";
+    let password = "Cohort24";
 
         $.ajax({
             beforeSend: function (xhr) {
@@ -108,13 +108,14 @@ for (let i=0;i<teams.length;i++){
     teams[i].urlString = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/game_boxscore.json?gameid=${urlString}&teamstats=W,L,GF,GA,Pts&playerstats=G,A,Pts,Sh,ht,bs`;
     usePreviousGame(getPreviousGamePlayers,teams[i]);
 }
+$("#pacman").addClass("is-hidden");
 
 }
 
 function usePreviousGame(callBackFunction,team){
 
     let username = "batkins4";
-    let password = "puck-luck";
+    let password = "Cohort24";
     
 
     
@@ -233,7 +234,7 @@ console.log("teams",teams);
 console.log("favTeamInfoArray",favTeamInfoArray);
 
 
-    $("#print").append(`<table class="table table-striped table-dark"><tr><th scope="row"><div class="teamname">${teams.Name}</div></th><td></td><td></td><td></td><td></td><td></td><th><button id="delete_${teams.ID}" class="btn btn-danger">Delete</button></th></tr>
+    $("#print").append(`<table id="team_${teams.ID}" class="table table-striped table-dark"><tr><th scope="row"><div class="teamname">${teams.Name}</div></th><td></td><td></td><td></td><td></td><td></td><th><button id="delete_${teams.ID}" class="btn btn-danger">Delete</button></th></tr>
     <tr><th>Last Game<br>${teams.previousGame[3]}<br>${teams.previousGame[4]}</th><td>${teams.previousGame[5]} ${teams.previousGame[6]}</td> <td>@ ${teams.previousGame[7]} ${teams.previousGame[8]}</td>
     <th>Final Score:</th><td class="score"><h5>${teams.previousScoreFor}-${teams.previousScoreAgainst}</h5><div id="win-or-lose_${c}">${teams.previousGameResult}</div></td></tr>
     <tr><th>Player Of The Game</th><th>G</th><th>A</th><th>PTS</th><th>SOG</th><th>HIT</th><th>BLK</th></tr><tr><td>${pointsLeaderName}</td><td>${mvpGoals}</td><td>${mvpAssists}</td><td>${mvpPoints}</td><td>${mvpShots}</td><td>${mvpHits}</td><td>${mvpBlocks}</td>
