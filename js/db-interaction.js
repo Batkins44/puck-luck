@@ -189,7 +189,6 @@ function buildFavTeamObj(favoriteTeam){
 function buildFavPlayerObj(favoritePlayer,playerInfo){
     for(let f=0;f<playerInfo.length;f++){
         let currentPlayer = playerInfo[f].playerID;
-        console.log("favorite player",playerInfo[f]);
         if(favoritePlayer == currentPlayer){
 
             let currentUid = user.getUser();
@@ -279,7 +278,6 @@ function grabFavPlayers(){
               idString = idString + currentFavPlayer.playerID + ",";
         }
         idString = idString.substring(0, idString.length - 1);
-        console.log("theid string",idString);
         getPlayerLogs(uidFavPlayers,idString);
     });
 
@@ -305,7 +303,6 @@ function getPlayerLogs(uidFavPlayers,idString){
             },
             url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/player_gamelogs.json?player=${idString}&date=from-3-weeks-ago-to-yesterday`
         }).done(function(data) {
-            console.log(data);
             let gamelogs=data.playergamelogs.gamelogs;
             let twoWeeksGames = [];
             for(let l=0;l<uidFavPlayers.length; l++){
@@ -314,9 +311,7 @@ function getPlayerLogs(uidFavPlayers,idString){
                 if(count <3 ){
                 let favPlayerID = uidFavPlayers[l].playerID;
                 let gameLogPlayerID = gamelogs[i].player.ID;
-                console.log("favPlayerID",favPlayerID,"gamlogplayerid",gameLogPlayerID);
                 if(favPlayerID == gameLogPlayerID){
-                    console.log("found a match",gamelogs[i].game.id);
                     let teamName = gamelogs[i].team.City + " " + gamelogs[i].team.Name;
                     let playerLogObj = {
                         name:uidFavPlayers[l].name,
@@ -338,7 +333,6 @@ function getPlayerLogs(uidFavPlayers,idString){
 
 //                 let gamelogs = data.playergamelogs.gamelogs;
 //             if(gamelogs){
-//                 console.log(gamelogs);
 //                 let previousGame = gamelogs[gamelogs.length-1];
 //                 let previousGameTwo = gamelogs[gamelogs.length-2];
 //                 let previousGameThree = gamelogs[gamelogs.length-3];
@@ -418,13 +412,10 @@ function getPlayerLogs(uidFavPlayers,idString){
 //                 $("#tbody").append(`<tr><th scope="row">${uidFavPlayers.name}<br><button id="delete_${playerID}" class="btn btn-danger">Delete</button></th><td><h5>Player Hasn't Played</h5><td></tr>`);
 //             }
 
-
-console.log(twoWeeksGames);
     for(let z=0;z<twoWeeksGames.length;z++){
         let currentGame = twoWeeksGames[z];
         let secondGame = twoWeeksGames[z+1];
         let thirdGame = twoWeeksGames[z+2];
-        console.log("thirdGame",thirdGame);
         if(currentGame.position == "G"){
             $("#low-print").append(`<table class="table table-striped table-dark" id="player_${currentGame.playerID}"><tr><th scope="row">${currentGame.image}</th><th>${currentGame.name}<br>${currentGame.team}</th><td></td><td></td><td></td><td><th><button id="delete_${currentGame.playerID}" class="btn btn-danger">Delete</button></th><tr><th scope="row"></th><td></td><th>W</th><th>SV</th><th>GA</th><th>GAA</th><th>SV%</th></tr>
             <tr><th>${currentGame.date}</th> <td></td><td>${currentGame.stats.Wins["#text"]}</td><td>${currentGame.stats.Saves["#text"]}</td><td>${currentGame.stats.GoalsAgainst["#text"]}</td><td>${currentGame.stats.GoalsAgainstAverage["#text"]}</td><td>${currentGame.stats.SavePercentage["#text"]}</td></tr><br>

@@ -81,7 +81,6 @@ function usePlayerStats(idArray,playerInfoObj){
             url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA`
         }).done(function(data) {
 
-            console.log("playerINfoObjArray",playerInfoObjArray);
             for(let i=0;i<idArray.length;i++){
                 let currentID = idArray[i];
 
@@ -162,13 +161,11 @@ function searchPlayers(playersData){
 
     if (lcFullName.includes(playerSearch)){
         let currentFullName = currentFirstName+" "+currentLastName;
-        console.log("lcFullName",lcFullName);
         playerResults.push(playerArray[p].player);
 
     }
 
     }
-    console.log(playerResults,"playerResults");
     listPlayers(playerResults);
 
 }
@@ -234,7 +231,6 @@ function listPlayers(playerResults){
     idArray.push(playerID);
 
     if(c==playerResults.length){
-        console.log("idArray",idArray);
         usePlayerStats(idArray);
     }
 
@@ -258,15 +254,11 @@ function runSearch(){
 $(document).ready(function() {
     $("body").click(function (event) {
         let selectClass = event.target.className;
-        console.log("What class is it",selectClass);
         let player = event.target.id;
-        console.log("player",player);
 
         let favoritePlayer = player.match(/\d+/);
-        console.log("favoritePlayer",favoritePlayer);
 
         if(selectClass == "btn btn-light"){
-            console.log("was clicked");
             db.buildFavPlayerObj(favoritePlayer,playerInfoObjArray);
 
 

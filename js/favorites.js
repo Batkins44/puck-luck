@@ -22,7 +22,6 @@ function getGameInfo(abbr,teams){
             },
             url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/full_game_schedule.json?team=${abbr}&date=since-3-weeks-ago`
         }).done((data) => {
-            console.log("data",data);
 
             let nextGameIndex = null;
             let today = new Date();
@@ -74,17 +73,14 @@ let stringAbbr = "";
 
         let currentUser = user.getUser();
 
-    console.log("favTeamArray",favTeamArray);
     setTimeout(function(){console.log("favteamlenght",favTeamArray.length);
     for (let j=0;j<favTeamArray.length;j++){
-        console.log("single abbr",favTeamArray[j].abbr);
         
         stringAbbr += favTeamArray[j].abbr;
         stringAbbr += ",";
 
     }
     stringAbbr = stringAbbr.substring(0, stringAbbr.length - 1);
-    console.log("abbr",stringAbbr);
     getGameInfo(stringAbbr,favTeamArray);
 },3000);
 
@@ -143,7 +139,6 @@ function getPreviousGamePlayers(gameData,teams){
     let players;
 
 
-    console.log("gameData",gameData);
 
     if(teams.ID == gameData.gameboxscore.game.awayTeam.ID){
         players = gameData.gameboxscore.awayTeam.awayPlayers.playerEntry;
@@ -209,13 +204,11 @@ function getPreviousGamePlayers(gameData,teams){
     let pointsLeader;
     // let assistLeader = "none";
     // let pointsLeader = "none";
-    // console.log("goalsArray",goalsArray);
     if(pointsArray.length > 0){
     // goalsLeader = idPlayerFinder(goalsArray[0][1],players);
 
     // assistLeader = idPlayerFinder(assistsArray[0][1],players);
     pointsLeader = idPlayerFinder(pointsArray[0][1],players);
-    console.log("pointsLeader",pointsLeader);
     pointsLeaderName = pointsLeader.name;
     mvpGoals = pointsLeader.goals;
     mvpAssists = pointsLeader.assists;
@@ -230,8 +223,6 @@ function getPreviousGamePlayers(gameData,teams){
 
     favTeamInfoArray.push(teams);
 
-console.log("teams",teams);
-console.log("favTeamInfoArray",favTeamInfoArray);
 
 
     $("#print").append(`<table id="team_${teams.ID}" class="table table-striped table-dark"><tr><th scope="row"><div class="teamname">${teams.Name}</div></th><td></td><td></td><td></td><td></td><td></td><th><button id="delete_${teams.ID}" class="btn btn-danger">Delete</button></th></tr>
@@ -270,7 +261,6 @@ for(let q=0;q<players.length;q++){
     let currentPlayerID = players[q].player.ID;
 
     if (currentPlayerID == id){
-        console.log("playerData",players[q]);
     let playerName =  (players[q].player.FirstName + " " + players[q].player.LastName + " ");
         if(players[q].stats.Goals["#text"]>0){
             goals = ((players[q].stats.Goals["#text"]));
@@ -300,7 +290,6 @@ for(let q=0;q<players.length;q++){
             hits:hits,
             blocks:blocks
         };
-        console.log("playerInfo",playerInfoObj);
         return playerInfoObj;
     }
     

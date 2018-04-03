@@ -36,6 +36,7 @@ h1{
 
 h5{
     font-family:$tertiaryFont;
+
 }
 
 #low-title{
@@ -154,4 +155,10 @@ hr {
 
 .players-table{
     background-color:$primaryColor;
+}
+
+footer{
+    background-color: $secondaryColor;
+    font-family:$tertiaryFont;
+    text-align:center;
 }
