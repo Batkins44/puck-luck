@@ -22,12 +22,25 @@ function getGameInfo(abbr,teams){
             },
             url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/full_game_schedule.json?team=${abbr}&date=since-3-weeks-ago`
         }).done((data) => {
-
+            console.log(data);
             let nextGameIndex = null;
             let today = new Date();
             today = Date.parse(today);
             today = today-150000000;
+            let seasonEnd = false;
+            let lastEntry = data.fullgameschedule.gameentry.length-1;
 
+            let lastDate = data.fullgameschedule.gameentry[lastEntry].date;
+            lastDate = Date.parse(lastDate);
+            console.log(lastDate,"lastdafasdfas");
+            if(today > lastDate){
+            console.log("season over");
+            $("#pacman").addClass("is-hidden");
+            $("#run-fav-players").addClass("is-hidden");
+            $("#favorite-div").html(`<h5>Season is over. See ya next October!</h5><br><h5>Feel free to browser the rest of our site!</h5>`);
+            $("#fav-players-btn").addClass("is-hidden");
+            $("#fav-teams-btn").addClass("is-hidden");
+            }else{
             for(let j=0;j<teams.length;j++){
                 let currentTeamID = teams[j].ID;
                 for (let i=0;i<data.fullgameschedule.gameentry.length;i++){
@@ -63,7 +76,7 @@ function getGameInfo(abbr,teams){
             }
 
             formatTeams(teams);
-
+        }
    
        });
     }

@@ -1,7 +1,8 @@
 "use strict";
 var moment = require('moment');
-
-var date = moment().format('YYYYMMDD');
+// Changed date to 04/18/2018 because the season over and retrieving the current date was causing an error.
+var date = moment(1523161616000).format('YYYYMMDD');
+console.log(date,"date");
 
 let changeDate;
 
@@ -65,7 +66,7 @@ function runDay(){
     $("#run-fav-teams").addClass("is-hidden");
     $("#run-fav-players").addClass("is-hidden");
 
-    $("#title").html(`<h1>Today's Games</h1><br>`);
+    $("#title").html(`<h1>04-08-18</h1><br>`);
     $("#title").append(`Or choose a different day.<br>`);
     $("#title").append(`<input type="date" id="time-get" min="2017-10-04" max="2018-04-07">`);
     $("#title").append(`<button id="time-run">Go</button><hr>`);

@@ -1,0 +1,43 @@
+{
+  "favPlayer" : [ {
+    "album" : "How Do You Do",
+    "artist" : "Mayer Hawthorne",
+    "title" : "The Walk"
+  }, {
+    "album" : "Grace Potter and the Nocturnals",
+    "artist" : "Grace Potter",
+    "title" : "Medicine"
+  }, {
+    "album" : "Eliminator",
+    "artist" : "ZZ Top",
+    "title" : "Legs"
+  } ],
+  "favTeam" : {
+    "-L7jfQmEAlrxPLRwYsQp" : {
+      "favTeam" : "nashville-predators",
+      "uid" : "C8qA6PIK4CO1zAmig3vpwAJ1lAz2"
+    },
+    "-L7jluKO0W2PLaI5ATpd" : {
+      "favTeam" : "montreal-canadiens",
+      "uid" : "170mshj2podzvx5dEBVdu7Q2BXb2"
+    },
+    "-L7pYtgl3EVfjoX01bIY" : {
+      "favTeam" : "nashville-predators",
+      "uid" : "ri9oV3FSSCM7MhowJKcmZj1wROI2"
+    }
+  },
+  "user" : {
+    "-L7jcAwKdbxfnWatrNHE" : {
+      "name" : "Ben Atkins",
+      "uid" : "ri9oV3FSSCM7MhowJKcmZj1wROI2"
+    },
+    "-L7jcP3SZRHLICOJZCR_" : {
+      "name" : "Ella Bobadilla",
+      "uid" : "170mshj2podzvx5dEBVdu7Q2BXb2"
+    },
+    "-L7jcRkCYJJp94Q3nVHX" : {
+      "name" : "Ben Atkins",
+      "uid" : "C8qA6PIK4CO1zAmig3vpwAJ1lAz2"
+    }
+  }
+}
