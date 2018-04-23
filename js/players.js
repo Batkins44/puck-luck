@@ -95,7 +95,7 @@ function usePlayerStats(idArray,playerInfoObj){
 
                                 let currentStats = data.cumulativeplayerstats.playerstatsentry[z].stats.stats;
 
-                        $("#tbody").append(`<tr><th scope="row">#${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br><button class="btn btn-light" id='addPlayer_${playerInfoObjArray[p].playerID}'>Add to Favorites</button></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
+                        $("#tbody").append(`<tr><th scope="row">#${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
                         <td>Team: ${data.cumulativeplayerstats.playerstatsentry[z].team.City} ${data.cumulativeplayerstats.playerstatsentry[z].team.Name}<br>Born: ${playerInfoObjArray[p].country}<br>Birthday: ${playerInfoObjArray[p].bday}<br>Height: ${playerInfoObjArray[p].height}<br>Weight: ${playerInfoObjArray[p].weight}<br>${playerInfoObjArray[p].twitter}<br></td><td>${currentStats.Goals["#text"]}</td>
                         <td>${currentStats.Assists["#text"]}</td><td>${currentStats.Points["#text"]}</td><td>${currentStats.Shots["#text"]}</td></tr>`);
                     }else if(currentEntry == currentID && data.cumulativeplayerstats.playerstatsentry[z].player.Position == "G"){
@@ -108,9 +108,11 @@ function usePlayerStats(idArray,playerInfoObj){
             
                         savePer = sv/savePer;
                         savePer = Math.round(savePer * 10000) / 100;
-                        $("#low-body").append(`<tr><th scope="row">#${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br><button class="btn btn-light" id='addPlayer_${playerInfoObjArray[p].playerID}'>Add to Favorites</button></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
+                        $("#low-body").append(`<tr><th scope="row">#${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
                         <td>Team: ${data.cumulativeplayerstats.playerstatsentry[z].team.City} ${data.cumulativeplayerstats.playerstatsentry[z].team.Name}<br>Born: ${playerInfoObjArray[p].country}<br>Birthday: ${playerInfoObjArray[p].bday}<br>Height: ${playerInfoObjArray[p].height}<br>Weight:${playerInfoObjArray[p].weight}<br>${playerInfoObjArray[p].twitter}</td><td>
                         ${currentStats.Wins["#text"]}-${currentStats.Losses["#text"]}-${currentStats.OvertimeLosses["#text"]}</td><td>${currentStats.Shutouts["#text"]}</td><td>${currentStats.GoalsAgainstAverage["#text"]}</td><td>${savePer}</td></tr>`);
+// Because the season ended and the favorite players/teams page is under construction, I removed the add Player button. When ready to reinsert for playoffs or next season, add this line of code immediately after the player position on skater and goalie
+// <button class="btn btn-light" id='addPlayer_${playerInfoObjArray[p].playerID}'>Add to Favorites</button>
 
                     }
                 
