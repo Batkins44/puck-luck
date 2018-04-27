@@ -5,6 +5,7 @@ let day = require("./byDay");
 let team = require("./team");
 let players = require("./players");
 let dom =require("./dom-builder");
+let news = require("./news");
 let favorites = ("./favorites");
 let welcomeName;
 let favoriteTeam;
@@ -18,6 +19,8 @@ let firebase = require("./fb-config"),
 
 let db = require("./db-interaction"),
     user = require("./user");
+
+news.useNews(news.listNews);
 
 $('#btn-teams').click(team.printTeamHeader);
 $('#players-btn').click(players.printPlayerHeader);
