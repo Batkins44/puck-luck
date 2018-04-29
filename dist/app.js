@@ -629,7 +629,7 @@ function getGameInfo(abbr,teams){
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/full_game_schedule.json?team=${abbr}&date=since-3-weeks-ago`
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/full_game_schedule.json?team=${abbr}&date=since-3-months-ago`
         }).done((data) => {
             console.log(data);
             let nextGameIndex = null;
@@ -1333,8 +1333,54 @@ function useNews(callBackFunction){
 }
 
 
+
+
 function listNews(newsData){
-console.log("NEWS",newsData);
+console.log(newsData);
+let article = newsData.articles;
+
+
+$("#news").html(
+   `<h1>News Around the League</h1>
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+      <a href="${article[0].url}">
+        <img class="d-block w-100" src="${newsData.articles[0].urlToImage}" alt="First slide">
+        <div class="carousel-caption d-none d-md-block">
+            <h5>${article[0].title}</h5>
+            <p>${article[0].description}</p>
+            </div>
+            </a>
+      </div>
+      <div class="carousel-item">
+      <a href="${article[1].url}">
+        <img class="d-block w-100" src="${newsData.articles[1].urlToImage}" alt="Second slide">
+        <div class="carousel-caption d-none d-md-block">
+        <h5>${article[1].title}</h5>
+        <p>${article[1].description}</p>
+        </div>
+        </a>
+      </div>
+      <div class="carousel-item">
+      <a href="${article[2].url}">
+        <img class="d-block w-100" src="${newsData.articles[2].urlToImage}" alt="Third slide">
+        <div class="carousel-caption d-none d-md-block">
+        <h5>${article[2].title}</h5>
+        <p>${article[2].description}</p>
+      </div>
+      </a>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>`
+);
 
 }
 
