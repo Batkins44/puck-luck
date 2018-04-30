@@ -4,6 +4,7 @@ var moment = require('moment');
 let db = require("./db-interaction");
 let user = require("./user");
 let dom = require("./dom-builder");
+let news = require("./news");
 let urlString;
 let favTeamInfoArray = [];
 let c=0;
@@ -20,7 +21,7 @@ function getGameInfo(abbr,teams){
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/full_game_schedule.json?team=${abbr}&date=since-3-weeks-ago`
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/full_game_schedule.json?team=${abbr}&date=since-3-months-ago`
         }).done((data) => {
             console.log(data);
             let nextGameIndex = null;
@@ -37,10 +38,12 @@ function getGameInfo(abbr,teams){
             console.log("season over");
             $("#pacman").addClass("is-hidden");
             $("#run-fav-players").addClass("is-hidden");
-            $("#favorite-div").html(`<h5>Season is over. See ya next October!</h5><br><h5>Feel free to browser the rest of our site!</h5>`);
+            $("#title").append(`<h5>Season is over. See ya next October!</h5><br><h5>Feel free to browser the rest of our site!</h5><hr>`);
             $("#fav-players-btn").addClass("is-hidden");
             $("#fav-teams-btn").addClass("is-hidden");
+            $("#favorite-div").html("");
             }else{
+                $("#news-btn").addClass("is-hidden");
             for(let j=0;j<teams.length;j++){
                 let currentTeamID = teams[j].ID;
                 for (let i=0;i<data.fullgameschedule.gameentry.length;i++){

@@ -98,6 +98,39 @@ hr {
   display: none;
 }
 
+#news{
+    max-height:506px;
+    width:60%;
+    max-width:900px;
+    margin:auto;
+    border:9px solid $secondaryColor;
+
+}
+
+.carousel-caption h5 {
+    color: $tertiaryColor;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    font-family:$primaryFont;
+    font-size:36px;
+}
+
+.carousel-caption p{
+    color: black;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    font-family:$secondaryFont;
+}
+
+
+
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23990000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+}
+
+.carousel-control-next-icon {
+   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23990000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+}
+
+
 #pacman {
     text-align:center;
 }

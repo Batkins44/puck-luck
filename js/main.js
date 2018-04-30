@@ -5,6 +5,7 @@ let day = require("./byDay");
 let team = require("./team");
 let players = require("./players");
 let dom =require("./dom-builder");
+let news = require("./news");
 let favorites = ("./favorites");
 let welcomeName;
 let favoriteTeam;
@@ -19,6 +20,8 @@ let firebase = require("./fb-config"),
 let db = require("./db-interaction"),
     user = require("./user");
 
+news.useNews(news.listNews);
+
 $('#btn-teams').click(team.printTeamHeader);
 $('#players-btn').click(players.printPlayerHeader);
 
@@ -32,6 +35,7 @@ $("#login").click(function() {
       $("#home-btn").removeClass("is-hidden");
       $("#fav-players-btn").removeClass("is-hidden");
       $("#fav-teams-btn").removeClass("is-hidden");
+      $("#news-btn").removeClass("is-hidden");
       $("#login").addClass("is-hidden");
       $("#logout").removeClass("is-hidden");
       $("#low-header").html("");

@@ -68,6 +68,7 @@ function printPlayerHeader(){
     $("#print").html("");
     $("#low-print").html("");
     $("#tbody").html("");
+    $("#news").addClass("is-hidden");
 }
 
 function usePlayerStats(idArray,playerInfoObj){
