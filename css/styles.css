@@ -84,7 +84,7 @@ hr {
   color: #990000;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
   font-family: "Coda Caption", sans-serif;
-  font-size: 36px; }
+  font-size: 24px; }
 
 .carousel-caption p {
   color: black;
@@ -146,5 +146,9 @@ footer {
   background-color: #000d1a;
   font-family: "Quicksand", sans-serif;
   text-align: center; }
+
+@media only screen and (max-width: 480px) {
+  .carousel-caption h5 {
+    font-size: 12px; } }
 
 /*# sourceMappingURL=styles.css.map */
