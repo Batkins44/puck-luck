@@ -2,7 +2,7 @@ header {
   width: 100%; }
 
 body {
-  background-color: #338099;
+  background: linear-gradient(#000d1a 5%, #338099);
   color: whitesmoke; }
 
 nav {

@@ -5,7 +5,7 @@ header{
 }
 
 body{
-    background-color:$primaryColor;
+    background:linear-gradient($secondaryColor 5%,$primaryColor);
     color:whitesmoke;
 }
 
@@ -55,6 +55,11 @@ h5{
     z-index:99;
     
 }
+// Perhaps I'll grow the button with an animation, still thinking
+// #nav-wrapper>button:hover{
+//     width:160px;
+//     height:50px;
+// }
 
 button{
     height:38px;
