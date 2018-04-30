@@ -648,7 +648,7 @@ function getGameInfo(abbr,teams){
             console.log("season over");
             $("#pacman").addClass("is-hidden");
             $("#run-fav-players").addClass("is-hidden");
-            $("#title").append(`<h5>Regular Season is over. See ya next October!</h5><br><h5>Feel free to browser the rest of our site!</h5><hr>`);
+            $("#title").append(`<h5>Season is over. See ya next October!</h5><br><h5>Feel free to browser the rest of our site!</h5><hr>`);
             $("#fav-players-btn").addClass("is-hidden");
             $("#fav-teams-btn").addClass("is-hidden");
             $("#favorite-div").html("");
@@ -1156,7 +1156,6 @@ $("#home-btn,#fav-teams-btn").click(() => {
     $("print").html("");
     $("#print").html("");
     $("#low-print").html("");
-    $("#news").addClass("is-hidden");
 
 //     $("#main-header").html(`<tr>
 //     <th scope="col" id="counter"><h5>Favorite Team(s)</h5></th>
