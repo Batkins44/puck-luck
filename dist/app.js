@@ -1351,7 +1351,7 @@ $("#news").html(`<div id="carouselExampleControls" class="carousel slide" data-r
       <div class="carousel-item active">
       <a href="${article[0].url}">
         <img class="d-block w-100" src="${newsData.articles[0].urlToImage}" alt="First slide">
-        <div class="carousel-caption d-none d-md-block">
+        <div class="carousel-caption">
             <h5>${article[0].title}</h5>
             </div>
             </a>
@@ -1359,7 +1359,7 @@ $("#news").html(`<div id="carouselExampleControls" class="carousel slide" data-r
       <div class="carousel-item">
       <a href="${article[1].url}">
         <img class="d-block w-100" src="${newsData.articles[1].urlToImage}" alt="Second slide">
-        <div class="carousel-caption d-none d-md-block">
+        <div class="carousel-caption">
         <h5>${article[1].title}</h5>
         </div>
         </a>
@@ -1367,7 +1367,7 @@ $("#news").html(`<div id="carouselExampleControls" class="carousel slide" data-r
       <div class="carousel-item">
       <a href="${article[2].url}">
         <img class="d-block w-100" src="${newsData.articles[2].urlToImage}" alt="Third slide">
-        <div class="carousel-caption d-none d-md-block">
+        <div class="carousel-caption">
         <h5>${article[2].title}</h5>
       </div>
       </a>
