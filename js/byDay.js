@@ -66,7 +66,7 @@ function runDay(){
     $("#run-fav-teams").addClass("is-hidden");
     $("#run-fav-players").addClass("is-hidden");
 
-    $("#title").html(`<h1>04-08-18</h1><br>`);
+    $("#title").html(`<h1>04-07-18</h1><br>`);
     $("#title").append(`Or choose a different day.<br>`);
     $("#title").append(`<input type="date" id="time-get" min="2017-10-04" max="2018-04-07">`);
     $("#title").append(`<button id="time-run">Go</button><hr>`);
