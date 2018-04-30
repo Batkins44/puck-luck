@@ -68,6 +68,7 @@ function printTeamHeader() {
     $("#run-fav-players").addClass("is-hidden");
     $("#favorite-div").addClass("is-hidden");
     $("#player-search").addClass("is-hidden");
+    $("#news").addClass("is-hidden");
     $("#print").html("");
     $("#low-print").html("");
     $("#main-header").html(`<th scope="col" id="counter"><h5>Jersey Number</h5></th>
@@ -129,6 +130,7 @@ function printTeamHeader() {
     <option id="5" value="washington-capitals">Washington Capitals</option>
     <option id="2" value="winnipeg-jets">Winnipeg Jets</option>
     </select>
+    <button id="team-stat-btn">Go</button>
     <hr>
     <h5>Skaters</h5>`);
 }
@@ -137,9 +139,9 @@ function printTeamHeader() {
 $(document).ready(function() {
     $("body").click(function (event) {
         let selectId = event.target.id;
-        let team = event.target.value;
+        let team = $("#team-select").val();
         if(team !== "c"){
-        if(selectId == "team-select"){
+        if(selectId == "team-stat-btn"){
         if (team == "c"){
 
         }

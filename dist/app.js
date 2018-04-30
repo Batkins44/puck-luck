@@ -73,6 +73,7 @@ function runDay(){
     $("#title").append(`<button id="time-run">Go</button><hr>`);
     $("#favorite-div").addClass("is-hidden");
     $("#player-search").addClass("is-hidden");
+    $("#news").addClass("is-hidden");
 
     // $("#counter").html(`<h5>Time</h5>`);
     // $("#left-head").html(`<h5>Away</h5>`);
@@ -613,6 +614,7 @@ var moment = require('moment');
 let db = require("./db-interaction");
 let user = require("./user");
 let dom = require("./dom-builder");
+let news = require("./news");
 let urlString;
 let favTeamInfoArray = [];
 let c=0;
@@ -646,10 +648,12 @@ function getGameInfo(abbr,teams){
             console.log("season over");
             $("#pacman").addClass("is-hidden");
             $("#run-fav-players").addClass("is-hidden");
-            $("#favorite-div").html(`<h5>Season is over. See ya next October!</h5><br><h5>Feel free to browser the rest of our site!</h5>`);
+            $("#title").append(`<h5>Season is over. See ya next October!</h5><br><h5>Feel free to browser the rest of our site!</h5><hr>`);
             $("#fav-players-btn").addClass("is-hidden");
             $("#fav-teams-btn").addClass("is-hidden");
+            $("#favorite-div").html("");
             }else{
+                $("#news-btn").addClass("is-hidden");
             for(let j=0;j<teams.length;j++){
                 let currentTeamID = teams[j].ID;
                 for (let i=0;i<data.fullgameschedule.gameentry.length;i++){
@@ -923,7 +927,7 @@ for(let q=0;q<players.length;q++){
 
 
 module.exports = {getGameInfo,favTeamSchedule};
-},{"./db-interaction":2,"./dom-builder":3,"./fb-config":5,"./user":12,"moment":16}],5:[function(require,module,exports){
+},{"./db-interaction":2,"./dom-builder":3,"./fb-config":5,"./news":9,"./user":12,"moment":16}],5:[function(require,module,exports){
 "use strict";
 
 
@@ -1072,6 +1076,7 @@ $("#login").click(function() {
       $("#home-btn").removeClass("is-hidden");
       $("#fav-players-btn").removeClass("is-hidden");
       $("#fav-teams-btn").removeClass("is-hidden");
+      $("#news-btn").removeClass("is-hidden");
       $("#login").addClass("is-hidden");
       $("#logout").removeClass("is-hidden");
       $("#low-header").html("");
@@ -1338,18 +1343,16 @@ function useNews(callBackFunction){
 function listNews(newsData){
 console.log(newsData);
 let article = newsData.articles;
-
-
-$("#news").html(
-   `<h1>News Around the League</h1>
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+$("#news").removeClass("is-hidden");
+console.log("heyyy");
+$("#title").html(`<h1>News Around the League</h1><hr>`);
+$("#news").html(`<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
       <a href="${article[0].url}">
         <img class="d-block w-100" src="${newsData.articles[0].urlToImage}" alt="First slide">
         <div class="carousel-caption d-none d-md-block">
             <h5>${article[0].title}</h5>
-            <p>${article[0].description}</p>
             </div>
             </a>
       </div>
@@ -1358,7 +1361,6 @@ $("#news").html(
         <img class="d-block w-100" src="${newsData.articles[1].urlToImage}" alt="Second slide">
         <div class="carousel-caption d-none d-md-block">
         <h5>${article[1].title}</h5>
-        <p>${article[1].description}</p>
         </div>
         </a>
       </div>
@@ -1367,7 +1369,6 @@ $("#news").html(
         <img class="d-block w-100" src="${newsData.articles[2].urlToImage}" alt="Third slide">
         <div class="carousel-caption d-none d-md-block">
         <h5>${article[2].title}</h5>
-        <p>${article[2].description}</p>
       </div>
       </a>
     </div>
@@ -1384,7 +1385,20 @@ $("#news").html(
 
 }
 
-module.exports = {useNews,listNews};
+function runNews(){
+$("#player-input").val("");
+$("#player-search").addClass("is-hidden");
+$("#main-header").html("");
+$("#tbody").html("");
+$("#low-header").html("");
+$("#low-body").html("");
+$("#low-title").html("");
+    useNews(listNews);
+}
+
+$("#news-btn").click(runNews);
+
+module.exports = {useNews,listNews,runNews};
 },{}],10:[function(require,module,exports){
 "use strict";
 /*jshint -W069 */
@@ -1456,6 +1470,7 @@ function printPlayerHeader(){
     $("#print").html("");
     $("#low-print").html("");
     $("#tbody").html("");
+    $("#news").addClass("is-hidden");
 }
 
 function usePlayerStats(idArray,playerInfoObj){
@@ -1730,6 +1745,7 @@ function printTeamHeader() {
     $("#run-fav-players").addClass("is-hidden");
     $("#favorite-div").addClass("is-hidden");
     $("#player-search").addClass("is-hidden");
+    $("#news").addClass("is-hidden");
     $("#print").html("");
     $("#low-print").html("");
     $("#main-header").html(`<th scope="col" id="counter"><h5>Jersey Number</h5></th>
@@ -1791,6 +1807,7 @@ function printTeamHeader() {
     <option id="5" value="washington-capitals">Washington Capitals</option>
     <option id="2" value="winnipeg-jets">Winnipeg Jets</option>
     </select>
+    <button id="team-stat-btn">Go</button>
     <hr>
     <h5>Skaters</h5>`);
 }
@@ -1799,9 +1816,9 @@ function printTeamHeader() {
 $(document).ready(function() {
     $("body").click(function (event) {
         let selectId = event.target.id;
-        let team = event.target.value;
+        let team = $("#team-select").val();
         if(team !== "c"){
-        if(selectId == "team-select"){
+        if(selectId == "team-stat-btn"){
         if (team == "c"){
 
         }

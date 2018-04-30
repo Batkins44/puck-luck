@@ -35,6 +35,7 @@ $("#login").click(function() {
       $("#home-btn").removeClass("is-hidden");
       $("#fav-players-btn").removeClass("is-hidden");
       $("#fav-teams-btn").removeClass("is-hidden");
+      $("#news-btn").removeClass("is-hidden");
       $("#login").addClass("is-hidden");
       $("#logout").removeClass("is-hidden");
       $("#low-header").html("");

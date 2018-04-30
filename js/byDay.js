@@ -72,6 +72,7 @@ function runDay(){
     $("#title").append(`<button id="time-run">Go</button><hr>`);
     $("#favorite-div").addClass("is-hidden");
     $("#player-search").addClass("is-hidden");
+    $("#news").addClass("is-hidden");
 
     // $("#counter").html(`<h5>Time</h5>`);
     // $("#left-head").html(`<h5>Away</h5>`);

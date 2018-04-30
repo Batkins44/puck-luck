@@ -99,15 +99,19 @@ hr {
 }
 
 #news{
-    height:422px;
-    width:750px;
+    max-height:506px;
+    width:60%;
+    max-width:900px;
     margin:auto;
+    border:9px solid $secondaryColor;
+
 }
 
 .carousel-caption h5 {
     color: $tertiaryColor;
     text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
     font-family:$primaryFont;
+    font-size:36px;
 }
 
 .carousel-caption p{

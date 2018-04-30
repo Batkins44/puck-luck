@@ -18,18 +18,16 @@ function useNews(callBackFunction){
 function listNews(newsData){
 console.log(newsData);
 let article = newsData.articles;
-
-
-$("#news").html(
-   `<h1>News Around the League</h1>
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+$("#news").removeClass("is-hidden");
+console.log("heyyy");
+$("#title").html(`<h1>News Around the League</h1><hr>`);
+$("#news").html(`<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
       <a href="${article[0].url}">
         <img class="d-block w-100" src="${newsData.articles[0].urlToImage}" alt="First slide">
         <div class="carousel-caption d-none d-md-block">
             <h5>${article[0].title}</h5>
-            <p>${article[0].description}</p>
             </div>
             </a>
       </div>
@@ -38,7 +36,6 @@ $("#news").html(
         <img class="d-block w-100" src="${newsData.articles[1].urlToImage}" alt="Second slide">
         <div class="carousel-caption d-none d-md-block">
         <h5>${article[1].title}</h5>
-        <p>${article[1].description}</p>
         </div>
         </a>
       </div>
@@ -47,7 +44,6 @@ $("#news").html(
         <img class="d-block w-100" src="${newsData.articles[2].urlToImage}" alt="Third slide">
         <div class="carousel-caption d-none d-md-block">
         <h5>${article[2].title}</h5>
-        <p>${article[2].description}</p>
       </div>
       </a>
     </div>
@@ -64,4 +60,17 @@ $("#news").html(
 
 }
 
-module.exports = {useNews,listNews};
+function runNews(){
+$("#player-input").val("");
+$("#player-search").addClass("is-hidden");
+$("#main-header").html("");
+$("#tbody").html("");
+$("#low-header").html("");
+$("#low-body").html("");
+$("#low-title").html("");
+    useNews(listNews);
+}
+
+$("#news-btn").click(runNews);
+
+module.exports = {useNews,listNews,runNews};

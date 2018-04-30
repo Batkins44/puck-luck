@@ -74,14 +74,17 @@ hr {
   display: none; }
 
 #news {
-  height: 422px;
-  width: 750px;
-  margin: auto; }
+  max-height: 506px;
+  width: 60%;
+  max-width: 900px;
+  margin: auto;
+  border: 9px solid #000d1a; }
 
 .carousel-caption h5 {
   color: #990000;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-  font-family: "Coda Caption", sans-serif; }
+  font-family: "Coda Caption", sans-serif;
+  font-size: 36px; }
 
 .carousel-caption p {
   color: black;
