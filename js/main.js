@@ -115,6 +115,7 @@ $("#home-btn,#fav-teams-btn").click(() => {
     $("print").html("");
     $("#print").html("");
     $("#low-print").html("");
+    $("#news").addClass("is-hidden");
 
 //     $("#main-header").html(`<tr>
 //     <th scope="col" id="counter"><h5>Favorite Team(s)</h5></th>
