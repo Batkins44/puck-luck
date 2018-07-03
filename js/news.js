@@ -16,10 +16,8 @@ function useNews(callBackFunction){
 
 
 function listNews(newsData){
-console.log(newsData);
 let article = newsData.articles;
 $("#news").removeClass("is-hidden");
-console.log("heyyy");
 $("#title").html(`<h1>News Around the League</h1><hr>`);
 $("#news").html(`<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">

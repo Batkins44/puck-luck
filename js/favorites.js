@@ -21,12 +21,12 @@ function getGameInfo(abbr,teams){
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/full_game_schedule.json?team=${abbr}&date=since-3-months-ago`
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/full_game_schedule.json?team=${abbr}&date=since-6-months-ago`
         }).done((data) => {
             console.log(data);
             let nextGameIndex = null;
             let today = new Date();
-            today = Date.parse(today);
+            today = 1523040555000;
             today = today-150000000;
             let seasonEnd = false;
             let lastEntry = data.fullgameschedule.gameentry.length-1;
@@ -38,12 +38,15 @@ function getGameInfo(abbr,teams){
             console.log("season over");
             $("#pacman").addClass("is-hidden");
             $("#run-fav-players").addClass("is-hidden");
-            $("#title").append(`<h5>Regular Season is over. See ya next October!</h5><br><h5>Feel free to browser the rest of our site!</h5><hr>`);
+            $("#title").append(`<h5>Regular Season is over. See ya next October!</h5><br><h5>Feel free to browse the rest of our site!</h5><hr>`);
             $("#fav-players-btn").addClass("is-hidden");
             $("#fav-teams-btn").addClass("is-hidden");
             $("#favorite-div").html("");
             }else{
                 $("#news-btn").addClass("is-hidden");
+
+                // Finding most recent complete game for favorite team
+
             for(let j=0;j<teams.length;j++){
                 let currentTeamID = teams[j].ID;
                 for (let i=0;i<data.fullgameschedule.gameentry.length;i++){
@@ -54,14 +57,16 @@ function getGameInfo(abbr,teams){
                         currentDate = Date.parse(currentDate);
                         if(currentDate > today){
 
-                            teams[j].nextGame = [currentGame.awayTeam.Abbreviation,currentGame.homeTeam.Abbreviation,currentGame.id,currentGame.date,currentGame.time,currentGame.awayTeam.City,currentGame.awayTeam.Name,currentGame.homeTeam.City,currentGame.homeTeam.Name];
+                            teams[j].nextGame = [currentGame.awayTeam.Abbreviation,currentGame.homeTeam.Abbreviation,currentGame.id,
+                                currentGame.date,currentGame.time,currentGame.awayTeam.City,currentGame.awayTeam.Name,currentGame.homeTeam.City,currentGame.homeTeam.Name];
                             let k = i-1;
                             for(let p=k;p>0;p--){
                                 let currentGame = data.fullgameschedule.gameentry[p];
 
                                 if (currentGame.awayTeam.ID == currentTeamID || currentGame.homeTeam.ID == currentTeamID){
                                     
-                                    teams[j].previousGame = [currentGame.awayTeam.Abbreviation,currentGame.homeTeam.Abbreviation,currentGame.id,currentGame.date,currentGame.time,currentGame.awayTeam.City,currentGame.awayTeam.Name,currentGame.homeTeam.City,currentGame.homeTeam.Name];
+                                    teams[j].previousGame = [currentGame.awayTeam.Abbreviation,currentGame.homeTeam.Abbreviation,currentGame.id,
+                                        currentGame.date,currentGame.time,currentGame.awayTeam.City,currentGame.awayTeam.Name,currentGame.homeTeam.City,currentGame.homeTeam.Name];
                                     break;
                                 }
                             }

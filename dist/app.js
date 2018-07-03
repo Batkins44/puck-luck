@@ -413,8 +413,9 @@ function getPlayerLogs(uidFavPlayers,idString){
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/player_gamelogs.json?player=${idString}&date=from-3-weeks-ago-to-yesterday`
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/player_gamelogs.json?player=${idString}&date=from-6-months-ago-to-yesterday`
         }).done(function(data) {
+            console.log("this data",data);
             let gamelogs=data.playergamelogs.gamelogs;
             let twoWeeksGames = [];
             for(let l=0;l<uidFavPlayers.length; l++){
@@ -631,12 +632,12 @@ function getGameInfo(abbr,teams){
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/full_game_schedule.json?team=${abbr}&date=since-3-months-ago`
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/full_game_schedule.json?team=${abbr}&date=since-6-months-ago`
         }).done((data) => {
             console.log(data);
             let nextGameIndex = null;
             let today = new Date();
-            today = Date.parse(today);
+            today = 1523040555000;
             today = today-150000000;
             let seasonEnd = false;
             let lastEntry = data.fullgameschedule.gameentry.length-1;
@@ -648,7 +649,7 @@ function getGameInfo(abbr,teams){
             console.log("season over");
             $("#pacman").addClass("is-hidden");
             $("#run-fav-players").addClass("is-hidden");
-            $("#title").append(`<h5>Season is over. See ya next October!</h5><br><h5>Feel free to browser the rest of our site!</h5><hr>`);
+            $("#title").append(`<h5>Regular Season is over. See ya next October!</h5><br><h5>Feel free to browser the rest of our site!</h5><hr>`);
             $("#fav-players-btn").addClass("is-hidden");
             $("#fav-teams-btn").addClass("is-hidden");
             $("#favorite-div").html("");
@@ -1156,6 +1157,7 @@ $("#home-btn,#fav-teams-btn").click(() => {
     $("print").html("");
     $("#print").html("");
     $("#low-print").html("");
+    $("#news").addClass("is-hidden");
 
 //     $("#main-header").html(`<tr>
 //     <th scope="col" id="counter"><h5>Favorite Team(s)</h5></th>
@@ -1498,7 +1500,7 @@ function usePlayerStats(idArray,playerInfoObj){
 
                                 let currentStats = data.cumulativeplayerstats.playerstatsentry[z].stats.stats;
 
-                        $("#tbody").append(`<tr><th scope="row">#${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
+                        $("#tbody").append(`<tr><th scope="row">#${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br><button class="btn btn-light" id='addPlayer_${playerInfoObjArray[p].playerID}'>Add to Favorites</button></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
                         <td>Team: ${data.cumulativeplayerstats.playerstatsentry[z].team.City} ${data.cumulativeplayerstats.playerstatsentry[z].team.Name}<br>Born: ${playerInfoObjArray[p].country}<br>Birthday: ${playerInfoObjArray[p].bday}<br>Height: ${playerInfoObjArray[p].height}<br>Weight: ${playerInfoObjArray[p].weight}<br>${playerInfoObjArray[p].twitter}<br></td><td>${currentStats.Goals["#text"]}</td>
                         <td>${currentStats.Assists["#text"]}</td><td>${currentStats.Points["#text"]}</td><td>${currentStats.Shots["#text"]}</td></tr>`);
                     }else if(currentEntry == currentID && data.cumulativeplayerstats.playerstatsentry[z].player.Position == "G"){
@@ -1511,7 +1513,7 @@ function usePlayerStats(idArray,playerInfoObj){
             
                         savePer = sv/savePer;
                         savePer = Math.round(savePer * 10000) / 100;
-                        $("#low-body").append(`<tr><th scope="row">#${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
+                        $("#low-body").append(`<tr><th scope="row">#${playerInfoObjArray[p].jersey}<br>${playerInfoObjArray[p].position}<br><button class="btn btn-light" id='addPlayer_${playerInfoObjArray[p].playerID}'>Add to Favorites</button></th><td>${playerInfoObjArray[p].name}<br>${playerInfoObjArray[p].image}</td>   
                         <td>Team: ${data.cumulativeplayerstats.playerstatsentry[z].team.City} ${data.cumulativeplayerstats.playerstatsentry[z].team.Name}<br>Born: ${playerInfoObjArray[p].country}<br>Birthday: ${playerInfoObjArray[p].bday}<br>Height: ${playerInfoObjArray[p].height}<br>Weight:${playerInfoObjArray[p].weight}<br>${playerInfoObjArray[p].twitter}</td><td>
                         ${currentStats.Wins["#text"]}-${currentStats.Losses["#text"]}-${currentStats.OvertimeLosses["#text"]}</td><td>${currentStats.Shutouts["#text"]}</td><td>${currentStats.GoalsAgainstAverage["#text"]}</td><td>${savePer}</td></tr>`);
 // Because the season ended and the favorite players/teams page is under construction, I removed the add Player button. When ready to reinsert for playoffs or next season, add this line of code immediately after the player position on skater and goalie

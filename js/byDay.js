@@ -81,17 +81,12 @@ function runDay(){
     useDay(listDay);
 }
 
-function changeDay(url){
-    dayUrl = url;
-    let displayDate  = moment(changeDate).format('MM-DD-YY');
-    $("#title").html(`<h1>${displayDate}</h1><br>`);
-    $("#title").append(`Or choose a different day.<br>`);
-    $("#title").append(`<input type="date" id="time-get">`);
-    $("#title").append(`<button id="time-run">Run</button>`);
 
 
-    useDay(listDay);
-}
+
+
+// receive user date input in order to create appropriate URL for Ajax call to get NHL schedule data
+
 
 $(document).ready(function() {
     $("body").click(function (event) {
@@ -104,6 +99,18 @@ $(document).ready(function() {
         changeDay(dayUrl);
     }});
 });
+
+function changeDay(url){
+    dayUrl = url;
+    let displayDate  = moment(changeDate).format('MM-DD-YY');
+    $("#title").html(`<h1>${displayDate}</h1><br>`);
+    $("#title").append(`Or choose a different day.<br>`);
+    $("#title").append(`<input type="date" id="time-get">`);
+    $("#title").append(`<button id="time-run">Run</button>`);
+
+
+    useDay(listDay);
+}
 
 $("#day-btn").click(runDay);
 

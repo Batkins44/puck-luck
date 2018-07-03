@@ -206,6 +206,7 @@ $(document).ready(function() {
 
 
 
+// Delete Favorite Team
 
 $(document).ready(function() {
     $("body").click(function (event) {

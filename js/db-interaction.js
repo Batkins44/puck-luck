@@ -301,8 +301,9 @@ function getPlayerLogs(uidFavPlayers,idString){
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/player_gamelogs.json?player=${idString}&date=from-3-weeks-ago-to-yesterday`
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/player_gamelogs.json?player=${idString}&date=from-6-months-ago-to-yesterday`
         }).done(function(data) {
+            console.log("this data",data);
             let gamelogs=data.playergamelogs.gamelogs;
             let twoWeeksGames = [];
             for(let l=0;l<uidFavPlayers.length; l++){

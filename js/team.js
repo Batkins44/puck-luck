@@ -26,7 +26,8 @@ let password = "Cohort24";
 });
 }
 
-
+// listTeam is called after the Ajax call is made. The function sorts through every player that is returned, determines whether they are a goalie or a skater, and print that player in the
+// appropriate location along with the correct stats.
 function listTeam(teamData){
     let player = teamData.cumulativeplayerstats.playerstatsentry;
     let row = 1;
