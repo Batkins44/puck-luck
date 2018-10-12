@@ -4,10 +4,10 @@
 let team = require("./team");
 let db = require("./db-interaction");
 
-var playersUrl = "https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/active_players.json";
+var playersUrl = "https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/active_players.json";
 let playerResults;
 let playerID;
-var playerStatsUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh&player=${playerID}`;
+var playerStatsUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh&player=${playerID}`;
 let playerStatsObject;
 let playerInfoObj;
 // let playerStatsArray=[];
@@ -17,7 +17,7 @@ let x;
 function usePlayers(callBackFunction){
 
     let username = "batkins4";
-    let password = "Cohort24";
+    let password = "GeneBelcher";
     
     
         $.ajax({
@@ -73,13 +73,13 @@ function printPlayerHeader(){
 
 function usePlayerStats(idArray,playerInfoObj){
     let username = "batkins4";
-    let password = "Cohort24";
+    let password = "GeneBelcher";
     
         $.ajax({
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA`
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA`
         }).done(function(data) {
 
             for(let i=0;i<idArray.length;i++){
@@ -237,7 +237,7 @@ function listPlayers(playerResults){
         usePlayerStats(idArray);
     }
 
-    playerStatsUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh&player=${playerID}`;
+    playerStatsUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh&player=${playerID}`;
 
 
 

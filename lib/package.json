@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Batkins44/puck-luck"
+    "url": "git+https://github.com/Batkins44/puck-luck.git"
   },
   "author": "Ben Atkins",
   "license": "ISC",

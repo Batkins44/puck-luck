@@ -1,18 +1,18 @@
 "use strict";
 var moment = require('moment');
 // Changed date to 04/18/2018 because the season over and retrieving the current date was causing an error.
-var date = moment(1523161616000).format('YYYYMMDD');
+var date = moment(new Date()).format('MM-DD-YYYY');
 console.log(date,"date");
 
 let changeDate;
 
 
-var dayUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/daily_game_schedule.json?fordate=${date}`;
+var dayUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/daily_game_schedule.json?fordate=${date}`;
 
 function useDay(callBackFunction){
 
     let username = "batkins4";
-    let password = "Cohort24";
+    let password = "GeneBelcher";
     
     
         $.ajax({
@@ -66,9 +66,9 @@ function runDay(){
     $("#run-fav-teams").addClass("is-hidden");
     $("#run-fav-players").addClass("is-hidden");
 
-    $("#title").html(`<h1>04-07-18</h1><br>`);
+    $("#title").html(`<h1>${date}<br>`);
     $("#title").append(`Or choose a different day.<br>`);
-    $("#title").append(`<input type="date" id="time-get" min="2017-10-04" max="2018-04-07">`);
+    $("#title").append(`<input type="date" id="time-get" min="2018-10-04" max="2019-04-07">`);
     $("#title").append(`<button id="time-run">Go</button><hr>`);
     $("#favorite-div").addClass("is-hidden");
     $("#player-search").addClass("is-hidden");
@@ -100,7 +100,7 @@ $(document).ready(function() {
         if(selectId == "time-run"){
             changeDate = $("#time-get").val();
             changeDate  = moment(changeDate).format('YYYYMMDD');
-            dayUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/daily_game_schedule.json?fordate=${changeDate}`;
+            dayUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/daily_game_schedule.json?fordate=${changeDate}`;
         changeDay(dayUrl);
     }});
 });
