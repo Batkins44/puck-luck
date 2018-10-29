@@ -2,12 +2,12 @@
 
 let team;
 
-var teamUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA&team=${team}`;
+var teamUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA&team=${team}`;
 
 function useTeam(callBackFunction){
 
 let username = "batkins4";
-let password = "Cohort24";
+let password = "GeneBelcher";
 
 
 
@@ -146,7 +146,7 @@ $(document).ready(function() {
 
         }
 
-        teamUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA&team=${team}`;
+        teamUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA&team=${team}`;
         useTeam(listTeam);
     }}});
 });

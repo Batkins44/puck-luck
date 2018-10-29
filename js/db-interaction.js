@@ -59,14 +59,14 @@ function getUserData() {
 function usePlayersFav(callBackFunction){
 
     let username = "batkins4";
-    let password = "Cohort24";
+    let password = "GeneBelcher";
     
     
         $.ajax({
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: "https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/active_players.json"
+            url: "https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/active_players.json"
         }).done(function(data) {
 
 
@@ -150,7 +150,7 @@ function buildFavTeamObj(favoriteTeam){
     let favTeamObj;
 
         let username = "batkins4";
-        let password = "Cohort24";
+        let password = "GeneBelcher";
         
         
         
@@ -158,7 +158,7 @@ function buildFavTeamObj(favoriteTeam){
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
                 },
-                url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/overall_team_standings.json?teamstats=W,L,GF,GA,Pts`
+                url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/overall_team_standings.json?teamstats=W,L,GF,GA,Pts`
             }).done(function(data) {
                 // When you tell jQuery to read a file via the ajax method
                 // it reads the contents, and then executes whatever function
@@ -293,7 +293,7 @@ function getPlayerLogs(uidFavPlayers,idString){
 
 
     let username = "batkins4";
-    let password = "Cohort24";
+    let password = "GeneBelcher";
 
     
     
@@ -301,7 +301,7 @@ function getPlayerLogs(uidFavPlayers,idString){
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/player_gamelogs.json?player=${idString}&date=from-3-weeks-ago-to-yesterday`
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/player_gamelogs.json?player=${idString}&date=from-3-weeks-ago-to-yesterday`
         }).done(function(data) {
             let gamelogs=data.playergamelogs.gamelogs;
             let twoWeeksGames = [];

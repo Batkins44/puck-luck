@@ -15,34 +15,18 @@ let firebase = require("./fb-config"),
 function getGameInfo(abbr,teams){
 
     let username = "batkins4";
-    let password = "Cohort24";
+    let password = "GeneBelcher";
 
         $.ajax({
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/full_game_schedule.json?team=${abbr}&date=since-3-months-ago`
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/full_game_schedule.json?team=${abbr}&date=since-3-months-ago`
         }).done((data) => {
-            console.log(data);
+            console.log("THis shiiiit",data);
             let nextGameIndex = null;
             let today = new Date();
             today = Date.parse(today);
-            today = today-150000000;
-            let seasonEnd = false;
-            let lastEntry = data.fullgameschedule.gameentry.length-1;
-
-            let lastDate = data.fullgameschedule.gameentry[lastEntry].date;
-            lastDate = Date.parse(lastDate);
-            console.log(lastDate,"lastdafasdfas");
-            if(today > lastDate){
-            console.log("season over");
-            $("#pacman").addClass("is-hidden");
-            $("#run-fav-players").addClass("is-hidden");
-            $("#title").append(`<h5>Regular Season is over. See ya next October!</h5><br><h5>Feel free to browser the rest of our site!</h5><hr>`);
-            $("#fav-players-btn").addClass("is-hidden");
-            $("#fav-teams-btn").addClass("is-hidden");
-            $("#favorite-div").html("");
-            }else{
                 $("#news-btn").addClass("is-hidden");
             for(let j=0;j<teams.length;j++){
                 let currentTeamID = teams[j].ID;
@@ -79,7 +63,7 @@ function getGameInfo(abbr,teams){
             }
 
             formatTeams(teams);
-        }
+        
    
        });
     }
@@ -117,7 +101,7 @@ for (let i=0;i<teams.length;i++){
 
     urlString = (newDate + "-" + currentTeam.previousGame[0] + "-" + currentTeam.previousGame[1]);
 
-    teams[i].urlString = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/game_boxscore.json?gameid=${urlString}&teamstats=W,L,GF,GA,Pts&playerstats=G,A,Pts,Sh,ht,bs`;
+    teams[i].urlString = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/game_boxscore.json?gameid=${urlString}&teamstats=W,L,GF,GA,Pts&playerstats=G,A,Pts,Sh,ht,bs`;
     usePreviousGame(getPreviousGamePlayers,teams[i]);
 }
 $("#pacman").addClass("is-hidden");
@@ -127,7 +111,7 @@ $("#pacman").addClass("is-hidden");
 function usePreviousGame(callBackFunction,team){
 
     let username = "batkins4";
-    let password = "Cohort24";
+    let password = "GeneBelcher";
     
 
     

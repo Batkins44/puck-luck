@@ -1,22 +1,28 @@
 header {
-  width: 100%; }
+  width: 100%;
+}
 
 body {
   background: linear-gradient(#000d1a 5%, #338099);
-  color: whitesmoke; }
+  color: whitesmoke;
+}
 
 nav {
   background-color: #000d1a;
-  z-index: 99; }
+  z-index: 99;
+}
 
 #log-btns {
-  float: right; }
+  float: right;
+}
 
 #logo {
-  display: block; }
+  display: block;
+}
 
 #title {
-  margin-top: 40px; }
+  margin-top: 40px;
+}
 
 h1 {
   margin-top: 55px;
@@ -24,23 +30,28 @@ h1 {
   color: #990000;
   text-align: center;
   font-size: 50px;
-  text-shadow: 2px 2px #000d1a; }
+  text-shadow: 2px 2px #000d1a;
+}
 
 h5 {
-  font-family: "Quicksand", sans-serif; }
+  font-family: "Quicksand", sans-serif;
+}
 
 #low-title {
-  text-align: center; }
+  text-align: center;
+}
 
 .container {
   margin-top: 50px;
-  margin-bottom: 50px; }
+  margin-bottom: 50px;
+}
 
 #nav-wrapper {
   display: block;
   text-align: center;
   color: #000d1a;
-  z-index: 99; }
+  z-index: 99;
+}
 
 button {
   height: 38px;
@@ -48,107 +59,133 @@ button {
   color: whitesmoke;
   background-color: #000d1a;
   border: 2px solid #000d1a;
-  font-size: 18px; }
+  font-size: 18px;
+}
 
 #title {
-  text-align: center; }
+  text-align: center;
+}
 
 #login-div {
-  display: inline-block; }
+  display: inline-block;
+}
 
 #player-search {
-  text-align: center; }
+  text-align: center;
+}
 
 #favorite-div {
-  text-align: center; }
+  text-align: center;
+}
 
 button:hover {
   background-color: darkslategray;
-  border: 2px solid darkslategray; }
+  border: 2px solid darkslategray;
+}
 
 hr {
   border-top: 2px solid #000d1a;
-  border-bottom: 2px solid #000d1a; }
+  border-bottom: 2px solid #000d1a;
+}
 
 .is-hidden {
-  display: none; }
+  display: none;
+}
 
 #news {
   max-height: 506px;
   width: 60%;
   max-width: 900px;
   margin: auto;
-  border: 9px solid #000d1a; }
+  border: 9px solid #000d1a;
+}
 
 .carousel-caption h5 {
   color: #990000;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
   font-family: "Coda Caption", sans-serif;
-  font-size: 24px; }
+  font-size: 24px;
+}
 
 .carousel-caption p {
   color: black;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-  font-family: "Fira Sans", sans-serif; }
+  font-family: "Fira Sans", sans-serif;
+}
 
 .carousel-control-prev-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23990000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E"); }
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23990000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+}
 
 .carousel-control-next-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23990000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E"); }
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23990000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+}
 
 #pacman {
-  text-align: center; }
+  text-align: center;
+}
 
 .green {
   color: green;
   font-family: "Coda Caption", sans-serif;
   font-size: 32px;
   text-shadow: 2px 2px #000d1a;
-  text-align: center; }
+  text-align: center;
+}
 
 .black {
   color: black;
   font-family: "Coda Caption", sans-serif;
   font-size: 32px;
   text-shadow: 2px 2px #000d1a;
-  text-align: center; }
+  text-align: center;
+}
 
 .red {
   color: #990000;
   font-family: "Coda Caption", sans-serif;
   font-size: 32px;
   text-shadow: 2px 2px #000d1a;
-  text-align: center; }
+  text-align: center;
+}
 
 .score {
-  text-align: center; }
+  text-align: center;
+}
 
 .teamname {
   color: #990000;
   font-family: "Coda Caption", sans-serif;
   font-size: 32px;
-  text-shadow: 2px 2px #000d1a; }
+  text-shadow: 2px 2px #000d1a;
+}
 
 #tbody {
-  font-family: "Fira Sans", sans-serif; }
+  font-family: "Fira Sans", sans-serif;
+}
 
 #low-body {
-  font-family: "Fira Sans", sans-serif; }
+  font-family: "Fira Sans", sans-serif;
+}
 
 #print {
-  font-family: "Fira Sans", sans-serif; }
+  font-family: "Fira Sans", sans-serif;
+}
 
 .players-table {
-  background-color: #338099; }
+  background-color: #338099;
+}
 
 footer {
   background-color: #000d1a;
   font-family: "Quicksand", sans-serif;
-  text-align: center; }
+  text-align: center;
+}
 
 @media only screen and (max-width: 480px) {
   .carousel-caption h5 {
-    font-size: 12px; } }
+    font-size: 12px;
+  }
+}
 
 /*# sourceMappingURL=styles.css.map */

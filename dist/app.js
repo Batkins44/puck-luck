@@ -2,18 +2,18 @@
 "use strict";
 var moment = require('moment');
 // Changed date to 04/18/2018 because the season over and retrieving the current date was causing an error.
-var date = moment(1523161616000).format('YYYYMMDD');
+var date = moment(new Date()).format('MM-DD-YYYY');
 console.log(date,"date");
 
 let changeDate;
 
 
-var dayUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/daily_game_schedule.json?fordate=${date}`;
+var dayUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/daily_game_schedule.json?fordate=${date}`;
 
 function useDay(callBackFunction){
 
     let username = "batkins4";
-    let password = "Cohort24";
+    let password = "GeneBelcher";
     
     
         $.ajax({
@@ -67,9 +67,9 @@ function runDay(){
     $("#run-fav-teams").addClass("is-hidden");
     $("#run-fav-players").addClass("is-hidden");
 
-    $("#title").html(`<h1>04-07-18</h1><br>`);
+    $("#title").html(`<h1>${date}<br>`);
     $("#title").append(`Or choose a different day.<br>`);
-    $("#title").append(`<input type="date" id="time-get" min="2017-10-04" max="2018-04-07">`);
+    $("#title").append(`<input type="date" id="time-get" min="2018-10-04" max="2019-04-07">`);
     $("#title").append(`<button id="time-run">Go</button><hr>`);
     $("#favorite-div").addClass("is-hidden");
     $("#player-search").addClass("is-hidden");
@@ -101,7 +101,7 @@ $(document).ready(function() {
         if(selectId == "time-run"){
             changeDate = $("#time-get").val();
             changeDate  = moment(changeDate).format('YYYYMMDD');
-            dayUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/daily_game_schedule.json?fordate=${changeDate}`;
+            dayUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/daily_game_schedule.json?fordate=${changeDate}`;
         changeDay(dayUrl);
     }});
 });
@@ -171,14 +171,14 @@ function getUserData() {
 function usePlayersFav(callBackFunction){
 
     let username = "batkins4";
-    let password = "Cohort24";
+    let password = "GeneBelcher";
     
     
         $.ajax({
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: "https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/active_players.json"
+            url: "https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/active_players.json"
         }).done(function(data) {
 
 
@@ -262,7 +262,7 @@ function buildFavTeamObj(favoriteTeam){
     let favTeamObj;
 
         let username = "batkins4";
-        let password = "Cohort24";
+        let password = "GeneBelcher";
         
         
         
@@ -270,7 +270,7 @@ function buildFavTeamObj(favoriteTeam){
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
                 },
-                url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/overall_team_standings.json?teamstats=W,L,GF,GA,Pts`
+                url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/overall_team_standings.json?teamstats=W,L,GF,GA,Pts`
             }).done(function(data) {
                 // When you tell jQuery to read a file via the ajax method
                 // it reads the contents, and then executes whatever function
@@ -405,7 +405,7 @@ function getPlayerLogs(uidFavPlayers,idString){
 
 
     let username = "batkins4";
-    let password = "Cohort24";
+    let password = "GeneBelcher";
 
     
     
@@ -413,7 +413,7 @@ function getPlayerLogs(uidFavPlayers,idString){
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/player_gamelogs.json?player=${idString}&date=from-3-weeks-ago-to-yesterday`
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/player_gamelogs.json?player=${idString}&date=from-3-weeks-ago-to-yesterday`
         }).done(function(data) {
             let gamelogs=data.playergamelogs.gamelogs;
             let twoWeeksGames = [];
@@ -625,34 +625,18 @@ let firebase = require("./fb-config"),
 function getGameInfo(abbr,teams){
 
     let username = "batkins4";
-    let password = "Cohort24";
+    let password = "GeneBelcher";
 
         $.ajax({
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/full_game_schedule.json?team=${abbr}&date=since-3-months-ago`
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/full_game_schedule.json?team=${abbr}&date=since-3-months-ago`
         }).done((data) => {
-            console.log(data);
+            console.log("THis shiiiit",data);
             let nextGameIndex = null;
             let today = new Date();
             today = Date.parse(today);
-            today = today-150000000;
-            let seasonEnd = false;
-            let lastEntry = data.fullgameschedule.gameentry.length-1;
-
-            let lastDate = data.fullgameschedule.gameentry[lastEntry].date;
-            lastDate = Date.parse(lastDate);
-            console.log(lastDate,"lastdafasdfas");
-            if(today > lastDate){
-            console.log("season over");
-            $("#pacman").addClass("is-hidden");
-            $("#run-fav-players").addClass("is-hidden");
-            $("#title").append(`<h5>Regular Season is over. See ya next October!</h5><br><h5>Feel free to browser the rest of our site!</h5><hr>`);
-            $("#fav-players-btn").addClass("is-hidden");
-            $("#fav-teams-btn").addClass("is-hidden");
-            $("#favorite-div").html("");
-            }else{
                 $("#news-btn").addClass("is-hidden");
             for(let j=0;j<teams.length;j++){
                 let currentTeamID = teams[j].ID;
@@ -689,7 +673,7 @@ function getGameInfo(abbr,teams){
             }
 
             formatTeams(teams);
-        }
+        
    
        });
     }
@@ -727,7 +711,7 @@ for (let i=0;i<teams.length;i++){
 
     urlString = (newDate + "-" + currentTeam.previousGame[0] + "-" + currentTeam.previousGame[1]);
 
-    teams[i].urlString = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/game_boxscore.json?gameid=${urlString}&teamstats=W,L,GF,GA,Pts&playerstats=G,A,Pts,Sh,ht,bs`;
+    teams[i].urlString = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/game_boxscore.json?gameid=${urlString}&teamstats=W,L,GF,GA,Pts&playerstats=G,A,Pts,Sh,ht,bs`;
     usePreviousGame(getPreviousGamePlayers,teams[i]);
 }
 $("#pacman").addClass("is-hidden");
@@ -737,7 +721,7 @@ $("#pacman").addClass("is-hidden");
 function usePreviousGame(callBackFunction,team){
 
     let username = "batkins4";
-    let password = "Cohort24";
+    let password = "GeneBelcher";
     
 
     
@@ -1407,10 +1391,10 @@ module.exports = {useNews,listNews,runNews};
 let team = require("./team");
 let db = require("./db-interaction");
 
-var playersUrl = "https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/active_players.json";
+var playersUrl = "https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/active_players.json";
 let playerResults;
 let playerID;
-var playerStatsUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh&player=${playerID}`;
+var playerStatsUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh&player=${playerID}`;
 let playerStatsObject;
 let playerInfoObj;
 // let playerStatsArray=[];
@@ -1420,7 +1404,7 @@ let x;
 function usePlayers(callBackFunction){
 
     let username = "batkins4";
-    let password = "Cohort24";
+    let password = "GeneBelcher";
     
     
         $.ajax({
@@ -1476,13 +1460,13 @@ function printPlayerHeader(){
 
 function usePlayerStats(idArray,playerInfoObj){
     let username = "batkins4";
-    let password = "Cohort24";
+    let password = "GeneBelcher";
     
         $.ajax({
             beforeSend: function (xhr) {
                 xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
             },
-            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA`
+            url: `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA`
         }).done(function(data) {
 
             for(let i=0;i<idArray.length;i++){
@@ -1640,7 +1624,7 @@ function listPlayers(playerResults){
         usePlayerStats(idArray);
     }
 
-    playerStatsUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh&player=${playerID}`;
+    playerStatsUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh&player=${playerID}`;
 
 
 
@@ -1680,12 +1664,12 @@ module.exports = {usePlayers,searchPlayers,runSearch,printPlayerHeader};
 
 let team;
 
-var teamUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA&team=${team}`;
+var teamUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA&team=${team}`;
 
 function useTeam(callBackFunction){
 
 let username = "batkins4";
-let password = "Cohort24";
+let password = "GeneBelcher";
 
 
 
@@ -1824,7 +1808,7 @@ $(document).ready(function() {
 
         }
 
-        teamUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2017-2018-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA&team=${team}`;
+        teamUrl = `https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-2019-regular/cumulative_player_stats.json?playerstats=G,A,Pts,Sh,Sv,W,L,OTL,SO,GAA,GA&team=${team}`;
         useTeam(listTeam);
     }}});
 });
